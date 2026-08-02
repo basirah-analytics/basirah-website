@@ -501,173 +501,73 @@
 
 
 /* =====================================================================
-   CONTACT — scheduler placeholder.
-   Nothing here books anything. It fills in real upcoming weekdays so the
-   widget reads as live, but confirming a slot or sending the form only
-   surfaces a notice saying so. Both are replaced wholesale when the real
-   Calendly / Cal.com embed and a form service are wired up.
+   CONTACT — short message form.
+   Booking is handled by the Calendly inline widget, which builds its own
+   iframe from the markup in index.html and needs no code here.
    ===================================================================== */
 (function () {
   'use strict';
 
-  var daysEl = document.getElementById('sched-days');
-  var slotsEl = document.getElementById('sched-slots');
-  var monthEl = document.getElementById('sched-month');
-  var confirmBtn = document.getElementById('sched-confirm');
-  var note = document.getElementById('sched-note');
   var form = document.getElementById('msg-form');
-  if (!daysEl || !slotsEl) return;
+  if (!form) return;
 
-  // TODO(placeholder): real availability comes from the booking provider
-  var SLOTS_BY_DAY = [
-    [{ t: '09:30' }, { t: '11:00' }, { t: '14:00', taken: true }, { t: '16:30' }],
-    [{ t: '10:00' }, { t: '12:30', taken: true }, { t: '15:00' }],
-    [{ t: '09:00' }, { t: '11:30' }, { t: '14:30' }, { t: '17:00' }],
-    [{ t: '10:30', taken: true }, { t: '13:00' }, { t: '15:30' }],
-    [{ t: '09:30' }, { t: '11:00' }, { t: '13:30' }]
-  ];
+  var msgNote = document.getElementById('msg-note');
+  var sendBtn = form.querySelector('[type="submit"]');
+  var sendLabel = sendBtn.textContent;
 
-  var dayButtons = Array.prototype.slice.call(daysEl.querySelectorAll('.day'));
-  var selectedDay = 0;
-  var selectedSlot = null;
+  // form.elements[...] rather than form.name: on a form element, `name` is also
+  // the form's own attribute, so the plain property access is ambiguous.
+  function field(n) { return form.elements[n]; }
 
-  /* ---- fill the picker with the coming Mon-Fri ---- */
-  function weekdayDates() {
-    var start = new Date();
-    start.setHours(0, 0, 0, 0);
-    var ahead = (8 - start.getDay()) % 7 || 7;   // next Monday
-    start.setDate(start.getDate() + ahead);
-
-    return dayButtons.map(function (_, i) {
-      var d = new Date(start);
-      d.setDate(start.getDate() + i);
-      return d;
-    });
+  function finish(text) {
+    sendBtn.disabled = false;
+    sendBtn.textContent = sendLabel;
+    msgNote.textContent = text;
   }
 
-  var dates = weekdayDates();
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-  dayButtons.forEach(function (btn, i) {
-    var d = dates[i];
-    btn.querySelector('.day-date').textContent = d.getDate();
-    btn.setAttribute('aria-label', d.toLocaleDateString(undefined, {
-      weekday: 'long', day: 'numeric', month: 'long'
-    }));
-  });
+    var name = field('name').value.trim();
+    var email = field('email').value.trim();
+    var message = field('message').value.trim();
 
-  monthEl.textContent = dates[0].toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
-
-  /* ---- slots follow the selected day ---- */
-  function renderSlots() {
-    selectedSlot = null;
-    slotsEl.innerHTML = SLOTS_BY_DAY[selectedDay].map(function (slot) {
-      return '<button class="slot" type="button" aria-pressed="false"' +
-             (slot.taken ? ' disabled aria-label="' + slot.t + ', already booked"' : '') +
-             ' data-time="' + slot.t + '">' + slot.t + '</button>';
-    }).join('');
-    note.textContent = '';
-  }
-
-  daysEl.addEventListener('click', function (e) {
-    var btn = e.target.closest('.day');
-    if (!btn) return;
-    selectedDay = Number(btn.getAttribute('data-day'));
-    dayButtons.forEach(function (b) {
-      var on = b === btn;
-      b.classList.toggle('is-selected', on);
-      b.setAttribute('aria-pressed', String(on));
-    });
-    renderSlots();
-  });
-
-  slotsEl.addEventListener('click', function (e) {
-    var btn = e.target.closest('.slot');
-    if (!btn || btn.disabled) return;
-    Array.prototype.forEach.call(slotsEl.children, function (b) {
-      var on = b === btn;
-      b.classList.toggle('is-selected', on);
-      b.setAttribute('aria-pressed', String(on));
-    });
-    selectedSlot = btn.getAttribute('data-time');
-    note.textContent = '';
-  });
-
-  /* ---- confirming must not look like it booked something ---- */
-  confirmBtn.addEventListener('click', function () {
-    if (!selectedSlot) {
-      note.textContent = 'Pick a time above first.';
+    if (!name || !email || !message) {
+      msgNote.textContent = 'Fill in all three fields first.';
       return;
     }
-    var when = dates[selectedDay].toLocaleDateString(undefined, {
-      weekday: 'long', day: 'numeric', month: 'long'
-    });
-    note.textContent = when + ' at ' + selectedSlot + '. Booking is not connected yet. ' +
-      'This is a placeholder for the Calendly / Cal.com embed; email me and I will confirm the slot.';
-  });
-
-  /* ---- short message form: posts to Formspree without leaving the page ---- */
-  if (form) {
-    var msgNote = document.getElementById('msg-note');
-    var sendBtn = form.querySelector('[type="submit"]');
-    var sendLabel = sendBtn.textContent;
-
-    // form.elements[...] rather than form.name: on a form element, `name` is also
-    // the form's own attribute, so the plain property access is ambiguous.
-    function field(n) { return form.elements[n]; }
-
-    function finish(text) {
-      sendBtn.disabled = false;
-      sendBtn.textContent = sendLabel;
-      msgNote.textContent = text;
+    if (!field('email').checkValidity()) {
+      msgNote.textContent = 'That email address does not look right.';
+      return;
     }
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'Sending';
+    msgNote.textContent = '';
 
-      var name = field('name').value.trim();
-      var email = field('email').value.trim();
-      var message = field('message').value.trim();
-
-      if (!name || !email || !message) {
-        msgNote.textContent = 'Fill in all three fields first.';
-        return;
-      }
-      if (!field('email').checkValidity()) {
-        msgNote.textContent = 'That email address does not look right.';
-        return;
-      }
-
-      sendBtn.disabled = true;
-      sendBtn.textContent = 'Sending';
-      msgNote.textContent = '';
-
-      fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      })
-        .then(function (res) {
-          if (res.ok) {
-            form.reset();
-            finish('Thanks, I’ll get back to you soon.');
-            return;
-          }
-          // Formspree returns JSON describing what it rejected
-          return res.json().then(function (data) {
-            var detail = data && data.errors && data.errors.length
-              ? data.errors.map(function (err) { return err.message; }).join(', ')
-              : 'the form service rejected it';
-            finish('That did not send: ' + detail + '. Please email me directly instead.');
-          });
-        })
-        .catch(function () {
-          // network failure, or a non-JSON error body
-          finish('That did not send, which usually means a connection problem. ' +
-                 'Please email me directly instead.');
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    })
+      .then(function (res) {
+        if (res.ok) {
+          form.reset();
+          finish('Thanks, I’ll get back to you soon.');
+          return;
+        }
+        // Formspree returns JSON describing what it rejected
+        return res.json().then(function (data) {
+          var detail = data && data.errors && data.errors.length
+            ? data.errors.map(function (err) { return err.message; }).join(', ')
+            : 'the form service rejected it';
+          finish('That did not send: ' + detail + '. Please email me directly instead.');
         });
-    });
-  }
-
-  renderSlots();
+      })
+      .catch(function () {
+        // network failure, or a non-JSON error body
+        finish('That did not send, which usually means a connection problem. ' +
+               'Please email me directly instead.');
+      });
+  });
 })();
-

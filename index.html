@@ -516,50 +516,29 @@
 
       <div class="contact-grid">
 
-        <!-- ------------------ scheduler placeholder ------------------ -->
-        <!-- TODO(placeholder): replace this whole block with the real Calendly /
-             Cal.com embed. Nothing here books anything — see main.js. -->
-        <div class="scheduler" id="scheduler">
+        <!-- ------------------ Calendly booking widget ------------------ -->
+        <div class="scheduler">
           <div class="sched-head">
             <div>
               <p class="sched-title">Book a free call</p>
               <p class="sched-meta">30 min · video</p>
             </div>
-            <p class="sched-month" id="sched-month">&nbsp;</p>
           </div>
 
-          <p class="sched-label" id="day-label">Choose a day</p>
-          <div class="days" role="group" aria-labelledby="day-label" id="sched-days">
-            <button class="day is-selected" type="button" data-day="0" aria-pressed="true">
-              <span class="day-name">Mon</span><span class="day-date">&nbsp;</span>
-            </button>
-            <button class="day" type="button" data-day="1" aria-pressed="false">
-              <span class="day-name">Tue</span><span class="day-date">&nbsp;</span>
-            </button>
-            <button class="day" type="button" data-day="2" aria-pressed="false">
-              <span class="day-name">Wed</span><span class="day-date">&nbsp;</span>
-            </button>
-            <button class="day" type="button" data-day="3" aria-pressed="false">
-              <span class="day-name">Thu</span><span class="day-date">&nbsp;</span>
-            </button>
-            <button class="day" type="button" data-day="4" aria-pressed="false">
-              <span class="day-name">Fri</span><span class="day-date">&nbsp;</span>
-            </button>
-          </div>
+          <!-- Calendly inline widget begin.
+               The colour params are honoured on Calendly's paid tiers and ignored
+               otherwise, so the surrounding card carries the dark styling either way. -->
+          <div class="calendly-inline-widget"
+               data-url="https://calendly.com/basirahanalytics/30min?hide_gdpr_banner=1&amp;background_color=1b1b18&amp;text_color=f5f4f1&amp;primary_color=ec3013"
+               data-resize="true"></div>
+          <!-- Calendly inline widget end -->
 
-          <p class="sched-label" id="slot-label">Available times</p>
-          <div class="slots" role="group" aria-labelledby="slot-label" id="sched-slots"></div>
           <noscript>
-            <p class="sched-note">Slot picking needs JavaScript. Email me and we&rsquo;ll find a time.</p>
+            <p class="sched-note">
+              The booking calendar needs JavaScript. Email me and we&rsquo;ll find a time,
+              or open <a href="https://calendly.com/basirahanalytics/30min">the booking page directly</a>.
+            </p>
           </noscript>
-
-          <button class="btn btn-paper sched-confirm" type="button" id="sched-confirm">
-            Confirm this slot
-          </button>
-
-          <p class="sched-note" id="sched-note" role="status" aria-live="polite"></p>
-
-          <p class="sched-ph">Connect a Calendly / Cal.com embed here.</p>
         </div>
 
         <!-- ------------------ direct contact + short message ------------------ -->
@@ -664,5 +643,7 @@
 </footer>
 
 <script src="assets/js/main.js" defer></script>
+<!-- Calendly embed script: builds the iframe inside .calendly-inline-widget -->
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </body>
 </html>
