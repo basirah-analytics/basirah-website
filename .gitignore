@@ -1,0 +1,13 @@
+# local project brief + tooling config (kept on disk, not published)
+CLAUDE.md
+.claude/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# editor
+.vscode/
+.idea/
+*.swp
