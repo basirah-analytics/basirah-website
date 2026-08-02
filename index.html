@@ -573,19 +573,27 @@
             <p class="sched-label">Or reach me directly</p>
             <ul class="contact-links">
               <li>
-                <!-- TODO(placeholder): real address — decide between a personal and a branded inbox -->
-                <a href="mailto:hello@example.com" data-todo="contact-email">hello@example.com</a>
-                <span class="ph-chip">placeholder</span>
+                <!-- TODO(contact-email): interim address. Swap for hello@basirahanalytics.com
+                     once the branded inbox is set up (also in the footer). -->
+                <a href="mailto:basirahanalytics@gmail.com" data-todo="contact-email">basirahanalytics@gmail.com</a>
               </li>
               <li><a href="#contact" data-todo="linkedin-url">LinkedIn <span aria-hidden="true">&rarr;</span></a></li>
               <li><a href="#contact" data-todo="github-url">GitHub <span aria-hidden="true">&rarr;</span></a></li>
             </ul>
           </div>
 
-          <!-- TODO(placeholder): wire to a form service (Formspree / Netlify Forms)
-               or your own endpoint. Submitting currently shows a notice instead. -->
-          <form class="msg-form" id="msg-form" novalidate>
+          <!-- Posts to Formspree. main.js intercepts and submits via fetch so the
+               visitor stays on the page; without JS the browser posts normally and
+               Formspree shows its own confirmation. -->
+          <form class="msg-form" id="msg-form"
+                action="https://formspree.io/f/mojggvgg" method="POST" novalidate>
             <p class="sched-label">Send a short message</p>
+
+            <input type="hidden" name="_subject" value="New enquiry from basirahanalytics.com">
+
+            <!-- Honeypot: hidden from people, tempting to bots. Formspree discards
+                 any submission that arrives with _gotcha filled in. -->
+            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
 
             <div class="field">
               <label for="msg-name">Name</label>
@@ -647,7 +655,7 @@
         <!-- TODO(placeholder): real profile URLs + contact address -->
         <li><a href="#contact" data-todo="linkedin-url">LinkedIn</a></li>
         <li><a href="#contact" data-todo="github-url">GitHub</a></li>
-        <li><a href="mailto:hello@example.com" data-todo="contact-email">hello@example.com</a></li>
+        <li><a href="mailto:basirahanalytics@gmail.com" data-todo="contact-email">basirahanalytics@gmail.com</a></li>
       </ul>
     </div>
 

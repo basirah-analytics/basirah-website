@@ -605,15 +605,66 @@
       'This is a placeholder for the Calendly / Cal.com embed; email me and I will confirm the slot.';
   });
 
-  /* ---- same for the short message form ---- */
+  /* ---- short message form: posts to Formspree without leaving the page ---- */
   if (form) {
+    var msgNote = document.getElementById('msg-note');
+    var sendBtn = form.querySelector('[type="submit"]');
+    var sendLabel = sendBtn.textContent;
+
+    // form.elements[...] rather than form.name: on a form element, `name` is also
+    // the form's own attribute, so the plain property access is ambiguous.
+    function field(n) { return form.elements[n]; }
+
+    function finish(text) {
+      sendBtn.disabled = false;
+      sendBtn.textContent = sendLabel;
+      msgNote.textContent = text;
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var msgNote = document.getElementById('msg-note');
-      var missing = !form.name.value.trim() || !form.email.value.trim() || !form.message.value.trim();
-      msgNote.textContent = missing
-        ? 'Fill in all three fields first.'
-        : 'This form is not connected yet, so nothing was sent. Email me directly and I will reply the same day.';
+
+      var name = field('name').value.trim();
+      var email = field('email').value.trim();
+      var message = field('message').value.trim();
+
+      if (!name || !email || !message) {
+        msgNote.textContent = 'Fill in all three fields first.';
+        return;
+      }
+      if (!field('email').checkValidity()) {
+        msgNote.textContent = 'That email address does not look right.';
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Sending';
+      msgNote.textContent = '';
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      })
+        .then(function (res) {
+          if (res.ok) {
+            form.reset();
+            finish('Thanks, I’ll get back to you soon.');
+            return;
+          }
+          // Formspree returns JSON describing what it rejected
+          return res.json().then(function (data) {
+            var detail = data && data.errors && data.errors.length
+              ? data.errors.map(function (err) { return err.message; }).join(', ')
+              : 'the form service rejected it';
+            finish('That did not send: ' + detail + '. Please email me directly instead.');
+          });
+        })
+        .catch(function () {
+          // network failure, or a non-JSON error body
+          finish('That did not send, which usually means a connection problem. ' +
+                 'Please email me directly instead.');
+        });
     });
   }
 
