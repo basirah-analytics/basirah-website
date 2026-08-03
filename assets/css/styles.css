@@ -1266,16 +1266,33 @@ p { text-wrap: pretty; }
 }
 
 /* Calendly renders an iframe here, so its interior cannot be styled from this
-   sheet. The card around it carries the dark treatment, and the widget keeps a
-   light surface of its own unless the colour params are honoured. */
+   sheet: the widget keeps its own light surface and the card around it carries
+   the dark treatment.
+   Sizing lives in the inline style attribute that widget.js requires; do not
+   set width/height/overflow here or it fights the script's own layout. */
 .calendly-inline-widget {
-  min-width: 0;
-  width: 100%;
-  height: 700px;
   margin-top: var(--space-5);
   border-radius: var(--radius);
-  overflow: hidden;
 }
+
+/* fallback route to the booking page if the embed is blocked or fails */
+.sched-fallback {
+  margin-top: var(--space-4);
+  font-size: var(--fs-small);
+}
+.sched-fallback a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  color: var(--text-light);
+  font-weight: var(--fw-label);
+  border-bottom: var(--hairline) solid rgba(245, 244, 241, 0.28);
+  padding-bottom: 2px;
+  transition: border-color var(--dur) var(--ease);
+}
+.sched-fallback a:hover { border-bottom-color: var(--text-light); }
+.sched-fallback span { transition: transform var(--dur) var(--ease); }
+.sched-fallback a:hover span { transform: translateX(3px); }
 
 .sched-note:empty { display: none; }
 .sched-note {
@@ -1464,8 +1481,9 @@ p { text-wrap: pretty; }
 
   .ai-actions .btn { width: 100%; }
 
-  /* Calendly stacks its calendar above the time list on narrow screens */
-  .calendly-inline-widget { height: 1050px; }
+  /* Calendly stacks its calendar above the time list on narrow screens.
+     !important is required: the inline style widget.js depends on outranks this. */
+  .calendly-inline-widget { height: 1050px !important; }
 
   /* 16px minimum stops iOS Safari zooming the page on field focus */
   .field input, .field textarea { font-size: 1rem; }
