@@ -1481,9 +1481,11 @@ p { text-wrap: pretty; }
 
   .ai-actions .btn { width: 100%; }
 
-  /* Calendly stacks its calendar above the time list on narrow screens.
-     !important is required: the inline style widget.js depends on outranks this. */
-  .calendly-inline-widget { height: 1050px !important; }
+  /* Calendly stacks its calendar above the time list on narrow screens, so it
+     needs more room. min-height, never height: data-resize writes an inline
+     height, and a stylesheet height here would override it and stop the widget
+     auto-sizing. This is only a floor for the case where that message is blocked. */
+  .calendly-inline-widget { min-height: 1050px; }
 
   /* 16px minimum stops iOS Safari zooming the page on field focus */
   .field input, .field textarea { font-size: 1rem; }

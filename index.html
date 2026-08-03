@@ -526,16 +526,29 @@
           </div>
 
           <!-- Calendly inline widget begin.
+
                The inline style is required, not decorative: widget.js does
                setAttribute('style', 'position: relative;' + getAttribute('style')),
                so without it the attribute ends up as "position: relative;null".
-               Mobile height is overridden in styles.css with !important, since an
-               inline style outranks the stylesheet.
+
+               data-resize lets widget.js set parent.style.height from the
+               calendly.page_height message, so the widget grows to fit its own
+               content and an inner scrollbar cannot come back. The 900px below is
+               only the starting value, used until that message arrives or if it
+               never does. Because the script writes an inline height, styles.css
+               must constrain this element with min-height only: a stylesheet
+               height, even !important, would beat the inline value and freeze it.
+
+               That starting height is generous because the contact grid gives this
+               column about 460px, below Calendly's stacking breakpoint, so it
+               renders the calendar above the time list rather than side by side.
+
                No colour params: they only apply on Calendly's paid tiers, so the
                card around the widget carries the dark styling instead. -->
           <div class="calendly-inline-widget"
                data-url="https://calendly.com/basirahanalytics/30min?hide_gdpr_banner=1"
-               style="min-width:320px;height:700px;"></div>
+               data-resize="true"
+               style="min-width:320px;height:900px;"></div>
           <!-- Calendly inline widget end -->
 
           <!-- Always visible, so a blocked or failed widget is never a dead end -->
