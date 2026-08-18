@@ -253,13 +253,46 @@ p { text-wrap: pretty; }
   min-height: var(--header-h);
 }
 
-.brand { flex: none; display: flex; align-items: center; }
-.brand img {
-  width: auto;
-  height: 30px;
+/* ---- brand lockup: mark + live wordmark ---- */
+.brand {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   transition: opacity var(--dur) var(--ease);
 }
-.brand:hover img { opacity: 0.72; }
+.brand:hover { opacity: 0.72; }
+
+.brand-mark {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  color: var(--text-dark);   /* rings; the centre square stays accent */
+}
+
+.brand-text { display: flex; flex-direction: column; line-height: 1; }
+
+.brand-name {
+  font-size: 1.1875rem;
+  font-weight: var(--fw-display);
+  letter-spacing: -0.03em;
+  color: var(--text-dark);
+}
+
+/* the part that was illegible before: now its own element, sized on purpose */
+.brand-sub {
+  margin-top: 0.18em;
+  font-size: 0.5625rem;
+  font-weight: var(--fw-label);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.section-dark .brand-mark,
+.section-dark .brand-name,
+.site-footer .brand-mark,
+.site-footer .brand-name { color: var(--text-light); }
 
 .nav {
   flex: 1;
@@ -1265,15 +1298,59 @@ p { text-wrap: pretty; }
   margin: var(--space-5) 0 var(--space-3);
 }
 
-/* Calendly renders an iframe here, so its interior cannot be styled from this
-   sheet: the widget keeps its own light surface and the card around it carries
-   the dark treatment.
-   Sizing lives in the inline style attribute that widget.js requires; do not
-   set width/height/overflow here or it fights the script's own layout. */
-.calendly-inline-widget {
-  margin-top: var(--space-5);
-  border-radius: var(--radius);
+/* ---- booking request form ---- */
+.book-form { margin-top: var(--space-5); }
+.book-form .field { margin-top: var(--space-4); }
+.book-form .sched-label:first-of-type { margin-top: 0; }
+
+.opt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  text-transform: uppercase;
 }
+
+.daypick { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+/* the native control stays focusable but invisible; the label is the pill */
+.daybox input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.daybox span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.55rem 0.95rem;
+  border: var(--hairline) solid var(--border-dark);
+  border-radius: var(--radius);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-label);
+  color: var(--text-light);
+  cursor: pointer;
+  transition: border-color var(--dur) var(--ease),
+              background-color var(--dur) var(--ease),
+              color var(--dur) var(--ease);
+}
+.daybox span:hover { border-color: #46463F; }
+
+/* selection is this section's single accent */
+.daybox input:checked + span {
+  border-color: var(--accent);
+  background: rgba(236, 48, 19, 0.1);
+}
+.daybox input:focus-visible + span {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.book-submit { width: 100%; margin-top: var(--space-5); }
 
 /* fallback route to the booking page if the embed is blocked or fails */
 .sched-fallback {
@@ -1382,13 +1459,9 @@ p { text-wrap: pretty; }
   padding-bottom: clamp(2.5rem, 5vw, 3.5rem);
 }
 
-.footer-logo { display: inline-flex; }
-.footer-logo img {
-  width: auto;
-  height: 30px;
-  transition: opacity var(--dur) var(--ease);
-}
-.footer-logo:hover img { opacity: 0.72; }
+.footer-logo .brand-mark { width: 38px; height: 38px; }
+.footer-logo .brand-name { font-size: 1.4375rem; }
+.footer-logo .brand-sub { font-size: 0.625rem; }
 
 .footer-tagline {
   margin-top: var(--space-4);
@@ -1439,8 +1512,86 @@ p { text-wrap: pretty; }
   color: var(--muted);
 }
 
-/* ---------------------------- 16. RESPONSIVE ---------------------------- */
+/* ---------------------------- 16. MOTION ---------------------------- */
+/* The .anim class is added by main.js only when the visitor has not asked for
+   reduced motion. Nothing is hidden until then, so if JS fails or motion is
+   reduced the page renders fully visible with no reveal at all. */
+.hp { display: none; }
+
+.anim .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 620ms var(--ease), transform 620ms var(--ease);
+}
+.anim .reveal.is-in { opacity: 1; transform: none; }
+
+/* children stagger in sequence rather than all at once */
+.anim .reveal[data-delay="1"] { transition-delay: 70ms; }
+.anim .reveal[data-delay="2"] { transition-delay: 140ms; }
+.anim .reveal[data-delay="3"] { transition-delay: 210ms; }
+.anim .reveal[data-delay="4"] { transition-delay: 280ms; }
+.anim .reveal[data-delay="5"] { transition-delay: 350ms; }
+
+/* The hero settles on load rather than on scroll. It uses the same class-driven
+   transition as everything else, never a keyframe animation with a backwards
+   fill: that would hold the most important content on the page at opacity 0
+   until frames run, and leave it blank if they never do. */
+.anim .hero-inner > .reveal { transition-duration: 760ms; }
+
+/* ------------------------- mobile "show more" ------------------------- */
+/* Injected by main.js under 768px only; desktop markup is untouched. */
+.more-toggle { display: none; }
+
 @media (max-width: 767px) {
+  .more-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    min-height: 44px;
+    margin-top: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: var(--hairline) solid var(--border);
+  }
+  .more-toggle::after { content: "+"; font-size: 1.1em; line-height: 1; }
+  .more-toggle[aria-expanded="true"]::after { content: "\2212"; }
+
+  .is-collapsed { display: none; }
+}
+
+/* ---------------------------- 17. RESPONSIVE ---------------------------- */
+@media (max-width: 767px) {
+  /* Phones stack every grid, so the page ran to roughly 16 screens. These
+     tighten vertical rhythm and trim the tallest blocks without removing
+     any content; the long lists collapse behind a toggle instead. */
+  .section, .pains, .proof { padding-block: clamp(2.5rem, 8vw, 3.25rem); }
+  .hero { padding-top: clamp(2.5rem, 9vw, 4rem); }
+  .hero-rail { margin-top: var(--space-6); padding-block: var(--space-4) var(--space-5); }
+  .section-head { margin-bottom: var(--space-6); }
+  .card { padding: var(--space-5); }
+  .cards, .work-grid { gap: var(--space-3); }
+  .steps { gap: var(--space-5); }
+  .how { margin-top: var(--space-7); padding-top: var(--space-6); }
+  .scope-line, .contact-foot { margin-top: var(--space-6); padding-top: var(--space-5); }
+  .tile-thumb { aspect-ratio: 16 / 8; }
+  .tile-body { padding: var(--space-4); }
+  .ph { gap: var(--space-2); padding: var(--space-4); }
+  .ph-art { width: min(100%, 150px); }
+  .about-main > * + * { margin-top: var(--space-6); }
+  .insights, .case, .visuals, .detail-cta { margin-top: var(--space-6); }
+
+  /* comfortable touch targets throughout */
+  .nav-link, .footer-nav a, .footer-contact a, .contact-links a,
+  .socials a, .link-mono, .sched-fallback a, .ai-crosslink a, .scope-line a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .footer-nav ul, .footer-contact ul { gap: 0; }
+
   .nav-toggle { display: inline-flex; }
 
   .nav {
@@ -1481,11 +1632,8 @@ p { text-wrap: pretty; }
 
   .ai-actions .btn { width: 100%; }
 
-  /* Calendly stacks its calendar above the time list on narrow screens, so it
-     needs more room. min-height, never height: data-resize writes an inline
-     height, and a stylesheet height here would override it and stop the widget
-     auto-sizing. This is only a floor for the case where that message is blocked. */
-  .calendly-inline-widget { min-height: 1050px; }
+  .daypick { gap: var(--space-2); }
+  .daybox span { flex: 1 0 auto; }
 
   /* 16px minimum stops iOS Safari zooming the page on field focus */
   .field input, .field textarea { font-size: 1rem; }
@@ -1497,7 +1645,9 @@ p { text-wrap: pretty; }
 
 @media (min-width: 768px) {
   :root { --header-h: 76px; }
-  .brand img { height: 32px; }
+  .brand-mark { width: 34px; height: 34px; }
+  .brand-name { font-size: 1.3125rem; }
+  .brand-sub { font-size: 0.625rem; }
 
   /* two up, with the third card running the full width beneath */
   .cards { grid-template-columns: repeat(2, 1fr); }
@@ -1513,6 +1663,15 @@ p { text-wrap: pretty; }
   .case-steps { grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
 }
 
+/* Tablets sat in a dead zone: these three stayed single column until 1024, so
+   an 820px iPad rendered 739px-wide cards with half the width unused. 800px
+   catches iPad portrait while leaving landscape phones single column. */
+@media (min-width: 800px) {
+  .ai-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
+  .about-grid { grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr); }
+  .contact-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+
 @media (min-width: 1024px) {
   .cards { grid-template-columns: repeat(3, 1fr); }
   .cards .card:last-child { grid-column: auto; }
@@ -1520,12 +1679,4 @@ p { text-wrap: pretty; }
   .steps { grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
 
   .work-grid { grid-template-columns: repeat(3, 1fr); }
-
-  /* copy left, preview card right */
-  .ai-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
-
-  .about-grid { grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr); }
-
-  /* scheduler left, direct contact + form right */
-  .contact-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }

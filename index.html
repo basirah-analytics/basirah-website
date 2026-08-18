@@ -8,6 +8,13 @@
 <meta name="author" content="Haseeb Ur Rahman">
 <meta name="theme-color" content="#141412">
 
+<!-- GitHub Pages cannot set response headers, so the policy that can be
+     expressed in markup lives here. frame-ancestors and HSTS are header-only
+     and are still missing; moving to Cloudflare Pages or Netlify with a
+     _headers file would close that gap. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
 <!-- Absolute URLs below are required: social crawlers will not follow
      relative paths. They must match the domain in CNAME. -->
 <link rel="canonical" href="https://basirahanalytics.com/">
@@ -51,8 +58,21 @@
 <header class="site-header" id="site-header">
   <div class="wrap header-inner">
 
+    <!-- The mark is inline SVG rather than the PNG lockup: at navbar size the
+         packaged lockup downscaled 7.4x and rendered "ANALYTICS" at a 3px cap
+         height. As live text the two words can be sized independently and stay
+         crisp at any zoom. Ring colour follows currentColor so the same markup
+         serves the light navbar and the dark footer. -->
     <a class="brand" href="#home" aria-label="Basirah Analytics, home">
-      <img src="assets/img/logo-basirah-dark.png" alt="Basirah Analytics" width="760" height="236">
+      <svg class="brand-mark" viewBox="0 0 220 220" aria-hidden="true" focusable="false">
+        <rect x="8" y="8" width="204" height="204" fill="none" stroke="currentColor" stroke-width="16"/>
+        <rect x="54" y="54" width="112" height="112" fill="none" stroke="currentColor" stroke-width="16"/>
+        <rect x="88" y="88" width="44" height="44" fill="var(--accent)"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-name">Basirah</span>
+        <span class="brand-sub">Analytics</span>
+      </span>
     </a>
 
     <nav class="nav" id="nav" aria-label="Primary">
@@ -516,7 +536,9 @@
 
       <div class="contact-grid">
 
-        <!-- ------------------ Calendly booking widget ------------------ -->
+        <!-- ------------------ booking request (own design, no third party) ------------------ -->
+        <!-- Posts to the same Formspree endpoint as the message form, with a
+             _subject that marks it as a booking rather than a general enquiry. -->
         <div class="scheduler">
           <div class="sched-head">
             <div>
@@ -525,45 +547,57 @@
             </div>
           </div>
 
-          <!-- Calendly inline widget begin.
+          <form class="book-form" id="book-form"
+                action="https://formspree.io/f/mojggvgg" method="POST" novalidate>
 
-               The inline style is required, not decorative: widget.js does
-               setAttribute('style', 'position: relative;' + getAttribute('style')),
-               so without it the attribute ends up as "position: relative;null".
+            <input type="hidden" name="_subject" value="Call request from basirahanalytics.com">
+            <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off">
 
-               data-resize lets widget.js set parent.style.height from the
-               calendly.page_height message, so the widget grows to fit its own
-               content and an inner scrollbar cannot come back. The 900px below is
-               only the starting value, used until that message arrives or if it
-               never does. Because the script writes an inline height, styles.css
-               must constrain this element with min-height only: a stylesheet
-               height, even !important, would beat the inline value and freeze it.
+            <p class="sched-label">Which days suit you?</p>
+            <div class="daypick" role="group" aria-label="Preferred days">
+              <label class="daybox"><input type="checkbox" name="days" value="Monday"><span>Mon</span></label>
+              <label class="daybox"><input type="checkbox" name="days" value="Tuesday"><span>Tue</span></label>
+              <label class="daybox"><input type="checkbox" name="days" value="Wednesday"><span>Wed</span></label>
+              <label class="daybox"><input type="checkbox" name="days" value="Thursday"><span>Thu</span></label>
+              <label class="daybox"><input type="checkbox" name="days" value="Friday"><span>Fri</span></label>
+            </div>
 
-               That starting height is generous because the contact grid gives this
-               column about 460px, below Calendly's stacking breakpoint, so it
-               renders the calendar above the time list rather than side by side.
+            <p class="sched-label">And roughly what time?</p>
+            <div class="daypick timepick" role="group" aria-label="Preferred time of day">
+              <label class="daybox"><input type="radio" name="time_window" value="Morning"><span>Morning</span></label>
+              <label class="daybox"><input type="radio" name="time_window" value="Afternoon"><span>Afternoon</span></label>
+              <label class="daybox"><input type="radio" name="time_window" value="Evening"><span>Evening</span></label>
+            </div>
 
-               No colour params: they only apply on Calendly's paid tiers, so the
-               card around the widget carries the dark styling instead. -->
-          <div class="calendly-inline-widget"
-               data-url="https://calendly.com/basirahanalytics/30min?hide_gdpr_banner=1"
-               data-resize="true"
-               style="min-width:320px;height:900px;"></div>
-          <!-- Calendly inline widget end -->
+            <div class="field">
+              <label for="book-tz">Your timezone</label>
+              <input id="book-tz" name="timezone" type="text" autocomplete="off">
+            </div>
 
-          <!-- Always visible, so a blocked or failed widget is never a dead end -->
+            <div class="field">
+              <label for="book-name">Name</label>
+              <input id="book-name" name="name" type="text" autocomplete="name" required>
+            </div>
+
+            <div class="field">
+              <label for="book-email">Email</label>
+              <input id="book-email" name="email" type="email" autocomplete="email" required>
+            </div>
+
+            <div class="field">
+              <label for="book-about">What would you like to go through? <span class="opt">optional</span></label>
+              <textarea id="book-about" name="topic" rows="3"></textarea>
+            </div>
+
+            <button class="btn btn-paper book-submit" type="submit">Request this call</button>
+            <p class="sched-note" id="book-note" role="status" aria-live="polite"></p>
+          </form>
+
           <p class="sched-fallback">
-            <a href="https://calendly.com/basirahanalytics/30min" target="_blank" rel="noopener">
-              Prefer to open the booking page directly? <span aria-hidden="true">&rarr;</span>
+            <a href="mailto:basirahanalytics@gmail.com">
+              Rather just email me? <span aria-hidden="true">&rarr;</span>
             </a>
           </p>
-
-          <noscript>
-            <p class="sched-note">
-              The booking calendar needs JavaScript. Email me and we&rsquo;ll find a time,
-              or open <a href="https://calendly.com/basirahanalytics/30min">the booking page directly</a>.
-            </p>
-          </noscript>
         </div>
 
         <!-- ------------------ direct contact + short message ------------------ -->
@@ -593,7 +627,7 @@
 
             <!-- Honeypot: hidden from people, tempting to bots. Formspree discards
                  any submission that arrives with _gotcha filled in. -->
-            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+            <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off">
 
             <div class="field">
               <label for="msg-name">Name</label>
@@ -630,9 +664,16 @@
   <div class="wrap footer-inner">
 
     <div class="footer-brand">
-      <a class="footer-logo" href="#home" aria-label="Basirah Analytics, back to top">
-        <img src="assets/img/logo-basirah-light.png" alt="Basirah Analytics"
-             width="760" height="236" loading="lazy" decoding="async">
+      <a class="brand footer-logo" href="#home" aria-label="Basirah Analytics, back to top">
+        <svg class="brand-mark" viewBox="0 0 220 220" aria-hidden="true" focusable="false">
+          <rect x="8" y="8" width="204" height="204" fill="none" stroke="currentColor" stroke-width="16"/>
+          <rect x="54" y="54" width="112" height="112" fill="none" stroke="currentColor" stroke-width="16"/>
+          <rect x="88" y="88" width="44" height="44" fill="var(--accent)"/>
+        </svg>
+        <span class="brand-text">
+          <span class="brand-name">Basirah</span>
+          <span class="brand-sub">Analytics</span>
+        </span>
       </a>
       <p class="footer-tagline">See what your data is telling you.</p>
     </div>
@@ -668,7 +709,5 @@
 </footer>
 
 <script src="assets/js/main.js" defer></script>
-<!-- Calendly embed script: builds the iframe inside .calendly-inline-widget -->
-<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </body>
 </html>

@@ -501,73 +501,253 @@
 
 
 /* =====================================================================
-   CONTACT — short message form.
-   Booking is handled by the Calendly inline widget, which builds its own
-   iframe from the markup in index.html and needs no code here.
+   CONTACT — booking request and short message.
+   Both post to the same Formspree endpoint and share one handler; the
+   hidden _subject on each form is what tells them apart in the inbox.
    ===================================================================== */
 (function () {
   'use strict';
 
-  var form = document.getElementById('msg-form');
-  if (!form) return;
-
-  var msgNote = document.getElementById('msg-note');
-  var sendBtn = form.querySelector('[type="submit"]');
-  var sendLabel = sendBtn.textContent;
-
-  // form.elements[...] rather than form.name: on a form element, `name` is also
-  // the form's own attribute, so the plain property access is ambiguous.
-  function field(n) { return form.elements[n]; }
-
-  function finish(text) {
-    sendBtn.disabled = false;
-    sendBtn.textContent = sendLabel;
-    msgNote.textContent = text;
+  /* prefill the timezone so the visitor does not have to think about it */
+  var tzField = document.getElementById('book-tz');
+  if (tzField && !tzField.value) {
+    try {
+      tzField.value = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    } catch (e) { /* older browser: leave it for them to type */ }
   }
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
+  function wire(formId, noteId, extraCheck) {
+    var form = document.getElementById(formId);
+    if (!form) return;
 
-    var name = field('name').value.trim();
-    var email = field('email').value.trim();
-    var message = field('message').value.trim();
+    var note = document.getElementById(noteId);
+    var btn = form.querySelector('[type="submit"]');
+    var label = btn.textContent;
 
-    if (!name || !email || !message) {
-      msgNote.textContent = 'Fill in all three fields first.';
-      return;
+    function field(n) { return form.elements[n]; }
+    function finish(text) {
+      btn.disabled = false;
+      btn.textContent = label;
+      note.textContent = text;
     }
-    if (!field('email').checkValidity()) {
-      msgNote.textContent = 'That email address does not look right.';
-      return;
-    }
 
-    sendBtn.disabled = true;
-    sendBtn.textContent = 'Sending';
-    msgNote.textContent = '';
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
 
-    fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    })
-      .then(function (res) {
-        if (res.ok) {
-          form.reset();
-          finish('Thanks, I’ll get back to you soon.');
-          return;
-        }
-        // Formspree returns JSON describing what it rejected
-        return res.json().then(function (data) {
-          var detail = data && data.errors && data.errors.length
-            ? data.errors.map(function (err) { return err.message; }).join(', ')
-            : 'the form service rejected it';
-          finish('That did not send: ' + detail + '. Please email me directly instead.');
-        });
+      var name = field('name').value.trim();
+      var email = field('email').value.trim();
+
+      if (!name || !email) {
+        note.textContent = 'Please add your name and email.';
+        return;
+      }
+      if (!field('email').checkValidity()) {
+        note.textContent = 'That email address does not look right.';
+        return;
+      }
+      var extra = extraCheck ? extraCheck(form) : null;
+      if (extra) { note.textContent = extra; return; }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending';
+      note.textContent = '';
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
       })
-      .catch(function () {
-        // network failure, or a non-JSON error body
-        finish('That did not send, which usually means a connection problem. ' +
-               'Please email me directly instead.');
-      });
+        .then(function (res) {
+          if (res.ok) {
+            form.reset();
+            if (tzField && form === document.getElementById('book-form')) {
+              try { tzField.value = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+            }
+            finish('Thanks, I’ll get back to you soon.');
+            return;
+          }
+          return res.json().then(function (data) {
+            var detail = data && data.errors && data.errors.length
+              ? data.errors.map(function (err) { return err.message; }).join(', ')
+              : 'the form service rejected it';
+            finish('That did not send: ' + detail + '. Please email me directly instead.');
+          });
+        })
+        .catch(function () {
+          finish('That did not send, which usually means a connection problem. ' +
+                 'Please email me directly instead.');
+        });
+    });
+  }
+
+  // booking request: also needs at least one day and a time window
+  wire('book-form', 'book-note', function (form) {
+    var days = form.querySelectorAll('input[name="days"]:checked').length;
+    if (!days) return 'Pick at least one day that suits you.';
+    if (!form.querySelector('input[name="time_window"]:checked')) return 'Pick a rough time of day.';
+    return null;
   });
+
+  // general message: needs a message body
+  wire('msg-form', 'msg-note', function (form) {
+    return form.elements['message'].value.trim() ? null : 'Add a short message first.';
+  });
+})();
+
+
+/* =====================================================================
+   MOTION + MOBILE DISCLOSURE
+   Reveal-on-scroll is opt-in: the .anim class is only added when the
+   visitor has not asked for reduced motion, so nothing is ever hidden
+   by default. If this file fails to load the page still renders whole.
+   ===================================================================== */
+(function () {
+  'use strict';
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* ------------------------- reveal on scroll ------------------------- */
+  function setupReveal() {
+    if (reduced.matches || !('IntersectionObserver' in window)) return;
+
+    var groups = [
+      ['.hero-inner > *', 1],
+      ['.pains-title', 0], ['.pain', 1],
+      ['.section-head', 0], ['.card', 1], ['.how-head', 0], ['.step', 1],
+      ['.resolve', 0], ['.proof-inner > *', 1],
+      ['.tile-item', 1],
+      ['.ai-copy > *', 1], ['.ai-card', 0],
+      ['.about-main > *', 1], ['.about-side', 0],
+      ['.scheduler', 0], ['.contact-side', 0],
+      ['.footer-inner > *', 1]
+    ];
+
+    // Only elements below the fold are ever given the hidden state. Anything
+    // already on screen is left alone, so a stalled transition or a failed
+    // observer can never blank out content the visitor is looking at.
+    var fold = window.innerHeight;
+    var targets = [];
+    groups.forEach(function (g) {
+      var stagger = g[1];
+      Array.prototype.forEach.call(document.querySelectorAll(g[0]), function (el, i) {
+        if (el.getBoundingClientRect().top < fold && !el.closest('.hero')) return;
+        el.classList.add('reveal');
+        if (stagger) el.setAttribute('data-delay', String(Math.min(i % 6, 5)));
+        targets.push(el);
+      });
+    });
+
+    document.documentElement.classList.add('anim');
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+    targets.forEach(function (el) { io.observe(el); });
+
+    function revealVisible() {
+      targets.forEach(function (el) {
+        if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('is-in');
+      });
+    }
+    setTimeout(revealVisible, 120);
+
+    // Safety net. Hiding content behind an animation is only acceptable if it
+    // cannot get stuck. This measures rendered opacity rather than trusting the
+    // class, so it also catches a transition that was started but never
+    // advanced. Removing .anim un-hides everything at once.
+    setTimeout(function () {
+      var stuck = targets.some(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.top >= window.innerHeight || r.bottom <= 0) return false;   // off screen, fine
+        return parseFloat(getComputedStyle(el).opacity) < 0.95;
+      });
+      if (stuck) document.documentElement.classList.remove('anim');
+    }, 3000);
+  }
+
+  /* --------------------- collapse long lists on phones --------------------- */
+  var mobile = window.matchMedia('(max-width: 767px)');
+  var collapsibles = [];
+
+  /* Adds a toggle before `target` that collapses `hide()` on phones.
+     `hide` returns the elements to fold away, so it can be one block or many. */
+  function addToggle(anchor, label, hide, insertBefore) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'more-toggle';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.textContent = label;
+
+    anchor.parentNode.insertBefore(btn, insertBefore || anchor);
+
+    var items = hide();
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      items.forEach(function (el) { el.classList.toggle('is-collapsed', open); });
+    });
+
+    collapsibles.push({ btn: btn, items: items });
+  }
+
+  function buildCollapsibles() {
+    if (collapsibles.length) return;
+
+    // Services card bullets: the longest repeated block on a phone
+    Array.prototype.forEach.call(document.querySelectorAll('.card-list'), function (list) {
+      addToggle(list, 'What that includes', function () { return [list]; });
+    });
+
+    // Portfolio: show three tiles, fold the rest away
+    var tiles = Array.prototype.slice.call(document.querySelectorAll('.tile-item'));
+    if (tiles.length > 3) {
+      var rest = tiles.slice(3);
+      var grid = document.getElementById('work-grid');
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'more-toggle';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = 'Show all ' + tiles.length + ' projects';
+      grid.parentNode.insertBefore(btn, grid.nextSibling);
+      btn.addEventListener('click', function () {
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!open));
+        btn.textContent = open ? 'Show all ' + tiles.length + ' projects' : 'Show fewer';
+        rest.forEach(function (el) { el.classList.toggle('is-collapsed', open); });
+      });
+      collapsibles.push({ btn: btn, items: rest });
+    }
+
+    // Contact: booking is the primary action, so fold the message form
+    var msg = document.getElementById('msg-form');
+    if (msg) addToggle(msg, 'Or send a message instead', function () { return [msg]; });
+
+    // About: the bio paragraphs sit below the founder note
+    var bio = document.querySelector('.bio');
+    if (bio) {
+      var paras = Array.prototype.slice.call(bio.querySelectorAll('p'));
+      if (paras.length) addToggle(bio.querySelector('.block-title'), 'Read more',
+        function () { return paras; }, bio.querySelector('.block-title').nextSibling);
+    }
+  }
+
+  function applyCollapse(on) {
+    if (on) buildCollapsibles();
+    collapsibles.forEach(function (c) {
+      var open = c.btn.getAttribute('aria-expanded') === 'true';
+      c.items.forEach(function (el) {
+        // desktop always shows everything; the toggles hide themselves in CSS
+        el.classList.toggle('is-collapsed', on && !open);
+      });
+    });
+  }
+
+  setupReveal();
+  applyCollapse(mobile.matches);
+  mobile.addEventListener('change', function (e) { applyCollapse(e.matches); });
 })();
