@@ -1,0 +1,39 @@
+# Response headers for Cloudflare Pages and Netlify (both read this file from
+# the site root, same syntax). GitHub Pages ignores it: that host cannot set
+# response headers at all, which is why the audit reports these as missing.
+#
+# The meta tags in index.html cover CSP and Referrer-Policy for browsers, but a
+# scanner only inspects headers, and three of these cannot be expressed in
+# markup at all: HSTS, X-Frame-Options and X-Content-Type-Options.
+
+/*
+  # Only ever connect over HTTPS. Two years, subdomains included. Add this to
+  # hstspreload.org only once you are sure every subdomain serves HTTPS,
+  # because preload is very hard to undo.
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+
+  # Trust the declared Content-Type; do not let the browser guess and possibly
+  # execute an image as script.
+  X-Content-Type-Options: nosniff
+
+  # Clickjacking: refuse to be framed. frame-ancestors below is the modern
+  # equivalent; X-Frame-Options stays for older browsers that ignore CSP.
+  X-Frame-Options: DENY
+
+  # Send the full URL to ourselves, origin only to other HTTPS sites, and
+  # nothing at all when downgrading to HTTP.
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # Nothing here needs these, so hand them to no one.
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()
+
+  # Mirrors the meta policy in index.html, plus frame-ancestors, which is
+  # ignored when delivered via meta and only works as a header. Keep the two in
+  # step: when both are present a browser enforces both, so a rule added here
+  # and not there silently does nothing.
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'
+
+# Fingerprinted assets could be cached far longer, but nothing here is
+# content-hashed yet, so a conservative hour avoids serving stale CSS or JS.
+/assets/*
+  Cache-Control: public, max-age=3600
