@@ -148,6 +148,29 @@ p { text-wrap: pretty; }
 .eyebrow::before,
 .rail-label::before { content: "// "; }
 
+/* ---------------------------- SCROLLBAR ---------------------------- */
+/* Slimmed and tinted to match the palette rather than removed. On a page this
+   tall the bar is the only cue for how far through the visitor is, and the
+   only way to drag-scroll; hiding it entirely costs real usability for a
+   cosmetic gain. This keeps the affordance without the chunky OS default.
+   To hide it completely instead, swap the rules below for
+   `scrollbar-width: none` plus `::-webkit-scrollbar { display: none }`. */
+html {
+  scrollbar-width: thin;                        /* Firefox */
+  scrollbar-color: #CFCEC7 transparent;
+}
+
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background-color: #CFCEC7;
+  border-radius: 999px;
+  /* transparent border narrows the visible thumb without shrinking the hit area */
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover { background-color: #B4B3AB; }
+
 /* ---------------------------- 4. UTILITIES ---------------------------- */
 .wrap {
   width: 100%;
@@ -156,7 +179,10 @@ p { text-wrap: pretty; }
   padding-inline: var(--gutter);
 }
 
-.section { padding-block: clamp(4rem, 10vw, var(--space-10)); }
+/* Was clamp(4rem, 10vw, 8rem), which put 256px between consecutive
+   sections at desktop. Tightened so sections read as one document
+   rather than isolated slides, without crowding them. */
+.section { padding-block: clamp(3rem, 6.5vw, 5.5rem); }
 
 .section-dark {
   background: var(--ink);
@@ -489,7 +515,7 @@ p { text-wrap: pretty; }
 }
 
 /* ----------------------------- 9. SERVICES ----------------------------- */
-.section-head { max-width: 46ch; margin-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+.section-head { max-width: 46ch; margin-bottom: clamp(2rem, 4vw, 3rem); }
 .section-head .eyebrow { display: block; margin-bottom: var(--space-4); }
 
 .section-lead {
@@ -520,32 +546,6 @@ p { text-wrap: pretty; }
               opacity 240ms var(--ease);
 }
 .card:hover { border-color: #D8D8D2; }
-
-/* the lead specialty carries the section's single accent */
-.card-lead { border-color: var(--text-dark); }
-.card-lead:hover { border-color: var(--text-dark); }
-
-/* red as a mark, not as text: #EC3013 is only 4.06:1 on --paper, which fails AA
-   at label size. The square echoes the logo's centre and keeps the brand red exact. */
-.card-flag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6em;
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  font-weight: 500;
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--text-dark);
-  margin-bottom: var(--space-3);
-}
-.card-flag::before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-radius: 1px;
-  background: var(--accent);
-}
 
 .card-title { margin-bottom: var(--space-3); }
 
