@@ -81,13 +81,20 @@ button { background: none; border: 0; padding: 0; cursor: pointer; }
 
 a { color: inherit; text-decoration: none; }
 
-/* Every scroll target clears the sticky navbar. This must NOT be scoped to
-   :target — that only matches the element currently in the URL fragment, so
-   every other section would land under the header, and JS scrollIntoView()
-   calls (portfolio open/close) would too. */
-section[id],
-[id][data-scroll-target] {
-  scroll-margin-top: calc(var(--header-h) + var(--space-4));
+/* Sticky-header offset lives on the scrolling box, not on each target.
+   scroll-padding-top reserves the space once and applies to every scroll
+   operation: native hash navigation, scrollIntoView, focus, find-in-page and
+   any anchor added later. Per-target scroll-margin only covers the elements
+   you remember to list.
+
+   It is deliberately a static value. An earlier version measured the header
+   in JS and wrote the result back into --header-h, which .header-inner also
+   uses for min-height: measuring the header therefore resized the header,
+   which retriggered the measurement. That fed back on itself until the bar
+   filled the screen. Never write a measured size into a variable that any
+   layout rule consumes. */
+html {
+  scroll-padding-top: calc(var(--header-h) + var(--space-4));
 }
 
 @media (prefers-reduced-motion: reduce) {

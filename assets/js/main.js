@@ -819,44 +819,6 @@
 })();
 
 
-/* =====================================================================
-   STICKY HEADER OFFSET
-   scroll-margin-top was pinned to a hardcoded --header-h (68/76px) while
-   the header actually renders 69/77px, and that token cannot follow a
-   height change from font loading, a longer nav, or zoom. Anything that
-   grows the header pushes the target heading back under it.
-
-   Measuring the header and writing the real value back into --header-h
-   keeps every anchor landing correctly, whatever the header does.
-   ===================================================================== */
-(function () {
-  'use strict';
-
-  var header = document.getElementById('site-header');
-  if (!header) return;
-
-  var last = 0;
-  function sync() {
-    // ceil, not round: half a pixel short would tuck the heading under the bar
-    var h = Math.ceil(header.getBoundingClientRect().height);
-    if (!h || h === last) return;
-    last = h;
-    document.documentElement.style.setProperty('--header-h', h + 'px');
-  }
-
-  sync();
-
-  if ('ResizeObserver' in window) {
-    new ResizeObserver(sync).observe(header);
-  } else {
-    window.addEventListener('resize', sync);
-  }
-
-  // Web fonts reflow the nav after first paint, which changes the height
-  // and would otherwise leave the offset stale for the first click.
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
-  window.addEventListener('load', sync);
-})();
 
 
 /* =====================================================================
