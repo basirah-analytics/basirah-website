@@ -12,10 +12,9 @@
      un-verify the property and cut off the indexing and coverage reports. -->
 <meta name="google-site-verification" content="HMHLV7Yq7KLXkqKQEQdJhz9tr5lEsVtddXTUTiQMQo8">
 
-<!-- GitHub Pages cannot set response headers, so the policy that can be
-     expressed in markup lives here. frame-ancestors and HSTS are header-only
-     and are still missing; moving to Cloudflare Pages or Netlify with a
-     _headers file would close that gap. -->
+<!-- Kept alongside the headers in _headers so the policy still applies if a
+     response ever reaches a visitor without them. frame-ancestors is header
+     only and is set there, not here. -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
@@ -64,7 +63,7 @@
      JS for up to an hour after a deploy. index.html itself is served
      must-revalidate, so bumping this number is what releases a change.
      BUMP BOTH VALUES WHENEVER styles.css OR main.js CHANGES. -->
-<link rel="stylesheet" href="assets/css/styles.css?v=3">
+<link rel="stylesheet" href="assets/css/styles.css?v=4">
 
 <!-- Structured data. Everything below is asserted to search engines as fact,
      so it carries only what the site can back up: no aggregateRating, no
@@ -91,7 +90,7 @@
       "availableLanguage": "en",
       "sameAs": [
         "https://www.linkedin.com/company/basirah-analytics/",
-        "https://github.com/basirahanalytics"
+        "https://github.com/basirah-analytics"
       ],
       "founder": { "@id": "https://basirahanalytics.com/#haseeb" },
       "knowsAbout": [
@@ -370,7 +369,7 @@
 
   <!-- ============================ SELECTED WORK (light) ============================ -->
   <!-- Grid, filters and detail panels are all rendered by main.js from the PROJECTS
-       array. Detail opens in place — never on a separate page. -->
+       array. Detail opens in place, never on a separate page. -->
   <section class="section section-light" id="portfolio">
     <div class="wrap">
 
@@ -440,8 +439,7 @@
         </p>
 
         <div class="ai-actions">
-          <!-- TODO(placeholder): swap href for the live Basira AI URL when the tool is deployed -->
-          <a class="btn btn-accent" href="https://ai.basirahanalytics.com"
+            <a class="btn btn-accent" href="https://ai.basirahanalytics.com"
              target="_blank" rel="noopener">
             Try it free <span aria-hidden="true">&rarr;</span>
           </a>
@@ -454,7 +452,7 @@
         </p>
       </div>
 
-      <!-- stylised preview of the tool's output — illustrative, not real data -->
+      <!-- stylised preview of the tool's output: illustrative, not real data -->
       <aside class="ai-card" aria-label="Example of an instant analysis">
         <div class="ai-card-head">
           <p class="ai-card-kicker">instant analysis</p>
@@ -549,8 +547,9 @@
           <div class="bio">
             <h3 class="block-title">A bit more about me</h3>
             <p>
-              <!-- TODO(placeholder): rewrite in your own words — years of experience, industries,
-                   what you enjoy working on. The shape is right; the specifics should be yours. -->
+              <!-- TODO: rewrite in your own words: years of experience, industries,
+                   what you enjoy working on. The shape is right, the specifics
+                   should be yours. -->
               I work with small and mid-size businesses that have outgrown their spreadsheets. My
               background is in finance, which shapes how I approach analysis. I start from the
               business question: what makes money, what costs more than it should, what is about
@@ -567,9 +566,18 @@
         <!-- ---------------- facts: role, study, certs, stack ---------------- -->
         <aside class="about-side" aria-label="Credentials and tools">
 
-          <!-- TODO(placeholder): drop a headshot in assets/img/ and replace this block -->
-          <div class="headshot-ph">
-            <p class="ph-label">headshot placeholder</p>
+          <!-- No photograph yet, so this shows the brand mark rather than a box
+               labelled "placeholder". Drop a portrait at assets/img/haseeb.jpg
+               and swap this block for:
+               <img class="headshot" src="assets/img/haseeb.jpg"
+                    alt="Haseeb Ur Rahman" width="800" height="1000"
+                    loading="lazy" decoding="async"> -->
+          <div class="headshot-mark">
+            <svg viewBox="0 0 220 220" aria-hidden="true" focusable="false">
+              <rect x="8" y="8" width="204" height="204" fill="none" stroke="currentColor" stroke-width="16"/>
+              <rect x="54" y="54" width="112" height="112" fill="none" stroke="currentColor" stroke-width="16"/>
+              <rect x="88" y="88" width="44" height="44" fill="var(--accent)"/>
+            </svg>
           </div>
 
           <dl class="facts">
@@ -583,8 +591,7 @@
             </div>
             <div class="fact">
               <dt>Certifications</dt>
-              <!-- TODO(placeholder): list real certifications, then delete the chip -->
-              <dd><span class="ph-chip">to add</span></dd>
+              <dd>Google Data Analytics Professional Certificate, HackerRank Advanced SQL</dd>
             </div>
             <div class="fact">
               <dt>Stack</dt>
@@ -593,9 +600,8 @@
           </dl>
 
           <ul class="socials">
-            <!-- TODO(placeholder): real profile URLs -->
             <li><a href="https://www.linkedin.com/company/basirah-analytics/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&rarr;</span></a></li>
-            <li><a href="https://github.com/basirahanalytics" target="_blank" rel="noopener">GitHub <span aria-hidden="true">&rarr;</span></a></li>
+            <li><a href="https://github.com/basirah-analytics" target="_blank" rel="noopener">GitHub <span aria-hidden="true">&rarr;</span></a></li>
           </ul>
         </aside>
       </div>
@@ -694,7 +700,7 @@
                 <a href="mailto:hello@basirahanalytics.com">hello@basirahanalytics.com</a>
               </li>
               <li><a href="https://www.linkedin.com/company/basirah-analytics/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&rarr;</span></a></li>
-              <li><a href="https://github.com/basirahanalytics" target="_blank" rel="noopener">GitHub <span aria-hidden="true">&rarr;</span></a></li>
+              <li><a href="https://github.com/basirah-analytics" target="_blank" rel="noopener">GitHub <span aria-hidden="true">&rarr;</span></a></li>
             </ul>
           </div>
 
@@ -775,9 +781,8 @@
     <div class="footer-contact">
       <p class="footer-heading">Elsewhere</p>
       <ul>
-        <!-- TODO(placeholder): real profile URLs + contact address -->
         <li><a href="https://www.linkedin.com/company/basirah-analytics/" target="_blank" rel="noopener">LinkedIn</a></li>
-        <li><a href="https://github.com/basirahanalytics" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://github.com/basirah-analytics" target="_blank" rel="noopener">GitHub</a></li>
         <li><a href="mailto:hello@basirahanalytics.com">hello@basirahanalytics.com</a></li>
       </ul>
     </div>
@@ -790,6 +795,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=3" defer></script>
+<script src="assets/js/main.js?v=4" defer></script>
 </body>
 </html>

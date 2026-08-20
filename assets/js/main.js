@@ -1,5 +1,5 @@
 /* =====================================================================
-   Basirah Analytics — main.js
+   Basirah Analytics: main.js
    Vanilla JS, no dependencies, no browser storage.
    Built so far: sticky-nav state, mobile menu, scrollspy.
    TODO (later steps): portfolio filter + inline project detail (#slug).
@@ -75,167 +75,82 @@
 
 
 /* =====================================================================
-   PORTFOLIO — filterable grid + inline detail, rendered from PROJECTS.
+   PORTFOLIO: filterable grid + inline detail, rendered from PROJECTS.
    ===================================================================== */
 (function () {
   'use strict';
 
   /* -------------------------------------------------------------------
-     TODO(placeholder): EVERY PROJECT BELOW IS SAMPLE CONTENT.
-     Replace titles, numbers, insights and case-study text with real work
-     before this site goes live — none of it describes an actual client.
-     While `placeholder: true` is set, the tile shows a small "sample"
-     badge. Delete that flag from a project once its content is real.
+     Real work only. Every figure below comes from the write up in
+     basirah-analytics/restaurant-sales-analysis, and that project states
+     plainly that it runs on a realistic simulated dataset rather than a
+     real client's numbers. The site says the same, in the summary and in
+     the context line, so nobody can read it as a client engagement.
 
-     Shape (per CLAUDE.md):
-       title      string    required
-       slug       string    required — used for the #work-<slug> deep link
-       category   string    required — dashboards | analysis | financial | automation
-       headline   string    required — the one-line insight shown on the tile
-       summary    string    required — short paragraph at the top of the detail
-       context    string    who it was for
-       tools      string    from the canonical list: Power BI · Tableau ·
-                            Looker · Excel / Sheets · SQL · Python
-       timeline   string    how long it ran
-       thumb      string|null   path to the tile image; null draws a placeholder
+     Shape:
+       title      string        required
+       slug       string        required, drives the #work-<slug> deep link
+       category   string        dashboards | analysis | financial | automation
+       headline   string        the one line shown on the tile
+       summary    string        short paragraph at the top of the detail
+       context    string        who or what it was built on
+       tools      string        what it was built with
+       scope      string        size of the thing, not an invented duration
+       thumb      string|null   tile image; null draws the placeholder visual
        images     string[]      detail visuals; empty draws placeholders
-       insights   string[]      REQUIRED — 3-5 findings, always rendered
-       caseStudy  object|null   OPTIONAL — { problem, approach, results };
-                                the block is only rendered when present
+       insights   string[]      required, 3 to 5 findings
+       caseStudy  object|null   optional { problem, approach, results }
      ------------------------------------------------------------------- */
   var PROJECTS = [
     {
-      title: 'Menu profitability review',
-      slug: 'menu-profitability',
-      placeholder: true,   // TODO(placeholder): delete this line once the project is real
-      category: 'financial',
-      headline: '62% of revenue came from just 3 dishes.',
-      summary: 'A four-site restaurant group knew its overall margin was slipping but not which dishes were doing the damage. I rebuilt the menu economics from till exports and supplier invoices.',
-      context: 'Restaurant group, 4 sites',
-      tools: 'Excel / Sheets · SQL',
-      timeline: '3 weeks',
-      thumb: null,   // TODO(placeholder): 'assets/img/work/menu-thumb.png'
-      images: [],    // TODO(placeholder): add real dashboard screenshots
-      insights: [
-        '62% of revenue came from just 3 of the 41 dishes on the menu.',
-        'Nine dishes were sold below their true plate cost once prep waste was counted.',
-        'The highest-margin dish sat at the bottom of the menu card, outsold 6:1 by its neighbour.',
-        'Supplier price rises had not been passed through since the menu was last repriced 14 months earlier.'
-      ],
-      caseStudy: {
-        problem: 'Margin had fallen four points over a year with no obvious cause. Costing lived in one spreadsheet, sales in the till system, and nobody had put the two together at dish level.',
-        approach: 'I pulled 18 months of item-level till data, joined it to current supplier pricing, and built a true plate cost for every dish including prep waste. Each dish was then plotted on popularity against margin.',
-        results: 'Nine loss-making dishes were repriced or cut and the menu card was reordered around the top-margin items. The group now reviews the same view every quarter from a sheet they run themselves.'
-      }
-    },
-    {
-      title: 'Stock & sell-through dashboard',
-      slug: 'stock-sell-through',
-      placeholder: true,   // TODO(placeholder): delete this line once the project is real
-      category: 'dashboards',
-      headline: 'Dead stock was tying up a third of working capital.',
-      summary: 'A retailer buying across 200+ SKUs had no shared view of what was actually moving. I built a live dashboard that ranks stock by sell-through and flags lines that have stalled.',
-      context: 'Independent retailer, 2 stores + online',
-      tools: 'Power BI · SQL',
-      timeline: '4 weeks',
-      thumb: null,   // TODO(placeholder)
-      images: [],    // TODO(placeholder)
-      insights: [
-        '34% of stock value sat in lines that had not sold in over 90 days.',
-        'Best-selling sizes were routinely out of stock while slow sizes over-ordered.',
-        'Online and in-store demand diverged sharply for the same products.',
-        'Reorder decisions were being made on gut feel roughly nine days too late.'
-      ],
-      caseStudy: null
-    },
-    {
-      title: '13-week cash flow model',
-      slug: 'cash-flow-model',
-      placeholder: true,   // TODO(placeholder): delete this line once the project is real
-      category: 'financial',
-      headline: 'Spotted a six-week cash gap two months before it hit.',
-      summary: 'A services business with lumpy invoicing wanted to stop guessing at cash. I built a rolling 13-week forecast driven by the payment behaviour actually observed in their ledger.',
-      context: 'B2B services, ~30 staff',
-      tools: 'Excel / Sheets · Python',
-      timeline: '2 weeks',
-      thumb: null,   // TODO(placeholder)
-      images: [],    // TODO(placeholder)
-      insights: [
-        'A six-week cash gap was visible two months ahead of time.',
-        'Two clients paid 40+ days beyond terms and drove most of the volatility.',
-        'Payroll and quarterly tax landed in the same week twice a year.',
-        'Stated payment terms bore little resemblance to actual payment behaviour.'
-      ],
-      caseStudy: {
-        problem: 'Cash was managed from the bank balance and a mental note of what was due. Twice in the previous year the business had come close to missing payroll despite being profitable.',
-        approach: 'I modelled receipts from the real payment behaviour of each client rather than their stated terms, layered in committed costs, and built a rolling 13-week view with a best and worst case.',
-        results: 'The gap was closed in advance by pulling one invoice forward and agreeing a short facility. The model is now updated in about ten minutes each Monday.'
-      }
-    },
-    {
-      title: 'Subscription churn analysis',
-      slug: 'subscription-churn',
-      placeholder: true,   // TODO(placeholder): delete this line once the project is real
+      title: 'Restaurant sales and operations analysis',
+      slug: 'restaurant-sales-analysis',
       category: 'analysis',
-      headline: 'Nine in ten cancellations happened before day 30.',
-      summary: 'A subscription business was spending heavily on win-back campaigns. The data showed the problem was not late-life churn at all, but the first month.',
-      context: 'Consumer subscription app',
-      tools: 'SQL · Python',
-      timeline: '3 weeks',
-      thumb: null,   // TODO(placeholder)
-      images: [],    // TODO(placeholder)
-      insights: [
-        '88% of cancellations happened within the first 30 days.',
-        'Users who completed setup in their first session churned at a third of the rate.',
-        'Win-back spend was aimed almost entirely at long-tenure users who rarely left.',
-        'One acquisition channel brought in volume that never activated at all.'
+      headline: 'About 2.4 crore was lost to cancelled orders, nearly all of it on the delivery apps.',
+      summary: 'Five outlets across Hyderabad selling dine in alongside Swiggy and Zomato, with two years of orders and no clear read on them. Built on a realistic simulated dataset, so the patterns are believable and the numbers are not a real client’s.',
+      context: 'Demonstration dataset, five outlet restaurant',
+      tools: 'SQL Server · Power BI · Python',
+      scope: 'Two years of orders, 433k in total',
+      thumb: 'assets/img/work/restaurant-1.png',
+      images: [
+        'assets/img/work/restaurant-1.png',
+        'assets/img/work/restaurant-2.png',
+        'assets/img/work/restaurant-3.png'
       ],
-      caseStudy: null
-    },
-    {
-      title: 'Weekly reporting automation',
-      slug: 'reporting-automation',
-      placeholder: true,   // TODO(placeholder): delete this line once the project is real
-      category: 'automation',
-      headline: 'Eleven hours of manual reporting a week, down to none.',
-      summary: 'Three people were rebuilding the same pack every Monday by hand. I replaced the copy-paste with a scheduled pipeline that produces the pack before anyone gets in.',
-      context: 'Logistics company, 60+ staff',
-      tools: 'Python · SQL · Excel / Sheets',
-      timeline: '3 weeks',
-      thumb: null,   // TODO(placeholder)
-      images: [],    // TODO(placeholder)
       insights: [
-        'Roughly 11 hours a week across three people went into one recurring report.',
-        'Four of the sixteen tabs had not been looked at by anyone in months.',
-        'Two figures in the pack were being calculated inconsistently between sites.',
-        'The pack landed on Monday afternoon, a day after the decisions it fed.'
+        'About 2.4 crore of revenue was lost to cancelled orders, and almost all of it sat on the delivery apps.',
+        'Swiggy and Zomato cancelled roughly 9 to 10 percent of orders against about 3 percent for dine in, so the leak was a channel problem rather than a branch or timing one.',
+        'Earned revenue reached about 32.7 crore across the two years, with 2025 running well ahead of 2024.',
+        'Main Course and Starters earned the most with biryani close behind, while cheap breakfast and beverage items sold in volume but earned very little.',
+        'Sales peaked in March and December and dipped over the summer, which is where promotions are worth aiming.'
       ],
       caseStudy: {
-        problem: 'The Monday pack was assembled by hand from five exports. It was slow, error-prone, and arrived too late to change anything that week.',
-        approach: 'I cut the pack down to what people actually used, standardised the two contested metrics, and moved the whole build to a scheduled job that writes the finished file automatically.',
-        results: 'The pack is ready before the first shift starts and the manual build is gone. The team kept the time; the inconsistent figures were fixed at source.'
+        problem: 'Two years of order data had piled up across five outlets and three sales channels, and nobody had turned it into answers. The owner needed to know what was making money and where it was leaking.',
+        approach: 'I checked the data in SQL Server first: row counts, types, value ranges, missing values, duplicates and hidden characters. Then I built one view joining orders to the menu with the sale amount calculated per line, so every later number came from a single trusted table. Each question was answered in SQL and brought together in a three page Power BI report.',
+        results: 'The cancellation leak was traced to the delivery channels rather than any branch or time of day, which pointed the fix at the aggregators first. The menu work separated the dishes that carry revenue from the ones that only carry volume, and the seasonal read gave a clear window for promotions. The write up is explicit about what the data cannot show: it holds no cost, customer or table information, so it makes no claim about profit, retention or table turnover.'
       }
-    },
-    {
-      title: 'Multi-channel marketing dashboard',
-      slug: 'marketing-dashboard',
-      placeholder: true,   // TODO(placeholder): delete this line once the project is real
-      category: 'dashboards',
-      headline: 'Two channels were quietly absorbing 40% of spend.',
-      summary: 'Marketing spend was reported per platform, so nobody could compare channels on the same basis. I built one view that puts every channel on a common cost-per-customer footing.',
-      context: 'E-commerce brand',
-      tools: 'Looker · Tableau · SQL',
-      timeline: '5 weeks',
-      thumb: null,   // TODO(placeholder)
-      images: [],    // TODO(placeholder)
-      insights: [
-        'Two channels took 40% of spend and returned 9% of new customers.',
-        'The cheapest channel by cost-per-click was the most expensive per customer.',
-        'Reported totals differed from the finance ledger by 12% before reconciliation.',
-        'Repeat purchase rates varied more than threefold by acquisition channel.'
-      ],
+    }
+
+    /* TODO: student organization analysis.
+       Waiting on the real details before this goes on the site. Fill in every
+       field below from the actual project and delete this comment. Do not
+       estimate or round anything that was not measured.
+
+    ,{
+      title: '',
+      slug: 'student-organization-analysis',
+      category: 'analysis',
+      headline: '',
+      summary: '',
+      context: '',
+      tools: '',
+      scope: '',
+      thumb: null,
+      images: [],
+      insights: ['', '', ''],
       caseStudy: null
     }
+    */
   ];
 
   var CATEGORY_LABELS = {
@@ -255,7 +170,7 @@
   var section = document.getElementById('portfolio');
   if (!grid || !detail) return;
 
-  var openedFromGrid = false;   // in-memory only — no browser storage
+  var openedFromGrid = false;   // in-memory only, no browser storage
   var lastSlug = null;          // so closing can return focus to the right tile
 
   /* ------------------------------ helpers ------------------------------ */
@@ -275,7 +190,7 @@
     };
   }
 
-  /* A flat bar motif standing in for a real screenshot. Deliberately abstract —
+  /* A flat bar motif standing in for a real screenshot. Deliberately abstract:
      it must never be mistaken for actual client data. */
   function placeholderVisual(seed, label) {
     var rand = seeded(seed);
@@ -308,7 +223,6 @@
           '<span class="tile-body">' +
             '<span class="tile-meta">' +
               '<span class="tile-cat">' + esc(CATEGORY_LABELS[project.category] || project.category) + '</span>' +
-              (project.placeholder ? '<span class="tile-ph">placeholder</span>' : '') +
             '</span>' +
             '<span class="tile-title">' + esc(project.title) + '</span>' +
             '<span class="tile-insight">' + esc(project.headline) + '</span>' +
@@ -320,6 +234,22 @@
   grid.innerHTML = PROJECTS.map(tileMarkup).join('');
 
   /* ------------------------------ filtering ---------------------------- */
+  /* Build the filter row from the categories that exist. Offering a tab that
+     always returns nothing reads as an unfinished site, and the set of real
+     projects is small enough that empty tabs would be the common case. */
+  (function buildFilters() {
+    var present = [];
+    PROJECTS.forEach(function (p) {
+      if (present.indexOf(p.category) === -1) present.push(p.category);
+    });
+    Array.prototype.forEach.call(filters.querySelectorAll('.filter'), function (btn) {
+      var f = btn.getAttribute('data-filter');
+      if (f !== 'all' && present.indexOf(f) === -1) btn.remove();
+    });
+    // a lone "All" tab next to a single category is noise
+    if (present.length < 2) filters.hidden = true;
+  })();
+
   var activeFilter = 'all';
 
   function applyFilter(value) {
@@ -377,13 +307,13 @@
           '<dl class="snapshot">' +
             '<div><dt>Context</dt><dd>' + esc(project.context) + '</dd></div>' +
             '<div><dt>Tools</dt><dd>' + esc(project.tools) + '</dd></div>' +
-            '<div><dt>Timeline</dt><dd>' + esc(project.timeline) + '</dd></div>' +
+            '<div><dt>Scope</dt><dd>' + esc(project.scope) + '</dd></div>' +
           '</dl>' +
         '</header>' +
 
         '<div class="visuals">' + visualsMarkup(project) + '</div>' +
 
-        // Insights — required on every project
+        // Insights, required on every project
         '<section class="insights">' +
           '<h4 class="block-title has-mark">Insights</h4>' +
           '<ol class="insight-list">' +
@@ -393,7 +323,7 @@
           '</ol>' +
         '</section>' +
 
-        // Case study — rendered only when the project has one
+        // Case study, rendered only when the project has one
         (cs ? '<section class="case">' +
                 '<h4 class="block-title">Case study</h4>' +
                 '<div class="case-steps">' +
@@ -452,7 +382,7 @@
 
     if (focus) {
       section.scrollIntoView({ block: 'start' });
-      // back to the tile that was opened — but a hidden tile cannot take focus,
+      // back to the tile that was opened, but a hidden tile cannot take focus,
       // so fall back to the first visible one, then to the filter buttons.
       var target = lastSlug && grid.querySelector('.tile[data-slug="' + lastSlug + '"]');
       if (!target || target.closest('.tile-item').hidden) {
@@ -471,7 +401,7 @@
       if (project) { openProject(project, focus); return; }
     }
     // Any other hash closes the detail. Focus only returns to the grid when the
-    // user actually came back to it — if they clicked a nav link to another
+    // user actually came back to it: if they clicked a nav link to another
     // section, refocusing here would fight their own navigation.
     if (!detail.hidden) {
       var returning = hash === '' || hash === 'portfolio';
@@ -501,7 +431,7 @@
 
 
 /* =====================================================================
-   CONTACT — booking request and short message.
+   CONTACT: booking request and short message.
    Both post to the same Formspree endpoint and share one handler; the
    hidden _subject on each form is what tells them apart in the inbox.
    ===================================================================== */
@@ -788,7 +718,7 @@
   'use strict';
 
   var TESTIMONIALS = [
-    // no real client quotes yet — the section stays hidden until there are
+    // no real client quotes yet, the section stays hidden until there are
   ];
 
   var section = document.getElementById('proof');

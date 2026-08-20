@@ -1,5 +1,5 @@
 /* =====================================================================
-   Basirah Analytics — styles.css
+   Basirah Analytics: styles.css
    1. Tokens  2. Reset  3. Base type  4. Utilities  5. Buttons
    6. Navbar  7. Hero  8. Section stubs  9. Responsive
    ===================================================================== */
@@ -15,7 +15,7 @@
   --muted-ink:      #6E6E69;   /* secondary text on light (5.0:1 on --paper) */
   --border:         #ECECE8;   /* hairline on light */
   --border-dark:    #2A2A26;   /* hairline on dark */
-  --accent:         #EC3013;   /* Signal Red — ONE focal element per view */
+  --accent:         #EC3013;   /* Signal Red: ONE focal element per view */
 
   /* type */
   --font-sans: "Archivo", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -55,7 +55,7 @@
   --gutter: clamp(1.25rem, 4vw, 3rem);
   --header-h: 68px;
 
-  /* shape + motion — flat: small radii, no shadows, no gradients */
+  /* shape and motion, flat: small radii, no shadows, no gradients */
   --radius: 6px;
   --radius-lg: 8px;
   --hairline: 1px;
@@ -143,7 +143,7 @@ p { text-wrap: pretty; }
   text-transform: uppercase;
 }
 
-/* the "//" is decoration — drawn in CSS so screen readers don't announce it */
+/* the "//" is decoration, drawn in CSS so screen readers don't announce it */
 .eyebrow { color: var(--muted); }
 .eyebrow::before,
 .rail-label::before { content: "// "; }
@@ -444,7 +444,7 @@ html {
   50%      { opacity: 0.25; }
 }
 
-/* toolkit rail — hairline strip at the foot of the hero */
+/* toolkit rail: hairline strip at the foot of the hero */
 .hero-rail {
   display: flex;
   flex-wrap: wrap;
@@ -491,7 +491,7 @@ html {
   letter-spacing: -0.01em;
 }
 
-/* the answer to the three pains — carries this band's single accent */
+/* the answer to the three pains, carries this band's single accent */
 .resolve {
   display: flex;
   gap: var(--space-4);
@@ -802,7 +802,7 @@ html {
   color: var(--muted);
 }
 
-/* marks seeded placeholder content — disappears when `placeholder` is removed */
+/* marks seeded placeholder content, disappears when `placeholder` is removed */
 .tile-ph {
   padding: 0.1rem 0.4rem;
   border: var(--hairline) solid var(--border);
@@ -919,7 +919,7 @@ html {
   letter-spacing: -0.02em;
   margin-bottom: var(--space-5);
 }
-/* the section's single accent — marks the findings, the point of the page */
+/* the section's single accent, marks the findings, the point of the page */
 .block-title.has-mark::before {
   content: "";
   width: 10px;
@@ -1026,7 +1026,7 @@ html {
 /* ----------------------------- 12. BASIRA AI ----------------------------- */
 /* The one section CLAUDE.md marks accent-forward. Red appears three times and
    only where it carries meaning: the word "free", the CTA, and the outlier
-   signal. Each use is sized//placed to hold WCAG AA against #141412 — see the
+   signal. Each use is sized and placed to hold WCAG AA against #141412, see the
    notes on .btn-accent and .accent-word. */
 .ai-grid {
   display: grid;
@@ -1037,7 +1037,7 @@ html {
 
 .ai .eyebrow { display: block; margin-bottom: var(--space-5); }
 
-/* 32-52px display text — "large text" at AA, so accent on ink (4.43:1) clears
+/* 32 to 52px display text is "large text" at AA, so accent on ink (4.43:1) clears
    the 3:1 bar it has to meet. Do not reuse .accent-word at body size. */
 .ai-title {
   max-width: 18ch;
@@ -1062,7 +1062,7 @@ html {
   margin-bottom: var(--space-6);
 }
 
-/* White on #EC3013 is 4.20:1 — short of the 4.5:1 needed for body-size text,
+/* White on #EC3013 is 4.20:1, short of the 4.5:1 needed for body-size text,
    but this label is 19px/700, which is "large text" (needs 3:1). Keep it at or
    above 1.1875rem/700 or the contrast claim breaks. */
 .btn-accent {
@@ -1159,7 +1159,7 @@ html {
   color: var(--muted);
   margin-bottom: var(--space-2);
 }
-/* square marker, not coloured text — 12px accent text would fail AA here */
+/* square marker, not coloured text: 12px accent text would fail AA here */
 .finding-kind::before {
   content: "";
   width: 7px;
@@ -1204,7 +1204,7 @@ html {
 }
 .origin-lead em { font-style: normal; font-weight: var(--fw-head); }
 
-/* Archivo carries no Arabic glyphs — hand this word to the system's Arabic face */
+/* Archivo carries no Arabic glyphs, so hand this word to the system's Arabic face */
 .origin-word {
   font-family: "Segoe UI", "Noto Naskh Arabic", "Geeza Pro", system-ui, sans-serif;
   font-size: 1.5em;
@@ -1247,14 +1247,25 @@ html {
   border-radius: var(--radius-lg);
 }
 
-.headshot-ph {
+/* Portrait when there is one. Until then the brand mark stands in, which reads
+   as deliberate where a box labelled "placeholder" reads as unfinished. */
+.headshot {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.headshot-mark {
   display: flex;
   align-items: center;
   justify-content: center;
   aspect-ratio: 4 / 5;
   background: #F3F3F0;
   border-radius: var(--radius);
+  color: #D5D5CE;
 }
+.headshot-mark svg { width: 42%; height: auto; }
 
 .facts { display: grid; gap: var(--space-4); }
 
