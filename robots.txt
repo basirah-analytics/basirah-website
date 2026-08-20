@@ -1,0 +1,11 @@
+# basirahanalytics.com
+#
+# Cloudflare appends its managed content-signal block to this file, so the
+# AI-crawler rules you see live are set in the Cloudflare dashboard, not here.
+# This file exists mainly to point crawlers at the sitemap, which the managed
+# block does not do.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://basirahanalytics.com/sitemap.xml

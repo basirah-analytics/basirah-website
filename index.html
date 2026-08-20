@@ -49,6 +49,77 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
+
+<!-- Structured data. Everything below is asserted to search engines as fact,
+     so it carries only what the site can back up: no aggregateRating, no
+     review, no address and no price. Those are the properties that earn a
+     manual penalty when they cannot be substantiated. Add sameAs once the
+     LinkedIn and GitHub profiles are real, and openingHours or address only
+     if you genuinely operate to them. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://basirahanalytics.com/#business",
+      "name": "Basirah Analytics",
+      "url": "https://basirahanalytics.com/",
+      "description": "Freelance data and business analysis for small and mid-size businesses: dashboards, financial analysis and automation.",
+      "slogan": "See what your data is telling you.",
+      "email": "basirahanalytics@gmail.com",
+      "image": "https://basirahanalytics.com/assets/img/og-image.png",
+      "logo": "https://basirahanalytics.com/assets/img/icon-512.png",
+      "areaServed": { "@type": "Place", "name": "Worldwide" },
+      "availableLanguage": "en",
+      "founder": { "@id": "https://basirahanalytics.com/#haseeb" },
+      "knowsAbout": [
+        "Data analysis", "Business analysis", "Financial analysis",
+        "Dashboard design", "Data cleaning", "Reporting automation",
+        "Power BI", "Tableau", "Looker", "SQL", "Python"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Services",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Data Analysis",
+            "description": "Cleaning and consolidating messy sources, exploratory and trend analysis, and findings written in plain language." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Business and Financial Analysis",
+            "description": "Profitability and margin analysis, pricing and unit economics, budgeting, forecasting and KPI definition." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dashboards and Automation",
+            "description": "Dashboard design and build, automated scheduled reporting, and repeatable data pipelines." } }
+        ]
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://basirahanalytics.com/#haseeb",
+      "name": "Haseeb Ur Rahman",
+      "jobTitle": "Founder & Data Analyst",
+      "worksFor": { "@id": "https://basirahanalytics.com/#business" },
+      "url": "https://basirahanalytics.com/#about"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://basirahanalytics.com/#website",
+      "url": "https://basirahanalytics.com/",
+      "name": "Basirah Analytics",
+      "publisher": { "@id": "https://basirahanalytics.com/#business" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Basira AI",
+      "url": "https://ai.basirahanalytics.com/",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web browser",
+      "description": "Upload a spreadsheet and get an instant plain-English analysis with charts. Free to use.",
+      "publisher": { "@id": "https://basirahanalytics.com/#business" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
