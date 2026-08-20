@@ -63,9 +63,10 @@
 <!-- Structured data. Everything below is asserted to search engines as fact,
      so it carries only what the site can back up: no aggregateRating, no
      review, no address and no price. Those are the properties that earn a
-     manual penalty when they cannot be substantiated. Add sameAs once the
-     LinkedIn and GitHub profiles are real, and openingHours or address only
-     if you genuinely operate to them. -->
+     manual penalty when they cannot be substantiated. sameAs lists only
+     profiles genuinely owned by the business; it is what tells Google that
+     those accounts and this brand are one entity. Add openingHours or an
+     address only if you genuinely operate to them. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -77,11 +78,15 @@
       "url": "https://basirahanalytics.com/",
       "description": "Freelance data and business analysis for small and mid-size businesses: dashboards, financial analysis and automation.",
       "slogan": "See what your data is telling you.",
-      "email": "basirahanalytics@gmail.com",
+      "email": "hello@basirahanalytics.com",
       "image": "https://basirahanalytics.com/assets/img/og-image.png",
       "logo": "https://basirahanalytics.com/assets/img/icon-512.png",
       "areaServed": { "@type": "Place", "name": "Worldwide" },
       "availableLanguage": "en",
+      "sameAs": [
+        "https://www.linkedin.com/company/basirah-analytics/",
+        "https://github.com/basirahanalytics"
+      ],
       "founder": { "@id": "https://basirahanalytics.com/#haseeb" },
       "knowsAbout": [
         "Data analysis", "Business analysis", "Financial analysis",
@@ -587,8 +592,8 @@
 
           <ul class="socials">
             <!-- TODO(placeholder): real profile URLs -->
-            <li><a href="#about" data-todo="linkedin-url">LinkedIn <span aria-hidden="true">&rarr;</span></a></li>
-            <li><a href="#about" data-todo="github-url">GitHub <span aria-hidden="true">&rarr;</span></a></li>
+            <li><a href="https://www.linkedin.com/company/basirah-analytics/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&rarr;</span></a></li>
+            <li><a href="https://github.com/basirahanalytics" target="_blank" rel="noopener">GitHub <span aria-hidden="true">&rarr;</span></a></li>
           </ul>
         </aside>
       </div>
@@ -669,7 +674,7 @@
           </form>
 
           <p class="sched-fallback">
-            <a href="mailto:basirahanalytics@gmail.com">
+            <a href="mailto:hello@basirahanalytics.com">
               Rather just email me? <span aria-hidden="true">&rarr;</span>
             </a>
           </p>
@@ -684,10 +689,10 @@
               <li>
                 <!-- TODO(contact-email): interim address. Swap for hello@basirahanalytics.com
                      once the branded inbox is set up (also in the footer). -->
-                <a href="mailto:basirahanalytics@gmail.com" data-todo="contact-email">basirahanalytics@gmail.com</a>
+                <a href="mailto:hello@basirahanalytics.com">hello@basirahanalytics.com</a>
               </li>
-              <li><a href="#contact" data-todo="linkedin-url">LinkedIn <span aria-hidden="true">&rarr;</span></a></li>
-              <li><a href="#contact" data-todo="github-url">GitHub <span aria-hidden="true">&rarr;</span></a></li>
+              <li><a href="https://www.linkedin.com/company/basirah-analytics/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&rarr;</span></a></li>
+              <li><a href="https://github.com/basirahanalytics" target="_blank" rel="noopener">GitHub <span aria-hidden="true">&rarr;</span></a></li>
             </ul>
           </div>
 
@@ -769,9 +774,9 @@
       <p class="footer-heading">Elsewhere</p>
       <ul>
         <!-- TODO(placeholder): real profile URLs + contact address -->
-        <li><a href="#contact" data-todo="linkedin-url">LinkedIn</a></li>
-        <li><a href="#contact" data-todo="github-url">GitHub</a></li>
-        <li><a href="mailto:basirahanalytics@gmail.com" data-todo="contact-email">basirahanalytics@gmail.com</a></li>
+        <li><a href="https://www.linkedin.com/company/basirah-analytics/" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/basirahanalytics" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="mailto:hello@basirahanalytics.com">hello@basirahanalytics.com</a></li>
       </ul>
     </div>
 
