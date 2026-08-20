@@ -58,7 +58,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css">
+<!-- ?v= is cache-busting, and it is load-bearing. _headers caches
+     /assets/* for an hour and the filenames are not content-hashed, so
+     without a version here a returning visitor keeps the previous CSS and
+     JS for up to an hour after a deploy. index.html itself is served
+     must-revalidate, so bumping this number is what releases a change.
+     BUMP BOTH VALUES WHENEVER styles.css OR main.js CHANGES. -->
+<link rel="stylesheet" href="assets/css/styles.css?v=2">
 
 <!-- Structured data. Everything below is asserted to search engines as fact,
      so it carries only what the site can back up: no aggregateRating, no
@@ -794,6 +800,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js" defer></script>
+<script src="assets/js/main.js?v=2" defer></script>
 </body>
 </html>
