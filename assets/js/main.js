@@ -639,10 +639,24 @@
 
     document.documentElement.classList.add('anim');
 
+    /* Once an element has finished revealing, drop the classes entirely.
+       Leaving them on means .anim .reveal.is-in keeps asserting
+       `transform: none; opacity: 1` at specificity 0,3,0, which outranks
+       state styles like .card.is-picked (0,2,0) and silently cancels them.
+       Removing the hooks after the transition ends leaves the element in
+       its natural state with nothing left to fight. */
+    function markIn(el) {
+      el.classList.add('is-in');
+      setTimeout(function () {
+        el.classList.remove('reveal', 'is-in');
+        el.removeAttribute('data-delay');
+      }, 1200);                     // 620ms transition + 350ms max stagger
+    }
+
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-in');
+        markIn(entry.target);
         io.unobserve(entry.target);
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
@@ -651,7 +665,8 @@
 
     function revealVisible() {
       targets.forEach(function (el) {
-        if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('is-in');
+        if (el.classList.contains('is-in')) return;
+        if (el.getBoundingClientRect().top < window.innerHeight) markIn(el);
       });
     }
     setTimeout(revealVisible, 120);
@@ -801,4 +816,106 @@
   }).join('');
 
   section.hidden = false;
+})();
+
+
+/* =====================================================================
+   STICKY HEADER OFFSET
+   scroll-margin-top was pinned to a hardcoded --header-h (68/76px) while
+   the header actually renders 69/77px, and that token cannot follow a
+   height change from font loading, a longer nav, or zoom. Anything that
+   grows the header pushes the target heading back under it.
+
+   Measuring the header and writing the real value back into --header-h
+   keeps every anchor landing correctly, whatever the header does.
+   ===================================================================== */
+(function () {
+  'use strict';
+
+  var header = document.getElementById('site-header');
+  if (!header) return;
+
+  var last = 0;
+  function sync() {
+    // ceil, not round: half a pixel short would tuck the heading under the bar
+    var h = Math.ceil(header.getBoundingClientRect().height);
+    if (!h || h === last) return;
+    last = h;
+    document.documentElement.style.setProperty('--header-h', h + 'px');
+  }
+
+  sync();
+
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(sync).observe(header);
+  } else {
+    window.addEventListener('resize', sync);
+  }
+
+  // Web fonts reflow the nav after first paint, which changes the height
+  // and would otherwise leave the offset stale for the first click.
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+  window.addEventListener('load', sync);
+})();
+
+
+/* =====================================================================
+   SERVICE CARD SELECTION
+   The three service cards are the comparable set on this site; there is
+   no pricing tier, and CLAUDE.md rules prices out entirely. Selecting one
+   marks it active, dims the others so the comparison resolves, and points
+   the contact form at it so the choice carries through to the enquiry.
+
+   Cards stay ordinary links for keyboard and screen-reader users: the
+   whole card is not a button, only the header row toggles selection.
+   ===================================================================== */
+(function () {
+  'use strict';
+
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var group = document.querySelector('.cards');
+  if (!cards.length || !group) return;
+
+  group.setAttribute('role', 'group');
+  group.setAttribute('aria-label', 'Services, choose the closest fit');
+
+  cards.forEach(function (card, i) {
+    var title = card.querySelector('.card-title');
+    if (!title) return;
+
+    // a real button so Enter/Space and screen readers work without extra ARIA
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'card-pick';
+    btn.setAttribute('aria-pressed', 'false');
+    btn.innerHTML = '<span class="card-pick-dot" aria-hidden="true"></span>' +
+                    '<span class="card-pick-label">Choose</span>';
+    card.appendChild(btn);
+
+    btn.addEventListener('click', function () {
+      var already = card.classList.contains('is-picked');
+      cards.forEach(function (c) {
+        c.classList.remove('is-picked');
+        var b = c.querySelector('.card-pick');
+        if (b) {
+          b.setAttribute('aria-pressed', 'false');
+          b.querySelector('.card-pick-label').textContent = 'Choose';
+        }
+      });
+      group.classList.toggle('has-pick', !already);
+
+      if (!already) {
+        card.classList.add('is-picked');
+        btn.setAttribute('aria-pressed', 'true');
+        btn.querySelector('.card-pick-label').textContent = 'Selected';
+
+        // carry the choice into the enquiry so the visitor need not retype it
+        var topic = document.getElementById('book-about');
+        var name = title.textContent.trim();
+        if (topic && !topic.value.trim()) {
+          topic.value = name + ': ';
+        }
+      }
+    });
+  });
 })();

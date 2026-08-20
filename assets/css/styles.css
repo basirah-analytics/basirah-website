@@ -507,7 +507,10 @@ p { text-wrap: pretty; }
   background: var(--paper);
   border: var(--hairline) solid var(--border);
   border-radius: var(--radius-lg);
-  transition: border-color var(--dur) var(--ease);
+  /* transform and opacity only: both composite, neither triggers layout */
+  transition: border-color var(--dur) var(--ease),
+              transform 240ms var(--ease),
+              opacity 240ms var(--ease);
 }
 .card:hover { border-color: #D8D8D2; }
 
@@ -564,6 +567,75 @@ p { text-wrap: pretty; }
   height: var(--hairline);
   background: var(--text-dark);
 }
+
+/* ---- card fit line, CTA and selection ---- */
+.card-fit {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-label);
+  color: var(--text-dark);
+  margin-bottom: var(--space-3);
+}
+
+.card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-height: 44px;
+  margin-top: var(--space-3);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-label);
+  color: var(--text-dark);
+  border-bottom: var(--hairline) solid var(--border);
+  align-self: flex-start;
+  transition: border-color var(--dur) var(--ease);
+}
+.card-cta:hover { border-bottom-color: var(--text-dark); }
+.card-cta span { transition: transform var(--dur) var(--ease); }
+.card-cta:hover span { transform: translateX(3px); }
+
+/* selection control, injected by main.js */
+.card-pick {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  min-height: 44px;
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: var(--hairline) solid var(--border);
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color var(--dur) var(--ease);
+}
+.card-pick:hover { color: var(--text-dark); }
+
+.card-pick-dot {
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  flex: none;
+  transition: border-color var(--dur) var(--ease),
+              background-color var(--dur) var(--ease),
+              box-shadow var(--dur) var(--ease);
+}
+.card-pick[aria-pressed="true"] .card-pick-dot {
+  border-color: var(--accent);
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(236, 48, 19, 0.16);
+}
+.card-pick[aria-pressed="true"] { color: var(--text-dark); }
+
+/* the picked card lifts; the rest recede so the comparison resolves */
+.card.is-picked {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+.cards.has-pick .card:not(.is-picked) { opacity: 0.62; }
+.cards.has-pick .card:not(.is-picked):hover { opacity: 1; }
 
 .card-tools {
   margin-top: auto;
@@ -931,8 +1003,8 @@ p { text-wrap: pretty; }
   letter-spacing: -0.01em;
   text-wrap: pretty;
 }
-.proof-quote p::before { content: "C"; }
-.proof-quote p::after  { content: "D"; }
+.proof-quote p::before { content: "“"; }
+.proof-quote p::after  { content: "”"; }
 
 .proof-attr {
   margin-top: var(--space-3);
@@ -942,7 +1014,7 @@ p { text-wrap: pretty; }
   text-transform: uppercase;
   color: var(--muted);
 }
-.proof-org::before { content: "  B7 "; }
+.proof-org::before { content: " · "; }
 
 /* ----------------------------- 12. BASIRA AI ----------------------------- */
 /* The one section CLAUDE.md marks accent-forward. Red appears three times and
@@ -1512,19 +1584,24 @@ p { text-wrap: pretty; }
    reduced the page renders fully visible with no reveal at all. */
 .hp { display: none; }
 
-.anim .reveal {
+/* :where() keeps the reveal layer at zero specificity so it can never win a
+   cascade fight with a state style. Without it, .anim .reveal.is-in (0,3,0)
+   outranks .card.is-picked (0,2,0) and silently cancels the selected card's
+   lift and the dimming of the others. An animation layer should decorate
+   state, never override it. */
+.anim :where(.reveal) {
   opacity: 0;
   transform: translateY(14px);
   transition: opacity 620ms var(--ease), transform 620ms var(--ease);
 }
-.anim .reveal.is-in { opacity: 1; transform: none; }
+.anim :where(.reveal.is-in) { opacity: 1; transform: none; }
 
 /* children stagger in sequence rather than all at once */
-.anim .reveal[data-delay="1"] { transition-delay: 70ms; }
-.anim .reveal[data-delay="2"] { transition-delay: 140ms; }
-.anim .reveal[data-delay="3"] { transition-delay: 210ms; }
-.anim .reveal[data-delay="4"] { transition-delay: 280ms; }
-.anim .reveal[data-delay="5"] { transition-delay: 350ms; }
+.anim :where(.reveal)[data-delay="1"] { transition-delay: 70ms; }
+.anim :where(.reveal)[data-delay="2"] { transition-delay: 140ms; }
+.anim :where(.reveal)[data-delay="3"] { transition-delay: 210ms; }
+.anim :where(.reveal)[data-delay="4"] { transition-delay: 280ms; }
+.anim :where(.reveal)[data-delay="5"] { transition-delay: 350ms; }
 
 /* The hero settles on load rather than on scroll. It uses the same class-driven
    transition as everything else, never a keyframe animation with a backwards
