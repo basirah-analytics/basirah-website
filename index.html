@@ -403,25 +403,15 @@
   </section>
 
   <!-- ============================ TRUST / PROOF STRIP (light) ============================ -->
-  <!-- TODO(placeholder): NO REAL TESTIMONIAL YET — nothing here is attributed to
-       anyone. To go live with a real one: delete .proof-empty, uncomment the
-       .proof-quote block below, fill in the quote and attribution, and drop the
-       `is-empty` class from the section. The layout is unchanged either way. -->
-  <section class="section-light proof is-empty" aria-labelledby="proof-title">
-    <div class="wrap proof-inner">
+  <!-- Renders from the TESTIMONIALS array in main.js. While that array is empty
+       the whole section stays hidden, so the page never shows an empty promise
+       to a visitor. Add real quotes there and it appears automatically.
+       Nothing invented goes here: a fabricated endorsement is a deception risk
+       and would also poison any Review structured data added later. -->
+  <section class="section-light proof" id="proof" aria-labelledby="proof-title" hidden>
+    <div class="wrap">
       <p class="eyebrow" id="proof-title">what clients say</p>
-
-      <p class="proof-empty">
-        A client quote or a headline result will sit here.
-        <span class="ph-chip">placeholder</span>
-      </p>
-
-      <!--
-      <blockquote class="proof-quote">
-        <p>Quote goes here: one or two sentences, in the client's own words.</p>
-        <footer class="proof-attr">Name, Role <span class="proof-org">Company</span></footer>
-      </blockquote>
-      -->
+      <ul class="proof-grid" id="proof-grid"></ul>
     </div>
   </section>
 

@@ -751,3 +751,54 @@
   applyCollapse(mobile.matches);
   mobile.addEventListener('change', function (e) { applyCollapse(e.matches); });
 })();
+
+
+/* =====================================================================
+   TRUST / PROOF STRIP
+   Renders from real client quotes only. While TESTIMONIALS is empty the
+   section stays hidden, so the page never shows an empty promise.
+
+   To publish one, add an object below. Nothing else needs touching:
+
+     { quote: 'What they actually said, in their words.',
+       name:  'Jane Okafor',
+       role:  'Owner',
+       org:   'Northfield Kitchens' }        // org is optional
+
+   Only add quotes you genuinely received and have permission to publish.
+   An invented endorsement is a deception risk, and it would also poison
+   any Review structured data added here later.
+   ===================================================================== */
+(function () {
+  'use strict';
+
+  var TESTIMONIALS = [
+    // no real client quotes yet — the section stays hidden until there are
+  ];
+
+  var section = document.getElementById('proof');
+  var grid = document.getElementById('proof-grid');
+  if (!section || !grid) return;
+
+  if (!TESTIMONIALS.length) {
+    section.hidden = true;
+    return;
+  }
+
+  function esc(str) {
+    return String(str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  grid.innerHTML = TESTIMONIALS.slice(0, 3).map(function (t) {
+    var org = t.org ? '<span class="proof-org">' + esc(t.org) + '</span>' : '';
+    return '<li class="proof-item">' +
+             '<blockquote class="proof-quote"><p>' + esc(t.quote) + '</p></blockquote>' +
+             '<p class="proof-attr">' + esc(t.name) +
+               (t.role ? ', ' + esc(t.role) : '') + org + '</p>' +
+           '</li>';
+  }).join('');
+
+  section.hidden = false;
+})();

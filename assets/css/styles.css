@@ -903,42 +903,36 @@ p { text-wrap: pretty; }
 }
 
 /* --------------------------- 11. TRUST / PROOF --------------------------- */
-/* Understated strip. Sized so a real quote replaces the placeholder without
-   moving anything around it — same padding, same rhythm, either way. */
+/* Understated strip, up to three quotes. The section carries [hidden] until
+   main.js finds real testimonials, so an empty array renders nothing at all. */
 .proof {
   padding-block: clamp(2.5rem, 6vw, 3.5rem);
   border-top: var(--hairline) solid var(--border);
 }
+.proof[hidden] { display: none; }
 
-.proof-inner {
+.proof .eyebrow { display: block; margin-bottom: var(--space-5); }
+
+.proof-grid {
   display: grid;
-  gap: var(--space-4);
-  max-width: 72ch;
+  gap: var(--space-5);
+  grid-template-columns: 1fr;
 }
 
-.proof .eyebrow { display: block; }
+.proof-item {
+  padding-top: var(--space-4);
+  border-top: var(--hairline) solid var(--border);
+}
 
-.proof-empty,
+.proof-quote { margin: 0; }
 .proof-quote p {
   font-size: var(--fs-lead);
   line-height: 1.5;
   letter-spacing: -0.01em;
   text-wrap: pretty;
 }
-
-/* dimmed while empty so it never reads as a real endorsement */
-.proof-empty {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-3);
-  color: var(--muted);
-}
-
-.proof-quote { margin: 0; }
-.proof-quote p { color: var(--text-dark); }
-.proof-quote p::before { content: "\201C"; }
-.proof-quote p::after { content: "\201D"; }
+.proof-quote p::before { content: "C"; }
+.proof-quote p::after  { content: "D"; }
 
 .proof-attr {
   margin-top: var(--space-3);
@@ -948,7 +942,7 @@ p { text-wrap: pretty; }
   text-transform: uppercase;
   color: var(--muted);
 }
-.proof-org::before { content: "· "; }
+.proof-org::before { content: "  B7 "; }
 
 /* ----------------------------- 12. BASIRA AI ----------------------------- */
 /* The one section CLAUDE.md marks accent-forward. Red appears three times and
@@ -1656,6 +1650,7 @@ p { text-wrap: pretty; }
   .steps { grid-template-columns: repeat(2, 1fr); }
 
   .work-grid { grid-template-columns: repeat(2, 1fr); }
+  .proof-grid { grid-template-columns: repeat(3, 1fr); }
   .pain-list { grid-template-columns: repeat(3, 1fr); }
   .footer-inner { grid-template-columns: 2fr 1fr 1fr; }
   .snapshot { grid-template-columns: repeat(3, 1fr); }
