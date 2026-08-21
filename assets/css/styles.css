@@ -617,14 +617,39 @@ html {
 .has-selection .pl-end { fill: var(--muted-ink); animation: none; }
 
 /* ---- cards ---- */
+/* One horizontal scroll-snap strip at every width. Only the card width
+   changes per breakpoint, so the phone swipe, the tablet arrows and the
+   desktop arrows all drive the same scroll container. Native scrolling,
+   no carousel library. */
 .svc-grid {
-  display: grid;
+  display: flex;
+  flex-wrap: nowrap;
   gap: clamp(1rem, 2vw, 1.4rem);
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  /* Must match the horizontal padding below, not be zero. The snapport starts
+     where this says it does, so with 0 the first card comes to rest at
+     scrollLeft 4 rather than 0, and the prev arrow never satisfies its
+     start-of-strip test. Mandatory snap also fights any attempt to scroll
+     back to a true 0, so widening the arrow's threshold would not fix it. */
+  scroll-padding-inline: .25rem;
+  /* A scroll container clips its own overflow, and the hover state reaches
+     outside the card box in both directions: 6px up from the lift, and 34px
+     down from the shadow (18px offset + 40px blur - 24px spread). Without
+     room here the lift is sliced off the top and the shadow off the bottom. */
+  padding: 1rem .25rem 2rem;
 }
+.svc-grid::-webkit-scrollbar { display: none; }
 
 .svc-card {
   position: relative;
+  /* start, not centre: a percentage width plus centre snap cannot resolve at
+     the two ends of the strip, because the padding needed to centre an outer
+     card depends on the card width, which depends on that same padding. */
+  flex: 0 0 84%;
+  scroll-snap-align: start;
   display: flex;
   flex-direction: column;
   background: #fff;
@@ -782,11 +807,48 @@ html {
   .svc-head { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); }
 }
 
-/* ---- mobile swipe strip ---- */
-/* Phones get a horizontal scroll-snap strip instead of a stacked column, so
-   five cards do not cost five screens of scrolling. Native scrolling, no
-   carousel library. Above 640px nothing changes: the grid rule below still
-   applies and the dots stay hidden. */
+/* ---- carousel controls ---- */
+/* Two controls for the one strip, split by input method rather than by
+   taste: dots on phones, where the gesture is a swipe and the dots only
+   report position, and arrows from tablet up, where there is a pointer and
+   nothing on screen would otherwise say the strip scrolls. */
+
+/* Cards per view, measured against the .wrap content box so the next card
+   always breaks the right edge: a flush row reads as a static grid and
+   nobody scrolls it. The spec's 31% left an 8.8px sliver at 1280, which
+   reads as a rendering fault rather than an invitation, so these are the
+   measured values: 30% gives a 42px peek at 1280, 45% gives 40px at 800,
+   and the 84% base gives 36px at 375. */
+@media (min-width: 641px)  { .svc-card { flex: 0 0 45%; } }
+@media (min-width: 1024px) { .svc-card { flex: 0 0 30%; } }
+
+.svc-nav {
+  display: none;
+  justify-content: flex-end;
+  gap: .5rem;
+  /* the strip carries 1rem of its own top padding for the hover lift, so
+     this is half the spec value to keep the pair from drifting apart */
+  margin-bottom: .5rem;
+}
+@media (min-width: 641px) { .svc-nav { display: flex; } }
+
+.svc-arrow {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 2px;
+  color: var(--text-dark);
+  font-size: 1.05rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .3s var(--ease), opacity .3s var(--ease);
+}
+.svc-arrow:hover { border-color: var(--text-dark); }
+.svc-arrow[disabled] { opacity: .35; cursor: default; }
+
 .svc-dots {
   display: none;
   justify-content: center;
@@ -805,35 +867,7 @@ html {
 }
 .svc-dots button.on { background: var(--accent); width: 22px; border-radius: 4px; }
 
-@media (max-width: 640px) {
-  .svc-grid {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 1rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: .25rem;
-    /* Bleed to the screen edges, then pad the gutter back plus a peek strip.
-       A card is exactly the content width, so symmetric padding puts every
-       card's centre on the container's centre, including the first and last.
-       With a percentage width this cannot resolve: the padding changes the
-       content box, which changes the card, which changes the padding needed,
-       and the outer cards end up permanently off centre with mandatory snap
-       refusing to settle on them. */
-    margin-inline: calc(-1 * var(--gutter));
-    padding-inline: calc(var(--gutter) + 1.5rem);
-  }
-  .svc-grid::-webkit-scrollbar { display: none; }
-
-  .svc-card { flex: 0 0 100%; scroll-snap-align: center; }
-
-  /* the lift would clip against the scroll container's edge mid-swipe */
-  .svc-card:hover { transform: none; }
-
-  .svc-dots { display: flex; }
-}
+@media (max-width: 640px) { .svc-dots { display: flex; } }
 
 /* --------------------------- PAINS ICONOGRAPHY --------------------------- */
 .pain-top {
