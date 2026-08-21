@@ -614,6 +614,21 @@ html {
   transition: color .3s var(--ease);
 }
 
+/* Sits inside .svc-num, so it takes the mono face by inheritance. Its own
+   colour declaration is what keeps it muted while the number beside it goes
+   Signal Red on hover and on select: a declaration on the element always
+   beats a value inherited from the parent, whatever the parent's
+   specificity. Size is in em so it tracks the number rather than the root. */
+.svc-kicker {
+  margin-left: .55rem;
+  padding-left: .55rem;
+  border-left: 1px solid var(--border-2, #E2E2DD);
+  color: var(--muted-ink);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: .72em;
+}
+
 .svc-icon { width: 42px; height: 42px; color: var(--text-dark); transition: color .3s var(--ease); }
 .svc-icon svg { width: 100%; height: 100%; display: block; overflow: visible; }
 .svc-icon [stroke] { stroke: currentColor; }
