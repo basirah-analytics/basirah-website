@@ -80,10 +80,17 @@
       "@type": "ProfessionalService",
       "@id": "https://basirahanalytics.com/#business",
       "name": "Basirah Analytics",
+      "alternateName": "Basirah",
       "url": "https://basirahanalytics.com/",
       "description": "Freelance data and business analysis for small and mid-size businesses: dashboards, financial analysis and automation.",
       "slogan": "See what your data is telling you.",
       "email": "hello@basirahanalytics.com",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "sales",
+        "email": "hello@basirahanalytics.com",
+        "availableLanguage": "en"
+      },
       "image": "https://basirahanalytics.com/assets/img/og-image.png",
       "logo": "https://basirahanalytics.com/assets/img/icon-512.png",
       "areaServed": { "@type": "Place", "name": "Worldwide" },
@@ -94,20 +101,24 @@
       ],
       "founder": { "@id": "https://basirahanalytics.com/#haseeb" },
       "knowsAbout": [
-        "Data analysis", "Business analysis", "Financial analysis",
-        "Dashboard design", "Data cleaning", "Reporting automation",
-        "Power BI", "Tableau", "Looker", "SQL", "Python"
+        "Sales analysis", "Revenue analysis", "Business analysis",
+        "Financial analysis", "Customer retention analysis", "Dashboard design",
+        "Reporting automation", "Power BI", "Tableau", "Looker", "SQL", "Python"
       ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
         "name": "Services",
         "itemListElement": [
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Data Analysis",
-            "description": "Cleaning and consolidating messy sources, exploratory and trend analysis, and findings written in plain language." } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Business and Financial Analysis",
-            "description": "Profitability and margin analysis, pricing and unit economics, budgeting, forecasting and KPI definition." } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dashboards and Automation",
-            "description": "Dashboard design and build, automated scheduled reporting, and repeatable data pipelines." } }
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sales & Revenue Analysis",
+            "description": "Every sale looks fine on its own. The full picture is harder to see: which products, days, and places actually make you money, and which quietly waste your effort. I put it all in one view so you can push what works and drop what does not." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Business & Financial Analysis",
+            "description": "You feel whether a month was good or bad. What you cannot always see is why. I show you what earns, what quietly costs you, and whether your prices are set right, so your next money decision is one you can stand behind." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Customer Insights & Retention",
+            "description": "It costs far more to win a new customer than to keep one you already have. I show you who your best customers are, who is slipping away, and where a little effort would keep them, so your marketing goes where it counts." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dashboards & Live Reporting",
+            "description": "Most owners wait on a person or a spreadsheet to know how things are going. I build you one clear screen that shows the health of the business at a glance, kept up to date, that anyone on your team can read without me." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automation",
+            "description": "If a report takes the same steps every time, a person should not be doing it. I set your reporting up to build and update itself, so the numbers are ready before you ask and nobody loses a day to copy-paste." } }
         ]
       }
     },
