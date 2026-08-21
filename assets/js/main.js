@@ -754,8 +754,7 @@
 /* =====================================================================
    SERVICE SELECTION
    Choose marks one card, dims the rest, and clicking the marked one clears
-   it. The pipeline endpoint drops its red at the same time, so only one
-   Signal Red focal element is ever lit at rest.
+   it, so only one Signal Red focal element is ever lit at rest.
 
    The selected service is written into the booking form's topic field, so
    the choice a visitor makes here carries into the enquiry instead of
@@ -768,7 +767,6 @@
   if (!grid) return;
 
   var cards = Array.prototype.slice.call(grid.querySelectorAll('.svc-card'));
-  var root = document.documentElement;
 
   function clear() {
     cards.forEach(function (c) {
@@ -780,7 +778,6 @@
       if (lbl) lbl.textContent = 'Choose';
     });
     grid.classList.remove('has-selection');
-    root.classList.remove('has-selection');
   }
 
   cards.forEach(function (card) {
@@ -796,9 +793,8 @@
       btn.setAttribute('aria-pressed', 'true');
       var lbl = btn.querySelector('.lbl');
       if (lbl) lbl.textContent = 'Selected';
+      // the grid is the cards' parent, so this alone drives the dimming
       grid.classList.add('has-selection');
-      // on the root too, so the pipeline outside the grid can respond
-      root.classList.add('has-selection');
 
       var name = card.getAttribute('data-svc') || '';
       var topic = document.getElementById('book-about');
@@ -809,12 +805,11 @@
 
 
 /* =====================================================================
-   SERVICES CAROUSEL
-   The card strip is a horizontal scroll-snap carousel at every width. Two
-   sets of controls sit on it, each shown by CSS at the size it suits: dots
-   on phones, arrows from tablet up. Both are built unconditionally, because
-   a hidden control costs nothing and a resize past a breakpoint would
-   otherwise expose a set that was never wired.
+   SERVICES SWIPE DOTS
+   The card grid becomes a horizontal scroll-snap strip under 640px. These
+   dots report position and jump to a card. They are built at any width
+   because CSS hides them above 640px and a resize past the breakpoint would
+   otherwise reveal a control that was never wired.
    ===================================================================== */
 (function () {
   'use strict';
@@ -889,39 +884,4 @@
     });
     setActive(best);
   }, { passive: true });
-
-  /* ---- arrows ---- */
-  /* Pointer devices from tablet up. A swipe is discoverable on a phone, a
-     horizontal scrollbar is hidden here, so without these there is nothing
-     on screen telling a mouse user the strip moves. */
-  var nav = document.querySelector('.svc-nav');
-  if (nav) {
-    var prevBtn = nav.querySelector('[data-dir="prev"]');
-    var nextBtn = nav.querySelector('[data-dir="next"]');
-
-    // read the gap at click time, not once: it is a clamp() and changes with
-    // the viewport, and the card width changes at both breakpoints
-    function stepPx() {
-      var gap = parseFloat(getComputedStyle(grid).columnGap) || 16;
-      return cards[0].offsetWidth + gap;
-    }
-
-    function updateArrows() {
-      prevBtn.disabled = grid.scrollLeft <= 2;
-      // the 2px slack absorbs sub-pixel rounding, which otherwise leaves next
-      // enabled at the far right on fractional zoom levels
-      nextBtn.disabled = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 2;
-    }
-
-    prevBtn.addEventListener('click', function () {
-      grid.scrollBy({ left: -stepPx(), behavior: reduce ? 'auto' : 'smooth' });
-    });
-    nextBtn.addEventListener('click', function () {
-      grid.scrollBy({ left: stepPx(), behavior: reduce ? 'auto' : 'smooth' });
-    });
-
-    grid.addEventListener('scroll', updateArrows, { passive: true });
-    window.addEventListener('resize', updateArrows);
-    updateArrows();
-  }
 })();
