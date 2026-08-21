@@ -404,15 +404,18 @@ html {
   min-height: calc(100svh - var(--header-h));
   display: flex;
   flex-direction: column;
+  /* centres the copy and the toolkit rail together as one stack. Previously
+     the inner block took flex:1 and the rail had margin-top:auto, which
+     pinned the rail to the floor and opened a void between them on tall
+     screens. Any leftover height now splits above and below the group. */
+  justify-content: center;
   padding-top: clamp(1.75rem, 4vw, 3rem);
   padding-bottom: 0;
 }
 
 .hero-inner {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 .hero .eyebrow { color: var(--muted); margin-bottom: var(--space-5); }
@@ -462,13 +465,13 @@ html {
 }
 
 /* toolkit rail: hairline strip at the foot of the hero */
-/* pinned to the foot of the dark block rather than pushed by the copy above */
+/* a deliberate gap under the copy, not whatever space happens to be left */
 .hero-rail {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: var(--space-4) var(--space-6);
-  margin-top: auto;
+  margin-top: clamp(2.5rem, 6vh, 4.5rem);
   padding: clamp(1rem, 2.2vw, 1.4rem) 0;
   border-top: 1px solid var(--border-dark);
 }
@@ -670,12 +673,10 @@ html {
   .svc-card:hover .svc-icon { color: var(--accent); }
 }
 
-.ic-scatter .d { transition: transform .5s var(--ease); }
+.ic-people .c { transition: transform .5s var(--ease); }
 @media (hover: hover) {
-  .svc-card:hover .ic-scatter .d1 { transform: translate(0, 6px); }
-  .svc-card:hover .ic-scatter .d2 { transform: translate(0, -4px); }
-  .svc-card:hover .ic-scatter .d3 { transform: translate(0, 3px); }
-  .svc-card:hover .ic-scatter .d4 { transform: translate(0, -2px); }
+  .svc-card:hover .ic-people .c1 { transform: translateX(3px); }
+  .svc-card:hover .ic-people .c3 { transform: translateX(-3px); }
 }
 
 .ic-line .path { stroke-dasharray: 120; stroke-dashoffset: 0; }
