@@ -536,11 +536,22 @@ html {
 }
 
 /* ----------------------------- 9. SERVICES ----------------------------- */
-/* A single column intro, then the cards. The intro is stacked and left
-   aligned to match the "Sound familiar?" header, so the measures below are
-   what stop the lines running the full width of the wrap. */
+/* Intro on the left, the scoping note on the right, then the cards. Below
+   860px the two stack in source order, so the reading order is the same one
+   the two column layout presents left to right. */
 .svc-head {
-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+  margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+@media (min-width: 860px) {
+  .svc-head {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: clamp(2.5rem, 5vw, 4.5rem);
+  }
 }
 
 .svc-head-text .eyebrow { display: block; margin-bottom: var(--space-4); }
@@ -550,16 +561,16 @@ html {
   max-width: 52ch;
 }
 
-.svc-flow {
+.svc-aside { max-width: 44ch; }
+.svc-aside .svc-flow {
   font-family: var(--font-mono);
-  font-size: .78rem;
-  line-height: 1.6;
-  color: var(--muted-ink);
+  font-size: clamp(.95rem, .9rem + .35vw, 1.12rem);
+  line-height: 1.7;
+  color: var(--text-dark);
   border-left: 2px solid var(--accent);
-  padding-left: .85rem;
-  /* wider than the lead because the mono face sets a shorter line at the
-     same character count */
-  max-width: 56ch;
+  padding-left: 1.1rem;
+  max-width: 42ch;
+  margin: .75rem 0 0;
 }
 
 /* ---- cards ---- */

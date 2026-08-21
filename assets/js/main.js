@@ -543,7 +543,11 @@
     var groups = [
       ['.hero-inner > *', 1],
       ['.pains-title', 0], ['.pain', 1],
-      ['.section-head', 0], ['.svc-head-text', 0], ['.svc-card', 1],
+      // .svc-aside is listed because the scoping line it holds used to sit
+      // inside .svc-head-text and faded in with it. Splitting the header into
+      // two columns took it out of that block, and without an entry here it
+      // would appear instantly beside a column that fades.
+      ['.section-head', 0], ['.svc-head-text', 0], ['.svc-aside', 0], ['.svc-card', 1],
       ['.resolve', 0], ['.proof-inner > *', 1],
       ['.tile-item', 1],
       ['.ai-copy > *', 1], ['.ai-card', 0],
