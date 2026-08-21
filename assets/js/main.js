@@ -543,7 +543,7 @@
     var groups = [
       ['.hero-inner > *', 1],
       ['.pains-title', 0], ['.pain', 1],
-      ['.section-head', 0], ['.card', 1], ['.how-head', 0], ['.step', 1],
+      ['.section-head', 0], ['.svc-head-text', 0], ['.svc-card', 1],
       ['.resolve', 0], ['.proof-inner > *', 1],
       ['.tile-item', 1],
       ['.ai-copy > *', 1], ['.ai-card', 0],
@@ -752,62 +752,57 @@
 
 
 /* =====================================================================
-   SERVICE CARD SELECTION
-   The three service cards are the comparable set on this site; there is
-   no pricing tier, and CLAUDE.md rules prices out entirely. Selecting one
-   marks it active, dims the others so the comparison resolves, and points
-   the contact form at it so the choice carries through to the enquiry.
+   SERVICE SELECTION
+   Choose marks one card, dims the rest, and clicking the marked one clears
+   it. The pipeline endpoint drops its red at the same time, so only one
+   Signal Red focal element is ever lit at rest.
 
-   Cards stay ordinary links for keyboard and screen-reader users: the
-   whole card is not a button, only the header row toggles selection.
+   The selected service is written into the booking form's topic field, so
+   the choice a visitor makes here carries into the enquiry instead of
+   being retyped.
    ===================================================================== */
 (function () {
   'use strict';
 
-  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
-  var group = document.querySelector('.cards');
-  if (!cards.length || !group) return;
+  var grid = document.querySelector('.svc-grid');
+  if (!grid) return;
 
-  group.setAttribute('role', 'group');
-  group.setAttribute('aria-label', 'Services, choose the closest fit');
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.svc-card'));
+  var root = document.documentElement;
 
-  cards.forEach(function (card, i) {
-    var title = card.querySelector('.card-title');
-    if (!title) return;
+  function clear() {
+    cards.forEach(function (c) {
+      c.classList.remove('is-selected');
+      var b = c.querySelector('.svc-choose');
+      if (!b) return;
+      b.setAttribute('aria-pressed', 'false');
+      var lbl = b.querySelector('.lbl');
+      if (lbl) lbl.textContent = 'Choose';
+    });
+    grid.classList.remove('has-selection');
+    root.classList.remove('has-selection');
+  }
 
-    // a real button so Enter/Space and screen readers work without extra ARIA
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'card-pick';
-    btn.setAttribute('aria-pressed', 'false');
-    btn.innerHTML = '<span class="card-pick-dot" aria-hidden="true"></span>' +
-                    '<span class="card-pick-label">Choose</span>';
-    card.appendChild(btn);
+  cards.forEach(function (card) {
+    var btn = card.querySelector('.svc-choose');
+    if (!btn) return;
 
     btn.addEventListener('click', function () {
-      var already = card.classList.contains('is-picked');
-      cards.forEach(function (c) {
-        c.classList.remove('is-picked');
-        var b = c.querySelector('.card-pick');
-        if (b) {
-          b.setAttribute('aria-pressed', 'false');
-          b.querySelector('.card-pick-label').textContent = 'Choose';
-        }
-      });
-      group.classList.toggle('has-pick', !already);
+      var already = card.classList.contains('is-selected');
+      clear();
+      if (already) return;
 
-      if (!already) {
-        card.classList.add('is-picked');
-        btn.setAttribute('aria-pressed', 'true');
-        btn.querySelector('.card-pick-label').textContent = 'Selected';
+      card.classList.add('is-selected');
+      btn.setAttribute('aria-pressed', 'true');
+      var lbl = btn.querySelector('.lbl');
+      if (lbl) lbl.textContent = 'Selected';
+      grid.classList.add('has-selection');
+      // on the root too, so the pipeline outside the grid can respond
+      root.classList.add('has-selection');
 
-        // carry the choice into the enquiry so the visitor need not retype it
-        var topic = document.getElementById('book-about');
-        var name = title.textContent.trim();
-        if (topic && !topic.value.trim()) {
-          topic.value = name + ': ';
-        }
-      }
+      var name = card.getAttribute('data-svc') || '';
+      var topic = document.getElementById('book-about');
+      if (topic && !topic.value.trim() && name) topic.value = name + ': ';
     });
   });
 })();

@@ -15,6 +15,7 @@
   --muted-ink:      #6E6E69;   /* secondary text on light (5.0:1 on --paper) */
   --border:         #ECECE8;   /* hairline on light */
   --border-dark:    #2A2A26;   /* hairline on dark */
+  --border-2:       #E2E2DD;   /* card hairline, one step darker than --border */
   --accent:         #EC3013;   /* Signal Red: ONE focal element per view */
 
   /* type */
@@ -59,7 +60,7 @@
   --radius: 6px;
   --radius-lg: 8px;
   --hairline: 1px;
-  --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --ease: cubic-bezier(.22, .61, .36, 1);
   --dur: 180ms;
 }
 
@@ -396,16 +397,30 @@ html {
 .nav-toggle[aria-expanded="true"] .nav-toggle-bars::after  { transform: translateY(-6px) rotate(-45deg); }
 
 /* ------------------------------- 7. HERO ------------------------------- */
+/* Sized so the navbar, hero and toolkit strip land inside one screen. svh
+   rather than vh, since vh on mobile measures the viewport with the browser
+   chrome retracted and overshoots by the toolbar height. */
 .hero {
-  padding-top: clamp(4rem, 11vw, 8.5rem);
+  min-height: calc(100svh - var(--header-h));
+  display: flex;
+  flex-direction: column;
+  padding-top: clamp(1.75rem, 4vw, 3rem);
   padding-bottom: 0;
 }
 
-.hero-inner { display: flex; flex-direction: column; }
+.hero-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .hero .eyebrow { color: var(--muted); margin-bottom: var(--space-5); }
 
 .hero-title {
+  font-size: clamp(2.4rem, 1.1rem + 4.4vw, 4.6rem);
+  line-height: .98;
+  letter-spacing: -.035em;
   max-width: 16ch;
   margin-bottom: var(--space-5);
 }
@@ -432,27 +447,30 @@ html {
   gap: 0.6em;
   color: var(--muted);
 }
+/* the spec names .badge .d; this site's markup is .badge-available .dot */
 .badge-available .dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--text-light);
-  animation: pulse 2.4s var(--ease) infinite;
+  background: var(--accent);
+  animation: live 2.4s ease-out infinite;
 }
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.25; }
+@keyframes live {
+  0%   { box-shadow: 0 0 0 0 rgba(236, 48, 19, .5); }
+  70%  { box-shadow: 0 0 0 7px rgba(236, 48, 19, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(236, 48, 19, 0); }
 }
 
 /* toolkit rail: hairline strip at the foot of the hero */
+/* pinned to the foot of the dark block rather than pushed by the copy above */
 .hero-rail {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: var(--space-4) var(--space-6);
-  margin-top: clamp(3rem, 8vw, 5.5rem);
-  padding-block: var(--space-5) var(--space-6);
-  border-top: var(--hairline) solid var(--border-dark);
+  margin-top: auto;
+  padding: clamp(1rem, 2.2vw, 1.4rem) 0;
+  border-top: 1px solid var(--border-dark);
 }
 
 .rail-label { color: var(--muted); flex: none; }
@@ -515,205 +533,278 @@ html {
 }
 
 /* ----------------------------- 9. SERVICES ----------------------------- */
-.section-head { max-width: 46ch; margin-bottom: clamp(2rem, 4vw, 3rem); }
-.section-head .eyebrow { display: block; margin-bottom: var(--space-4); }
-
-.section-lead {
-  max-width: 56ch;
-  margin-top: var(--space-5);
-  font-size: var(--fs-lead);
-  line-height: 1.5;
-  color: var(--muted);
-}
-
-/* --- three service cards --- */
-.cards {
+/* Header row plus a five stage card grid. The pipeline SVG on the right is
+   decorative motion carrying its own text alternative on the svg element. */
+.svc-head {
   display: grid;
-  gap: var(--space-4);
+  gap: clamp(2rem, 4vw, 3.5rem);
   grid-template-columns: 1fr;
+  align-items: center;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
-.card {
+.svc-head-text .eyebrow { display: block; margin-bottom: var(--space-4); }
+.svc-head-text h2 { margin-bottom: var(--space-5); }
+.svc-head-text .section-lead { margin-bottom: var(--space-5); }
+
+.svc-flow {
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  line-height: 1.6;
+  color: var(--muted-ink);
+  border-left: 2px solid var(--accent);
+  padding-left: .85rem;
+  max-width: 52ch;
+}
+
+/* ---- pipeline ---- */
+.pipeline {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  max-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: #fff;
+  padding: clamp(1rem, 2.5vw, 1.75rem);
+}
+.pl-dot { fill: var(--text-dark); }
+.pl-scatter circle { opacity: .32; animation: drift 6s var(--ease) infinite alternate; }
+.pl-scatter circle:nth-child(2) { animation-delay: .4s; }
+.pl-scatter circle:nth-child(3) { animation-delay: .8s; }
+.pl-scatter circle:nth-child(4) { animation-delay: 1.2s; }
+.pl-scatter circle:nth-child(5) { animation-delay: 1.6s; }
+.pl-scatter circle:nth-child(6) { animation-delay: 2s; }
+@keyframes drift { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+
+.pl-line {
+  fill: none;
+  stroke: var(--text-dark);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+  animation: draw 3.2s var(--ease) .3s forwards, redraw 9s linear 3.5s infinite;
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes redraw { 0%, 88% { stroke-dashoffset: 0; } 94% { stroke-dashoffset: 260; } 100% { stroke-dashoffset: 0; } }
+
+/* offset-path lives here, not on a style attribute in the markup. The CSP sets
+   style-src without unsafe-inline, and inline style attributes cannot be
+   allowed by a hash, so declaring it inline meant the dot never moved. */
+.pl-flow {
+  fill: var(--accent);
+  opacity: 0;
+  offset-path: path('M70 168 L108 150 L138 120 L172 96 L206 58 L240 30');
+  animation: flow 3.6s linear 3.6s infinite;
+}
+@keyframes flow { 0% { opacity: 0; offset-distance: 0%; } 8% { opacity: 1; } 90% { opacity: 1; } 100% { opacity: 0; offset-distance: 100%; } }
+
+.pl-end { fill: var(--accent); transform-origin: center; animation: pulse 2.6s ease-in-out 3.4s infinite; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.35); } }
+
+.pl-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .1em;
+  fill: var(--muted-ink);
+  text-transform: uppercase;
+}
+/* one red focal point at rest: the pipeline endpoint yields once a card is picked */
+.has-selection .pl-end { fill: var(--muted-ink); animation: none; }
+
+/* ---- cards ---- */
+.svc-grid {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.4rem);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.svc-card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  padding: clamp(1.5rem, 3vw, 2.25rem);
-  background: var(--paper);
-  border: var(--hairline) solid var(--border);
-  border-radius: var(--radius-lg);
-  /* transform and opacity only: both composite, neither triggers layout */
-  transition: border-color var(--dur) var(--ease),
-              transform 240ms var(--ease),
-              opacity 240ms var(--ease);
+  background: #fff;
+  border: 1px solid var(--border-2);
+  border-radius: 2px;
+  padding: clamp(1.5rem, 2.5vw, 1.9rem);
+  transition: transform .45s var(--ease), border-color .3s var(--ease),
+              box-shadow .45s var(--ease), opacity .35s var(--ease);
 }
-.card:hover { border-color: #D8D8D2; }
-
-.card-title { margin-bottom: var(--space-3); }
-
-.card-text {
-  color: var(--muted);
-  margin-bottom: var(--space-5);
+.svc-card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 1.6rem;
+  width: 34px;
+  height: 3px;
+  background: var(--text-dark);
+  transition: background .3s var(--ease), width .35s var(--ease);
+}
+@media (hover: hover) {
+  .svc-card:hover {
+    transform: translateY(-6px);
+    border-color: #D4D4CE;
+    box-shadow: 0 18px 40px -24px rgba(20, 20, 18, .4);
+  }
+  .svc-card:hover::before { background: var(--accent); width: 52px; }
 }
 
-.card-list {
-  display: grid;
-  gap: var(--space-3);
-  font-size: var(--fs-small);
-  margin-bottom: var(--space-5);
+.svc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.1rem; }
+
+.svc-num {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .14em;
+  color: var(--muted-ink);
+  transition: color .3s var(--ease);
 }
-.card-list li {
+
+.svc-icon { width: 42px; height: 42px; color: var(--text-dark); transition: color .3s var(--ease); }
+.svc-icon svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.svc-icon [stroke] { stroke: currentColor; }
+
+@media (hover: hover) {
+  .svc-card:hover .svc-num { color: var(--accent); }
+  .svc-card:hover .svc-icon { color: var(--accent); }
+}
+
+.ic-scatter .d { transition: transform .5s var(--ease); }
+@media (hover: hover) {
+  .svc-card:hover .ic-scatter .d1 { transform: translate(0, 6px); }
+  .svc-card:hover .ic-scatter .d2 { transform: translate(0, -4px); }
+  .svc-card:hover .ic-scatter .d3 { transform: translate(0, 3px); }
+  .svc-card:hover .ic-scatter .d4 { transform: translate(0, -2px); }
+}
+
+.ic-line .path { stroke-dasharray: 120; stroke-dashoffset: 0; }
+.ic-line .pt { opacity: 0; transition: opacity .3s ease; }
+@media (hover: hover) {
+  .svc-card:hover .ic-line .path { animation: redraw2 .9s var(--ease) forwards; }
+  .svc-card:hover .ic-line .pt { opacity: 1; }
+}
+@keyframes redraw2 { from { stroke-dashoffset: 120; } to { stroke-dashoffset: 0; } }
+
+.ic-bars rect { transform-origin: bottom; transition: transform .5s var(--ease); }
+@media (hover: hover) {
+  .svc-card:hover .ic-bars .b1 { transform: scaleY(1.25); }
+  .svc-card:hover .ic-bars .b2 { transform: scaleY(.8); }
+  .svc-card:hover .ic-bars .b3 { transform: scaleY(1.15); }
+}
+
+.ic-grid rect { transition: transform .4s var(--ease); transform-origin: center; }
+@media (hover: hover) {
+  .svc-card:hover .ic-grid .g2 { transform: scale(1.12); }
+  .svc-card:hover .ic-grid .g3 { transform: scale(1.12); }
+}
+
+.ic-loop { transform-origin: center; transition: transform .7s var(--ease); }
+@media (hover: hover) { .svc-card:hover .ic-loop { transform: rotate(180deg); } }
+
+.svc-name { font-weight: 800; font-size: 1.22rem; letter-spacing: -.01em; margin: 0 0 .5rem; }
+.svc-fit { font-weight: 600; font-size: .92rem; color: var(--text-dark); margin: 0 0 .7rem; }
+.svc-body { font-size: .92rem; color: var(--muted-ink); margin: 0 0 1.1rem; line-height: 1.55; }
+
+.svc-points { list-style: none; margin: 0 0 1.3rem; padding: 0; display: grid; gap: .5rem; }
+.svc-points li {
   position: relative;
-  padding-left: 1.4em;
-  line-height: 1.45;
+  padding-left: 1.15rem;
+  font-size: .88rem;
+  color: var(--text-dark);
+  line-height: 1.4;
 }
-.card-list li::before {
+.svc-points li::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 0.55em;
-  width: 8px;
-  height: var(--hairline);
-  background: var(--text-dark);
+  top: .5em;
+  width: 7px;
+  height: 7px;
+  border: 1.5px solid var(--muted-ink);
+  border-radius: 1px;
+  transition: border-color .3s var(--ease);
 }
+@media (hover: hover) { .svc-card:hover .svc-points li::before { border-color: var(--accent); } }
 
-/* ---- card fit line, CTA and selection ---- */
-.card-fit {
-  font-size: var(--fs-small);
-  font-weight: var(--fw-label);
-  color: var(--text-dark);
-  margin-bottom: var(--space-3);
-}
-
-.card-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4em;
-  min-height: 44px;
-  margin-top: var(--space-3);
-  font-size: var(--fs-small);
-  font-weight: var(--fw-label);
-  color: var(--text-dark);
-  border-bottom: var(--hairline) solid var(--border);
-  align-self: flex-start;
-  transition: border-color var(--dur) var(--ease);
-}
-.card-cta:hover { border-bottom-color: var(--text-dark); }
-.card-cta span { transition: transform var(--dur) var(--ease); }
-.card-cta:hover span { transform: translateX(3px); }
-
-/* selection control, injected by main.js */
-.card-pick {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55em;
-  min-height: 44px;
-  margin-top: var(--space-4);
-  padding-top: var(--space-4);
-  border-top: var(--hairline) solid var(--border);
-  width: 100%;
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--muted);
-  transition: color var(--dur) var(--ease);
-}
-.card-pick:hover { color: var(--text-dark); }
-
-.card-pick-dot {
-  width: 13px;
-  height: 13px;
-  border: 2px solid var(--border);
-  border-radius: 50%;
-  flex: none;
-  transition: border-color var(--dur) var(--ease),
-              background-color var(--dur) var(--ease),
-              box-shadow var(--dur) var(--ease);
-}
-.card-pick[aria-pressed="true"] .card-pick-dot {
-  border-color: var(--accent);
-  background: var(--accent);
-  box-shadow: 0 0 0 3px rgba(236, 48, 19, 0.16);
-}
-.card-pick[aria-pressed="true"] { color: var(--text-dark); }
-
-/* the picked card lifts; the rest recede so the comparison resolves */
-.card.is-picked {
-  border-color: var(--accent);
-  transform: translateY(-3px);
-}
-.cards.has-pick .card:not(.is-picked) { opacity: 0.62; }
-.cards.has-pick .card:not(.is-picked):hover { opacity: 1; }
-
-.card-tools {
+.svc-foot {
   margin-top: auto;
-  padding-top: var(--space-4);
-  border-top: var(--hairline) solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border);
+}
+
+.svc-time {
   font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: 0.06em;
-  color: var(--muted);
+  font-size: .7rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted-ink);
 }
 
-/* --- how I work --- */
-.how {
-  margin-top: clamp(3.5rem, 9vw, 6.5rem);
-  padding-top: clamp(2.5rem, 5vw, 3.5rem);
-  border-top: var(--hairline) solid var(--border);
-}
-
-.how-head { margin-bottom: clamp(2rem, 4vw, 3rem); }
-.how-head .eyebrow { display: block; margin-bottom: var(--space-3); }
-.how-title { max-width: 20ch; }
-
-.steps {
-  display: grid;
-  gap: var(--space-6) var(--space-5);
-  grid-template-columns: 1fr;
-  counter-reset: step;
-}
-
-.step { padding-top: var(--space-4); border-top: var(--hairline) solid var(--border); }
-
-.step-num {
+.svc-choose {
   font-family: var(--font-mono);
-  font-size: var(--fs-mono);
+  font-size: .7rem;
   font-weight: 500;
-  letter-spacing: var(--tracking-mono);
-  color: var(--muted);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background: none;
+  border: 0;
+  color: var(--text-dark);
+  cursor: pointer;
+  padding: .35rem 0;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  min-height: 44px;   /* touch target: the spec padding alone left it near 26px */
+}
+.svc-choose .box {
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid var(--text-dark);
+  border-radius: 1px;
+  transition: background .25s var(--ease), border-color .25s var(--ease);
+}
+
+.svc-card.is-selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.svc-card.is-selected::before { background: var(--accent); width: 52px; }
+.svc-card.is-selected .svc-num,
+.svc-card.is-selected .svc-icon { color: var(--accent); }
+.svc-card.is-selected .svc-choose .box { background: var(--accent); border-color: var(--accent); }
+.has-selection .svc-card:not(.is-selected) { opacity: .5; }
+.has-selection .svc-card:not(.is-selected):hover { opacity: 1; }
+
+@media (min-width: 900px) {
+  .svc-head { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); }
+}
+
+/* --------------------------- PAINS ICONOGRAPHY --------------------------- */
+.pain-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-bottom: var(--space-3);
   margin-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border);
 }
 
-.step-title {
-  font-size: 1.125rem;
-  font-weight: var(--fw-head);
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  margin-bottom: var(--space-2);
-}
+.pain-ic { width: 46px; height: 46px; color: var(--text-dark); flex: none; }
+.pain-ic svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.pain-ic [stroke] { stroke: currentColor; }
 
-.step-text {
-  font-size: var(--fs-small);
-  line-height: 1.5;
-  color: var(--muted);
-}
+.p-sheets .s { transition: transform .5s var(--ease); }
+.pain:hover .p-sheets .s1 { transform: translate(-2px, -2px); }
+.pain:hover .p-sheets .s3 { transform: translate(2px, 2px); }
 
-/* --- closing scope line (no prices anywhere) --- */
-.scope-line {
-  margin-top: clamp(3rem, 7vw, 5rem);
-  padding-top: clamp(2rem, 4vw, 3rem);
-  border-top: var(--hairline) solid var(--border);
-  font-size: var(--fs-lead);
-  font-weight: var(--fw-label);
-  letter-spacing: -0.01em;
-  max-width: 40ch;
-  text-wrap: balance;
-}
-.scope-line a {
-  border-bottom: 2px solid var(--text-dark);
-  padding-bottom: 1px;
-  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
-}
-.scope-line a:hover { color: var(--muted); border-bottom-color: var(--muted); }
+.p-q .mark { transform-origin: center; transition: transform .4s var(--ease); }
+.pain:hover .p-q .mark { transform: scale(1.15); }
+
+.p-clock .hand { transform-origin: 23px 23px; transition: transform .8s var(--ease); }
+.pain:hover .p-clock .hand { transform: rotate(300deg); }
 
 /* ---------------------------- 10. PORTFOLIO ---------------------------- */
 .work-toolbar {

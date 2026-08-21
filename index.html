@@ -63,7 +63,7 @@
      JS for up to an hour after a deploy. index.html itself is served
      must-revalidate, so bumping this number is what releases a change.
      BUMP BOTH VALUES WHENEVER styles.css OR main.js CHANGES. -->
-<link rel="stylesheet" href="assets/css/styles.css?v=4">
+<link rel="stylesheet" href="assets/css/styles.css?v=6">
 
 <!-- Structured data. Everything below is asserted to search engines as fact,
      so it carries only what the site can back up: no aggregateRating, no
@@ -235,15 +235,24 @@
 
       <ul class="pain-list">
         <li class="pain">
-          <p class="pain-num">01</p>
+          <div class="pain-top">
+            <p class="pain-num">01</p>
+            <span class="pain-ic p-sheets" aria-hidden="true"><svg viewBox="0 0 46 46"><g fill="none" stroke-width="2"><rect class="s s1" x="6" y="6" width="24" height="30" rx="1.5"/><rect class="s s2" x="11" y="9" width="24" height="30" rx="1.5"/><rect class="s s3" x="16" y="12" width="24" height="30" rx="1.5"/></g></svg></span>
+          </div>
           <p class="pain-text">Your numbers live in six different spreadsheets, and no two of them agree.</p>
         </li>
         <li class="pain">
-          <p class="pain-num">02</p>
+          <div class="pain-top">
+            <p class="pain-num">02</p>
+            <span class="pain-ic p-q" aria-hidden="true"><svg viewBox="0 0 46 46"><g fill="currentColor"><rect x="6" y="26" width="6" height="12"/><rect x="15" y="20" width="6" height="18"/><rect x="24" y="30" width="6" height="8"/></g><line x1="4" y1="40" x2="42" y2="40" stroke-width="2" stroke-linecap="round"/><text class="mark" x="33" y="20" font-family="Archivo, sans-serif" font-size="20" font-weight="800" fill="var(--accent)">?</text></svg></span>
+          </div>
           <p class="pain-text">Nobody can say which handful of numbers actually tell you how the business is doing.</p>
         </li>
         <li class="pain">
-          <p class="pain-num">03</p>
+          <div class="pain-top">
+            <p class="pain-num">03</p>
+            <span class="pain-ic p-clock" aria-hidden="true"><svg viewBox="0 0 46 46"><circle cx="23" cy="23" r="17" fill="none" stroke-width="2"/><line class="hand" x1="23" y1="23" x2="23" y2="12" stroke-width="2.4" stroke-linecap="round"/><line x1="23" y1="23" x2="31" y2="27" stroke-width="2" stroke-linecap="round"/></svg></span>
+          </div>
           <p class="pain-text">The decisions that matter get made on gut feel, because the answer would take a week to dig out.</p>
         </li>
       </ul>
@@ -261,102 +270,138 @@
   <section class="section section-light" id="services">
     <div class="wrap">
 
-      <header class="section-head">
-        <p class="eyebrow">services</p>
-        <h2>Analysis that answers<br class="br-lg"> a business question.</h2>
-        <p class="section-lead">
-          Three ways I work with businesses, usually in combination. Every engagement starts
-          with the questions you actually need answered, not with the tools.
-        </p>
-      </header>
+      <div class="svc-head">
+        <div class="svc-head-text">
+          <p class="eyebrow">services</p>
+          <h2>From raw data to<br class="br-lg"> decisions that stick.</h2>
+          <p class="section-lead">
+            Five stages, from a messy export to a report that runs itself. Every engagement
+            starts with the question you need answered, not the tool.
+          </p>
+          <p class="svc-flow">
+            Most projects use two or three of these, not all five. We pick the stages your
+            problem actually needs on the first call.
+          </p>
+        </div>
 
-      <ul class="cards">
+        <svg class="pipeline" viewBox="0 0 260 208" role="img" aria-label="Scattered data points resolving into a single clear upward trend.">
+          <g class="pl-scatter" transform="translate(6,10)">
+            <circle class="pl-dot" cx="14" cy="40" r="3.5"/>
+            <circle class="pl-dot" cx="30" cy="70" r="3.5"/>
+            <circle class="pl-dot" cx="22" cy="105" r="3.5"/>
+            <circle class="pl-dot" cx="44" cy="55" r="3.5"/>
+            <circle class="pl-dot" cx="40" cy="120" r="3.5"/>
+            <circle class="pl-dot" cx="16" cy="150" r="3.5"/>
+          </g>
+          <path class="pl-line" d="M70 168 L108 150 L138 120 L172 96 L206 58 L240 30"/>
+          <circle class="pl-flow" r="4"></circle>
+          <circle class="pl-end" cx="240" cy="30" r="6"/>
+          <text class="pl-label" x="6" y="196">raw</text>
+          <text class="pl-label" x="214" y="196">clarity</text>
+        </svg>
+      </div>
 
-        <li class="card">
-          <h3 class="card-title">Data Analysis</h3>
-          <p class="card-fit">You have the data. You need the answer.</p>
-          <p class="card-text">The numbers exist somewhere. I make them agree with each other, then tell you what they say and what to do about it.</p>
-          <ul class="card-list">
+      <div class="svc-grid" role="group" aria-label="Services, choose the closest fit">
+
+        <article class="svc-card" data-svc="Data Cleaning & Preparation">
+          <div class="svc-top">
+            <span class="svc-num">01</span>
+            <span class="svc-icon ic-scatter" aria-hidden="true"><svg viewBox="0 0 42 42"><g fill="currentColor"><circle class="d d1" cx="8" cy="14" r="2.6"/><circle class="d d2" cx="20" cy="26" r="2.6"/><circle class="d d3" cx="14" cy="32" r="2.6"/><circle class="d d4" cx="30" cy="12" r="2.6"/></g><line x1="6" y1="38" x2="36" y2="38" stroke-width="2" stroke-linecap="round"/></svg></span>
+          </div>
+          <h3 class="svc-name">Data Cleaning &amp; Preparation</h3>
+          <p class="svc-fit">Before anything, the data has to be trustworthy.</p>
+          <p class="svc-body">Duplicated, half-formatted, contradictory data quietly breaks every report built on top of it. I get your sources into one clean, consistent base you can build on.</p>
+          <ul class="svc-points">
+            <li>Duplicates, gaps and format errors fixed</li>
+            <li>Scattered sources merged into one table</li>
+            <li>A clear rule for how each field is defined</li>
+            <li>A clean dataset you can reuse, not a one-off</li>
+          </ul>
+          <div class="svc-foot">
+            <span class="svc-time">1 to 2 weeks</span>
+            <button class="svc-choose" type="button" aria-pressed="false"><span class="box"></span><span class="lbl">Choose</span></button>
+          </div>
+        </article>
+
+        <article class="svc-card" data-svc="Data Analysis">
+          <div class="svc-top">
+            <span class="svc-num">02</span>
+            <span class="svc-icon ic-line" aria-hidden="true"><svg viewBox="0 0 42 42"><polyline class="path" points="4,34 14,26 22,28 30,14 38,8" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle class="pt" cx="30" cy="14" r="3" fill="currentColor"/></svg></span>
+          </div>
+          <h3 class="svc-name">Data Analysis</h3>
+          <p class="svc-fit">You have the data. You need the answer.</p>
+          <p class="svc-body">The numbers exist somewhere. I make them agree with each other, then tell you plainly what they say and what to do about it.</p>
+          <ul class="svc-points">
             <li>A single reliable view of scattered data</li>
             <li>The trends and outliers that actually matter</li>
             <li>Customer, product and segment breakdowns</li>
             <li>Written findings you can act on and share</li>
           </ul>
-          <p class="card-tools">Typically 2 to 4 weeks</p>
-          <a class="card-cta" href="#contact">Start here <span aria-hidden="true">&rarr;</span></a>
-        </li>
+          <div class="svc-foot">
+            <span class="svc-time">2 to 4 weeks</span>
+            <button class="svc-choose" type="button" aria-pressed="false"><span class="box"></span><span class="lbl">Choose</span></button>
+          </div>
+        </article>
 
-        <li class="card">
-          <h3 class="card-title">Business &amp; Financial Analysis</h3>
-          <p class="card-fit">The question is about money.</p>
-          <p class="card-text">Where the numbers meet the decision: what earns, what quietly costs, and what happens if you change course.</p>
-          <ul class="card-list">
-            <li>Profit and margin, broken down by what drives them</li>
+        <article class="svc-card" data-svc="Business & Financial Analysis">
+          <div class="svc-top">
+            <span class="svc-num">03</span>
+            <span class="svc-icon ic-bars" aria-hidden="true"><svg viewBox="0 0 42 42"><g fill="currentColor"><rect class="b1" x="6" y="20" width="7" height="16"/><rect class="b2" x="18" y="12" width="7" height="24"/><rect class="b3" x="30" y="24" width="7" height="12"/></g><line x1="4" y1="37" x2="39" y2="37" stroke-width="2" stroke-linecap="round"/></svg></span>
+          </div>
+          <h3 class="svc-name">Business &amp; Financial Analysis</h3>
+          <p class="svc-fit">The question is about money.</p>
+          <p class="svc-body">Where the numbers meet the decision: what earns, what quietly costs, and what happens if you change course.</p>
+          <ul class="svc-points">
+            <li>Profit and margin, split by what drives them</li>
             <li>Pricing and unit economics you can defend</li>
             <li>Forecasts and scenarios for the calls ahead</li>
-            <li>A short list of the numbers worth watching</li>
+            <li>The handful of numbers worth watching</li>
           </ul>
-          <p class="card-tools">Typically 2 to 5 weeks</p>
-          <a class="card-cta" href="#contact">Start here <span aria-hidden="true">&rarr;</span></a>
-        </li>
+          <div class="svc-foot">
+            <span class="svc-time">2 to 5 weeks</span>
+            <button class="svc-choose" type="button" aria-pressed="false"><span class="box"></span><span class="lbl">Choose</span></button>
+          </div>
+        </article>
 
-        <li class="card">
-          <h3 class="card-title">Dashboards &amp; Automation</h3>
-          <p class="card-fit">You rebuild the same report every week.</p>
-          <p class="card-text">The reporting runs itself and arrives before you ask, so the time goes back into decisions instead of assembly.</p>
-          <ul class="card-list">
-            <li>A dashboard your team reads without you</li>
-            <li>Reporting that refreshes on schedule</li>
-            <li>One agreed definition per number</li>
-            <li>Handover so it keeps running without me</li>
+        <article class="svc-card" data-svc="Dashboards & Reporting">
+          <div class="svc-top">
+            <span class="svc-num">04</span>
+            <span class="svc-icon ic-grid" aria-hidden="true"><svg viewBox="0 0 42 42"><g fill="none" stroke-width="2"><rect class="g1" x="5" y="5" width="14" height="14" rx="1"/><rect class="g2" x="23" y="5" width="14" height="14" rx="1"/><rect class="g3" x="5" y="23" width="14" height="14" rx="1"/><rect class="g4" x="23" y="23" width="14" height="14" rx="1"/></g></svg></span>
+          </div>
+          <h3 class="svc-name">Dashboards &amp; Reporting</h3>
+          <p class="svc-fit">One live view the whole team can read.</p>
+          <p class="svc-body">A dashboard your team reads without you, refreshed on schedule, with one agreed definition behind every number.</p>
+          <ul class="svc-points">
+            <li>Built around your real questions, not filler charts</li>
+            <li>Refreshes on schedule, no manual updates</li>
+            <li>One agreed definition per metric</li>
+            <li>Built to keep running after handover</li>
           </ul>
-          <p class="card-tools">Typically 3 to 5 weeks</p>
-          <a class="card-cta" href="#contact">Start here <span aria-hidden="true">&rarr;</span></a>
-        </li>
+          <div class="svc-foot">
+            <span class="svc-time">3 to 5 weeks</span>
+            <button class="svc-choose" type="button" aria-pressed="false"><span class="box"></span><span class="lbl">Choose</span></button>
+          </div>
+        </article>
 
-      </ul>
-
-      <!-- ------------------------- how I work ------------------------- -->
-      <div class="how">
-        <header class="how-head">
-          <p class="eyebrow">how I work</p>
-          <h3 class="how-title">Four steps, no surprises.</h3>
-        </header>
-
-        <ol class="steps">
-          <li class="step">
-            <p class="step-num">01</p>
-            <h4 class="step-title">Call</h4>
-            <p class="step-text">
-              A free video call. You walk me through what&rsquo;s not working; I tell you
-              honestly whether I can help.
-            </p>
-          </li>
-          <li class="step">
-            <p class="step-num">02</p>
-            <h4 class="step-title">Data audit</h4>
-            <p class="step-text">
-              I look at what you actually have and confirm which questions the data can
-              answer, all before any work is agreed.
-            </p>
-          </li>
-          <li class="step">
-            <p class="step-num">03</p>
-            <h4 class="step-title">Build</h4>
-            <p class="step-text">
-              The analysis, model or dashboard gets built, with checkpoints along the way so
-              nothing arrives as a surprise.
-            </p>
-          </li>
-          <li class="step">
-            <p class="step-num">04</p>
-            <h4 class="step-title">Handover</h4>
-            <p class="step-text">
-              A walkthrough of the findings plus the files and documentation. All yours to keep
-              and to run without me.
-            </p>
-          </li>
-        </ol>
+        <article class="svc-card" data-svc="Automation & Pipelines">
+          <div class="svc-top">
+            <span class="svc-num">05</span>
+            <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 42 42"><g class="ic-loop" fill="none" stroke-width="2.2" stroke-linecap="round"><path d="M32 14 A13 13 0 1 0 34 26"/><polyline points="32,5 33,14 24,15"/></g></svg></span>
+          </div>
+          <h3 class="svc-name">Automation &amp; Pipelines</h3>
+          <p class="svc-fit">You rebuild the same report every week.</p>
+          <p class="svc-body">The repetitive copy-paste work gets replaced by a pipeline that produces the finished report before anyone asks for it.</p>
+          <ul class="svc-points">
+            <li>Manual, repeatable reporting removed</li>
+            <li>Scheduled jobs that run themselves</li>
+            <li>One pipeline from source to finished output</li>
+            <li>Hours handed back to the team each week</li>
+          </ul>
+          <div class="svc-foot">
+            <span class="svc-time">2 to 4 weeks</span>
+            <button class="svc-choose" type="button" aria-pressed="false"><span class="box"></span><span class="lbl">Choose</span></button>
+          </div>
+        </article>
       </div>
 
       <p class="scope-line">
@@ -794,6 +839,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=4" defer></script>
+<script src="assets/js/main.js?v=6" defer></script>
 </body>
 </html>
