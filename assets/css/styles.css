@@ -782,6 +782,59 @@ html {
   .svc-head { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); }
 }
 
+/* ---- mobile swipe strip ---- */
+/* Phones get a horizontal scroll-snap strip instead of a stacked column, so
+   five cards do not cost five screens of scrolling. Native scrolling, no
+   carousel library. Above 640px nothing changes: the grid rule below still
+   applies and the dots stay hidden. */
+.svc-dots {
+  display: none;
+  justify-content: center;
+  gap: .5rem;
+  margin-top: 1.5rem;
+}
+.svc-dots button {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  background: var(--border-2);
+  cursor: pointer;
+  transition: background .3s var(--ease), width .3s var(--ease), border-radius .3s var(--ease);
+}
+.svc-dots button.on { background: var(--accent); width: 22px; border-radius: 4px; }
+
+@media (max-width: 640px) {
+  .svc-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: .25rem;
+    /* Bleed to the screen edges, then pad the gutter back plus a peek strip.
+       A card is exactly the content width, so symmetric padding puts every
+       card's centre on the container's centre, including the first and last.
+       With a percentage width this cannot resolve: the padding changes the
+       content box, which changes the card, which changes the padding needed,
+       and the outer cards end up permanently off centre with mandatory snap
+       refusing to settle on them. */
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: calc(var(--gutter) + 1.5rem);
+  }
+  .svc-grid::-webkit-scrollbar { display: none; }
+
+  .svc-card { flex: 0 0 100%; scroll-snap-align: center; }
+
+  /* the lift would clip against the scroll container's edge mid-swipe */
+  .svc-card:hover { transform: none; }
+
+  .svc-dots { display: flex; }
+}
+
 /* --------------------------- PAINS ICONOGRAPHY --------------------------- */
 .pain-top {
   display: flex;

@@ -806,3 +806,85 @@
     });
   });
 })();
+
+
+/* =====================================================================
+   SERVICES SWIPE DOTS
+   The card strip becomes a horizontal scroll-snap carousel under 640px.
+   These dots show position and jump to a card. The dots are hidden by CSS
+   above that width, so this can run at any size without doing harm.
+   ===================================================================== */
+(function () {
+  'use strict';
+
+  var grid = document.querySelector('.svc-grid');
+  var dotsWrap = document.querySelector('.svc-dots');
+  if (!grid || !dotsWrap) return;
+
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.svc-card'));
+  if (!cards.length) return;
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  cards.forEach(function (card, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-label', 'Go to service ' + (i + 1));
+    b.setAttribute('aria-selected', 'false');
+    b.addEventListener('click', function () {
+      card.scrollIntoView({
+        behavior: reduce ? 'auto' : 'smooth',
+        inline: 'center',
+        block: 'nearest'
+      });
+    });
+    dotsWrap.appendChild(b);
+  });
+
+  var dots = Array.prototype.slice.call(dotsWrap.children);
+
+  function setActive(i) {
+    dots.forEach(function (d, j) {
+      var on = j === i;
+      d.classList.toggle('on', on);
+      // a tablist whose tabs never report selection is broken to a screen
+      // reader, so keep aria-selected in step with the visual state
+      d.setAttribute('aria-selected', String(on));
+    });
+  }
+  setActive(0);
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var i = cards.indexOf(e.target);
+        if (i > -1) setActive(i);
+      });
+    }, { root: grid, threshold: 0.6 });
+
+    cards.forEach(function (c) { io.observe(c); });
+  }
+
+  /* Scroll fallback. A 0.6 threshold can be skipped entirely by a fast flick,
+     and momentum scrolling on iOS does not always deliver an intersection at
+     rest, which leaves the dots showing the wrong card. Measuring which card
+     is nearest the container centre is exact and cheap for five items. It
+     agrees with the observer rather than competing with it. */
+  var last = 0;
+  grid.addEventListener('scroll', function () {
+    var now = Date.now();
+    if (now - last < 80) return;
+    last = now;
+
+    var centre = grid.scrollLeft + grid.clientWidth / 2;
+    var best = 0;
+    var bestGap = Infinity;
+    cards.forEach(function (c, i) {
+      var gap = Math.abs((c.offsetLeft + c.offsetWidth / 2) - centre);
+      if (gap < bestGap) { bestGap = gap; best = i; }
+    });
+    setActive(best);
+  }, { passive: true });
+})();

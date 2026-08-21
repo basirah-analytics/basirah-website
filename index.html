@@ -63,7 +63,7 @@
      JS for up to an hour after a deploy. index.html itself is served
      must-revalidate, so bumping this number is what releases a change.
      BUMP BOTH VALUES WHENEVER styles.css OR main.js CHANGES. -->
-<link rel="stylesheet" href="assets/css/styles.css?v=7">
+<link rel="stylesheet" href="assets/css/styles.css?v=10">
 
 <!-- Structured data. Everything below is asserted to search engines as fact,
      so it carries only what the site can back up: no aggregateRating, no
@@ -301,7 +301,8 @@
         </svg>
       </div>
 
-      <div class="svc-grid" role="group" aria-label="Services, choose the closest fit">
+      <div class="svc-grid" role="group" tabindex="0"
+           aria-label="Services, choose the closest fit">
 
         <article class="svc-card" data-svc="Sales & Revenue Analysis">
           <div class="svc-top">
@@ -403,6 +404,10 @@
           </div>
         </article>
       </div>
+
+      <!-- Position dots for the mobile swipe strip. Built by main.js from the
+           real card count, and hidden by CSS above 640px. -->
+      <div class="svc-dots" role="tablist" aria-label="Service slides"></div>
 
       <p class="scope-line">
         Every project is scoped individually.
@@ -839,6 +844,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=7" defer></script>
+<script src="assets/js/main.js?v=10" defer></script>
 </body>
 </html>
