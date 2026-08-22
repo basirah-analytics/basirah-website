@@ -551,10 +551,10 @@
       ['.resolve', 0], ['.proof-inner > *', 1],
       ['.tile-item', 1],
       ['.ai-copy > *', 1], ['.ai-card', 0],
-      // .origin and .glance for the same reason as .svc-aside above: the
-      // origin story used to be a child of .about-main and faded with it,
-      // and the panel beside it has to fade on the same beat or it pops in.
-      ['.origin', 0], ['.glance', 0], ['.about-main > *', 1],
+      // listed individually rather than as .about-body > *, because the
+      // section head inside it already has its own entry above and would
+      // otherwise be observed twice
+      ['.origin', 0], ['.statement', 0], ['.bio', 0],
       ['.scheduler', 0], ['.contact-side', 0],
       ['.footer-inner > *', 1]
     ];

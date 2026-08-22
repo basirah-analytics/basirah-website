@@ -1300,38 +1300,21 @@ html {
 .ai-card-note { padding-top: var(--space-4); color: var(--muted); }
 
 /* ------------------------------- 13. ABOUT ------------------------------- */
-/* ---- top block: intro text beside the at a glance panel ---- */
-/* Stacked by default. The two column split only turns on at 900px, where
-   both a 34rem measure and a panel wide enough for label and value on one
-   line will actually fit. Below that the panel follows the text at full
-   width, which is the order it reads in. */
-.about-top {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(2rem, 5vw, 3.5rem);
-  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+/* One measured column for every block in the section, centred in the wrap.
+   46rem is the measure, not an arbitrary container width: at this font a
+   character is 9.17px, so 46rem holds about 80 characters per line, the top
+   of the comfortable range. Because the column IS the measure, paragraphs
+   fill it edge to edge and no band of empty space opens up on the right.
+   A wider container would only push that band back inside itself: 65rem
+   would run about 113 characters per line, well past readable. */
+.about-body {
+  max-width: 46rem;
+  margin-inline: auto;
 }
-
-/* the measure sits on the column, not the paragraphs, so the headline and
-   the body share one right edge */
-.about-intro { max-width: 34rem; }
-
-@media (min-width: 900px) {
-  .about-top {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-    /* start, not the stretch default: a grid item stretched to the row
-       height has no slack to travel in, so sticky below would never move */
-    align-items: start;
-  }
-}
-
-/* The lower blocks keep their own measure. The founder note's accent rule
-   would otherwise run the full width of the wrap and read as a leftover. */
-.about-main { max-width: 68ch; }
-.about-main > * + * { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+.about-body > * + * { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
 
 /* ---- origin story ---- */
-.origin p { max-width: 62ch; color: var(--muted); }
+.origin p { color: var(--muted); }
 .origin p + p { margin-top: var(--space-4); }
 
 .origin-lead {
@@ -1366,78 +1349,11 @@ html {
   max-width: 24ch;
 }
 
-.statement-sub {
-  max-width: 62ch;
-  color: var(--muted);
-}
+.statement-sub { color: var(--muted); }
 
-.bio p { max-width: 62ch; color: var(--muted); }
+.bio p { color: var(--muted); }
 .bio p + p { margin-top: var(--space-4); }
 .bio .block-title { margin-bottom: var(--space-4); }
-
-/* ---- at a glance panel ---- */
-/* Company facts only. This is deliberately not the credentials card that
-   used to sit here: no certifications, no stack, nothing personal beyond
-   the founder's finance background, which the bio states in prose too. */
-.glance {
-  padding: clamp(1.5rem, 3vw, 2rem);
-  background: #fff;
-  border: var(--hairline) solid var(--border-2);
-  border-radius: var(--radius-lg);
-}
-
-/* No position: sticky here on purpose. It was tried and measured: the panel
-   is 388px against a 391px intro column, so it had 3px to travel and never
-   moved. Sticky only earns its keep when the column beside it is taller. */
-
-.glance-title {
-  font-size: var(--fs-small);
-  font-weight: var(--fw-head);
-  letter-spacing: -0.01em;
-  margin-bottom: var(--space-5);
-}
-/* the panel's single Signal Red element, echoing the rule on a service card */
-.glance-title::before {
-  content: "";
-  display: block;
-  width: 34px;
-  height: 3px;
-  background: var(--accent);
-  margin-bottom: var(--space-4);
-}
-
-.glance-list { display: grid; }
-
-.glance-row {
-  display: grid;
-  gap: var(--space-1) var(--space-4);
-  padding-top: var(--space-4);
-  margin-top: var(--space-4);
-  border-top: var(--hairline) solid var(--border);
-}
-.glance-row:first-child { padding-top: 0; margin-top: 0; border-top: 0; }
-
-.glance-row dt {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--muted-ink);
-}
-.glance-row dd {
-  margin: 0;
-  font-size: var(--fs-small);
-  font-weight: var(--fw-label);
-  line-height: 1.45;
-  color: var(--text-dark);
-}
-
-/* Label beside value once the panel is wide enough to hold both. Under that
-   it stacks, which is also what the phone gets. */
-@media (min-width: 1024px) {
-  .glance-row { grid-template-columns: minmax(0, 8.5rem) minmax(0, 1fr); }
-  .glance-row dt { padding-top: 0.15em; }
-}
 
 /* ------------------------------ 14. CONTACT ------------------------------ */
 .contact-head { max-width: 44ch; }
@@ -1784,7 +1700,7 @@ html {
   .tile-body { padding: var(--space-4); }
   .ph { gap: var(--space-2); padding: var(--space-4); }
   .ph-art { width: min(100%, 150px); }
-  .about-main > * + * { margin-top: var(--space-6); }
+  .about-body > * + * { margin-top: var(--space-6); }
   .insights, .case, .visuals, .detail-cta { margin-top: var(--space-6); }
 
   /* comfortable touch targets throughout */
