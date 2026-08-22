@@ -126,7 +126,7 @@
       ],
       caseStudy: {
         problem: 'Two years of order data had piled up across five outlets and three sales channels, and nobody had turned it into answers. The owner needed to know what was making money and where it was leaking.',
-        approach: 'I checked the data in SQL Server first: row counts, types, value ranges, missing values, duplicates and hidden characters. Then I built one view joining orders to the menu with the sale amount calculated per line, so every later number came from a single trusted table. Each question was answered in SQL and brought together in a three page Power BI report.',
+        approach: 'We checked the data in SQL Server first: row counts, types, value ranges, missing values, duplicates and hidden characters. Then we built one view joining orders to the menu with the sale amount calculated per line, so every later number came from a single trusted table. Each question was answered in SQL and brought together in a three page Power BI report.',
         results: 'The cancellation leak was traced to the delivery channels rather than any branch or time of day, which pointed the fix at the aggregators first. The menu work separated the dishes that carry revenue from the ones that only carry volume, and the seasonal read gave a clear window for promotions. The write up is explicit about what the data cannot show: it holds no cost, customer or table information, so it makes no claim about profit, retention or table turnover.'
       }
     }
@@ -493,19 +493,19 @@
             if (tzField && form === document.getElementById('book-form')) {
               try { tzField.value = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
             }
-            finish('Thanks, I’ll get back to you soon.');
+            finish('Thanks, we’ll get back to you soon.');
             return;
           }
           return res.json().then(function (data) {
             var detail = data && data.errors && data.errors.length
               ? data.errors.map(function (err) { return err.message; }).join(', ')
               : 'the form service rejected it';
-            finish('That did not send: ' + detail + '. Please email me directly instead.');
+            finish('That did not send: ' + detail + '. Please email us directly instead.');
           });
         })
         .catch(function () {
           finish('That did not send, which usually means a connection problem. ' +
-                 'Please email me directly instead.');
+                 'Please email us directly instead.');
         });
     });
   }
