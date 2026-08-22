@@ -1411,45 +1411,6 @@ html {
   text-transform: uppercase;
 }
 
-.daypick { display: flex; flex-wrap: wrap; gap: var(--space-2); }
-
-/* the native control stays focusable but invisible; the label is the pill */
-.daybox input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.daybox span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  padding: 0.55rem 0.95rem;
-  border: var(--hairline) solid var(--border-dark);
-  border-radius: var(--radius);
-  font-size: var(--fs-small);
-  font-weight: var(--fw-label);
-  color: var(--text-light);
-  cursor: pointer;
-  transition: border-color var(--dur) var(--ease),
-              background-color var(--dur) var(--ease),
-              color var(--dur) var(--ease);
-}
-.daybox span:hover { border-color: #46463F; }
-
-/* selection is this section's single accent */
-.daybox input:checked + span {
-  border-color: var(--accent);
-  background: rgba(236, 48, 19, 0.1);
-}
-.daybox input:focus-visible + span {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-
 .book-submit { width: 100%; margin-top: var(--space-5); }
 
 
@@ -1525,71 +1486,17 @@ html {
 .mode-opt input:checked + span { background: #2E2E28; color: var(--text-light); }
 .mode-opt input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* ---- timezone aware picker ---- */
-.tz-note {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  line-height: 1.6;
-  color: var(--muted);
-  margin-top: calc(-1 * var(--space-2));
-  margin-bottom: var(--space-3);
-}
-
-/* the strip can run long, so cap it and let it scroll rather than push the
-   panel taller than the column beside it */
-.timepick {
-  max-height: 13rem;
-  overflow-y: auto;
-  padding-right: var(--space-2);
-}
-
-/* second line inside a chip, for when the visitor's date differs from ours */
-.slot-date {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-style: normal;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  margin-top: 2px;
-}
-.daybox input:checked + span .slot-date { color: var(--text-light); }
-.timepick .daybox span { flex-direction: column; line-height: 1.2; }
-
-.ist-echo {
-  font-size: var(--fs-small);
-  font-weight: var(--fw-label);
-  color: var(--text-light);
-  margin-top: var(--space-3);
-}
-.ist-echo:empty { display: none; }
-
 .hint {
   font-size: var(--fs-mono);
   line-height: 1.6;
   color: var(--muted);
 }
 
-/* ---- escape hatch ---- */
-.link-toggle {
-  display: inline-block;
-  margin-top: var(--space-4);
-  padding: 0.35rem 0;
-  min-height: 44px;
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--muted);
-  border-bottom: var(--hairline) solid var(--border-dark);
-  text-align: left;
-  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
-}
-.link-toggle:hover { color: var(--text-light); border-bottom-color: var(--text-light); }
-.custom-wrap { margin-top: var(--space-4); }
-
 .field select {
   width: 100%;
+  /* a select renders its own smaller line box, so the same padding as an
+     input lands it at 43px, one pixel under the touch target */
+  min-height: 48px;
   padding: 0.7rem 0.85rem;
   background: #141412;
   color: var(--text-light);
@@ -1608,7 +1515,7 @@ html {
 }
 
 /* [hidden] loses to the display rules above without this */
-.call-only[hidden], .msg-only[hidden], .custom-wrap[hidden] { display: none; }
+.call-only[hidden], .msg-only[hidden] { display: none; }
 
 .field { display: grid; gap: var(--space-2); }
 .field label {
@@ -1840,8 +1747,6 @@ html {
 
   .ai-actions .btn { width: 100%; }
 
-  .daypick { gap: var(--space-2); }
-  .daybox span { flex: 1 0 auto; }
 
   /* 16px minimum stops iOS Safari zooming the page on field focus */
   .field input, .field textarea { font-size: 1rem; }

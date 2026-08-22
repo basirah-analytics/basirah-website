@@ -431,227 +431,79 @@
 
 
 /* =====================================================================
-   CONTACT: one form, two modes, timezone aware booking.
-
-   The working window is defined once, here, in IST. Everything else is
-   derived from it, so changing these two numbers changes the whole picker.
+   CONTACT: one form, two modes.
+   Country plus a rough preference is all the booking needs, so there is
+   no clock and no timezone maths here. The exact time gets agreed in the
+   reply, which is what the line under the button promises.
    ===================================================================== */
 (function () {
   'use strict';
-
-  var WORK_START_IST = 9;    // 9:00 AM IST, first slot starts here
-  var WORK_END_IST   = 21;   // 9:00 PM IST, no slot starts at or after this
-  var SLOT_MINUTES   = 30;
-  var IST_ZONE       = 'Asia/Kolkata';
-  var IST_OFFSET_MIN = 330;  // UTC+5:30, and India has no daylight saving
 
   var form = document.getElementById('contact-form');
   if (!form) return;
 
   var modeRadios = form.querySelectorAll('input[name="mode"]'),
-      timePick   = document.getElementById('time-pick'),
-      istEcho    = document.getElementById('ist-echo'),
-      tzSelect   = document.getElementById('tz-select'),
-      tzPlain    = document.getElementById('tz-plain'),
+      countrySel = document.getElementById('c-country'),
+      msgLabel   = document.getElementById('message-label'),
       subject    = document.getElementById('form-subject'),
-      istField   = document.getElementById('time-ist-field'),
       note       = document.getElementById('form-note'),
-      btn        = document.getElementById('form-submit'),
-      customBtn  = document.getElementById('custom-toggle'),
-      customWrap = document.getElementById('custom-wrap');
+      btn        = document.getElementById('form-submit');
 
-  /* ------------------------------ timezone ------------------------------ */
-  function detectZone() {
-    try { return Intl.DateTimeFormat().resolvedOptions().timeZone || IST_ZONE; }
-    catch (e) { return IST_ZONE; }
-  }
-  var zone = detectZone();
+  /* ------------------------------ country ------------------------------ */
+  /* Codes only. The display names come from Intl at runtime, so there is no
+     hand maintained list of country names to drift or to misspell. */
+  var CODES = ('AD AE AF AG AL AM AO AR AT AU AZ BA BB BD BE BF BG BH BI BJ BN BO BR BS BT BW BY BZ ' +
+    'CA CD CF CG CH CI CL CM CN CO CR CU CV CY CZ DE DJ DK DM DO DZ EC EE EG ER ES ET FI FJ FM FR ' +
+    'GA GB GD GE GH GM GN GQ GR GT GW GY HN HR HT HU ID IE IL IN IQ IR IS IT JM JO JP KE KG KH KI ' +
+    'KM KN KP KR KW KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MG MH MK ML MM MN MR MT MU MV ' +
+    'MW MX MY MZ NA NE NG NI NL NO NP NR NZ OM PA PE PG PH PK PL PT PW PY QA RO RS RU RW SA SB SC ' +
+    'SD SE SG SI SK SL SM SN SO SR SS ST SV SY SZ TD TG TH TJ TL TM TN TO TR TT TV TZ UA UG US UY ' +
+    'UZ VA VC VE VN VU WS YE ZA ZM ZW').split(' ');
 
-  function zoneList() {
+  function nameFor(code) {
     try {
-      if (typeof Intl.supportedValuesOf === 'function') return Intl.supportedValuesOf('timeZone');
-    } catch (e) { /* fall through */ }
-    // enough of a spread to cover most visitors on browsers without the API
-    return ['Asia/Kolkata', 'Asia/Dubai', 'Asia/Singapore', 'Asia/Tokyo',
-            'Australia/Sydney', 'Europe/London', 'Europe/Berlin', 'Europe/Moscow',
-            'Africa/Lagos', 'Africa/Johannesburg', 'America/New_York',
-            'America/Chicago', 'America/Denver', 'America/Los_Angeles',
-            'America/Sao_Paulo', 'UTC'];
+      var dn = new Intl.DisplayNames(['en'], { type: 'region' });
+      var n = dn.of(code);
+      if (n && n !== code) return n;
+    } catch (e) { /* older browser */ }
+    return code;
   }
 
-  function fmtTime(ms, tz) {
-    try {
-      return new Date(ms).toLocaleTimeString([], {
-        hour: 'numeric', minute: '2-digit', timeZone: tz
-      });
-    } catch (e) { return new Date(ms).toUTCString().slice(17, 22) + ' UTC'; }
-  }
-  function fmtDate(ms, tz) {
-    try {
-      return new Date(ms).toLocaleDateString([], {
-        weekday: 'short', day: 'numeric', month: 'short', timeZone: tz
-      });
-    } catch (e) { return ''; }
-  }
-  // the timezone written out, not as an IANA path
-  function zoneInWords(tz) {
-    try {
-      var parts = new Intl.DateTimeFormat([], { timeZone: tz, timeZoneName: 'long' })
-        .formatToParts(new Date());
-      for (var i = 0; i < parts.length; i++) {
-        if (parts[i].type === 'timeZoneName') return parts[i].value;
+  // the browser's own locale is the cheapest guess at where they are
+  function guessCode() {
+    var langs = (navigator.languages && navigator.languages.length)
+      ? navigator.languages : [navigator.language || ''];
+    for (var i = 0; i < langs.length; i++) {
+      var m = String(langs[i]).match(/[-_]([A-Za-z]{2})$/);
+      if (m) {
+        var up = m[1].toUpperCase();
+        if (CODES.indexOf(up) > -1) return up;
       }
-    } catch (e) { /* ignore */ }
-    return tz.replace(/_/g, ' ').split('/').pop();
+    }
+    return '';
   }
 
-  if (tzSelect) {
-    var zones = zoneList(), frag = document.createDocumentFragment(), seen = false;
-    zones.forEach(function (z) {
+  if (countrySel) {
+    var guess = guessCode();
+    var list = CODES.map(function (c) { return { code: c, label: nameFor(c) }; });
+    list.sort(function (a, b) { return a.label.localeCompare(b.label); });
+
+    var frag = document.createDocumentFragment();
+    var ph = document.createElement('option');
+    ph.value = ''; ph.textContent = 'Choose your country';
+    ph.disabled = true;
+    if (!guess) ph.selected = true;
+    frag.appendChild(ph);
+
+    list.forEach(function (item) {
       var o = document.createElement('option');
-      o.value = z;
-      o.textContent = z.replace(/_/g, ' ');
-      if (z === zone) { o.selected = true; seen = true; }
+      o.value = item.label;                 // the email should read as a name
+      o.setAttribute('data-code', item.code);
+      o.textContent = item.label;
+      if (item.code === guess) o.selected = true;
       frag.appendChild(o);
     });
-    if (!seen) {                       // detected zone missing from the list
-      var own = document.createElement('option');
-      own.value = zone; own.textContent = zone.replace(/_/g, ' '); own.selected = true;
-      frag.insertBefore(own, frag.firstChild);
-    }
-    tzSelect.appendChild(frag);
-  }
-
-  function paintZoneWords() {
-    if (tzPlain) tzPlain.textContent = 'Detected as ' + zoneInWords(zone) + '. Change it if that is wrong.';
-  }
-  paintZoneWords();
-
-  /* ------------------------------ the slots ------------------------------ */
-  /* Every slot is built FROM the IST window and stored as a UTC instant, so a
-     slot outside 9 to 21 IST cannot exist no matter which zone is selected.
-     Switching zones only relabels these same instants. */
-  var DAY_INDEX = { Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3,
-                    Thursday: 4, Friday: 5, Saturday: 6 };
-
-  function istPartsNow() {
-    var now = new Date();
-    var istMs = now.getTime() + (now.getTimezoneOffset() + IST_OFFSET_MIN) * 60000;
-    var d = new Date(istMs);
-    return { y: d.getFullYear(), m: d.getMonth(), d: d.getDate(), dow: d.getDay() };
-  }
-
-  // the next date, in IST, whose weekday matches; always tomorrow or later
-  function nextIstDate(dayName) {
-    var want = DAY_INDEX[dayName];
-    if (want === undefined) return null;
-    var t = istPartsNow();
-    var ahead = (want - t.dow + 7) % 7;
-    if (ahead === 0) ahead = 7;                 // never offer today
-    return { y: t.y, m: t.m, d: t.d + ahead };
-  }
-
-  function slotsFor(dayName) {
-    var date = nextIstDate(dayName);
-    if (!date) return [];
-    var out = [];
-    for (var mins = WORK_START_IST * 60; mins < WORK_END_IST * 60; mins += SLOT_MINUTES) {
-      // Date.UTC treats the fields as UTC, so subtracting the IST offset turns
-      // an IST wall clock time into the real instant
-      out.push(Date.UTC(date.y, date.m, date.d, 0, mins) - IST_OFFSET_MIN * 60000);
-    }
-    return out;
-  }
-
-  function selectedDay() {
-    var el = form.querySelector('input[name="day"]:checked');
-    return el ? el.value : null;
-  }
-
-  function paintTimes() {
-    if (!timePick) return;
-    var day = selectedDay();
-    timePick.innerHTML = '';
-    if (istEcho) istEcho.textContent = '';
-    if (istField) istField.value = '';
-
-    if (!day) {
-      var hint = document.createElement('p');
-      hint.className = 'hint';
-      hint.textContent = 'Pick a day first and the times will appear here.';
-      timePick.appendChild(hint);
-      return;
-    }
-
-    var slots = slotsFor(day);
-    var ourDate = fmtDate(slots[0], IST_ZONE);
-
-    slots.forEach(function (ms) {
-      var label = fmtTime(ms, zone);
-      // a far enough zone lands the slot on a different calendar day, and
-      // showing only a bare time there would be genuinely misleading
-      var theirDate = fmtDate(ms, zone);
-      var wrap = document.createElement('label');
-      wrap.className = 'daybox';
-      var input = document.createElement('input');
-      input.type = 'radio';
-      input.name = 'time_slot';
-      input.value = label + (theirDate !== ourDate ? ' on ' + theirDate : '');
-      input.setAttribute('data-utc', String(ms));
-      var span = document.createElement('span');
-      span.textContent = label;
-      if (theirDate !== ourDate) {
-        var sm = document.createElement('em');
-        sm.className = 'slot-date';
-        sm.textContent = theirDate;
-        span.appendChild(sm);
-      }
-      wrap.appendChild(input);
-      wrap.appendChild(span);
-      timePick.appendChild(wrap);
-    });
-  }
-
-  function paintEcho() {
-    var picked = form.querySelector('input[name="time_slot"]:checked');
-    if (!picked) {
-      if (istEcho) istEcho.textContent = '';
-      if (istField) istField.value = '';
-      return;
-    }
-    var ms = Number(picked.getAttribute('data-utc'));
-    var ist = fmtTime(ms, IST_ZONE);
-    if (istEcho) istEcho.textContent = 'That is ' + ist + ' in India (IST).';
-    if (istField) istField.value = ist + ' IST on ' + fmtDate(ms, IST_ZONE);
-  }
-
-  form.addEventListener('change', function (e) {
-    if (e.target.name === 'day') { paintTimes(); paintEcho(); }
-    if (e.target.name === 'time_slot') paintEcho();
-  });
-
-  if (tzSelect) {
-    tzSelect.addEventListener('change', function () {
-      zone = tzSelect.value || detectZone();
-      paintZoneWords();
-      paintTimes();          // same instants, new labels
-      paintEcho();
-    });
-  }
-
-  paintTimes();
-
-  /* --------------------------- the escape hatch --------------------------- */
-  if (customBtn && customWrap) {
-    customBtn.addEventListener('click', function () {
-      var open = customBtn.getAttribute('aria-expanded') === 'true';
-      customBtn.setAttribute('aria-expanded', String(!open));
-      customWrap.hidden = open;
-      if (!open) {
-        var f = customWrap.querySelector('input');
-        if (f) f.focus();
-      }
-    });
+    countrySel.appendChild(frag);
   }
 
   /* ------------------------------- the mode ------------------------------- */
@@ -670,11 +522,19 @@
       el.hidden = isCall;
     });
 
-    // a required field inside a hidden block blocks submission invisibly
-    var msg = form.elements['message'];
-    if (msg) msg.required = !isCall;
+    // hiding a field does not stop it being submitted, so the preference has
+    // to be disabled in message mode or it turns up in an email about nothing
+    var when = form.elements['preferred_time'];
+    if (when) when.disabled = !isCall;
 
-    btn.textContent = isCall ? 'Request this call' : 'Send message';
+    // one textarea serves both modes, so the question has to change with them
+    if (msgLabel) {
+      msgLabel.textContent = isCall
+        ? 'What do you want to figure out?'
+        : 'What are you trying to figure out?';
+    }
+
+    btn.textContent = isCall ? 'Request a call' : 'Send message';
     if (subject) {
       subject.value = isCall
         ? 'Call request from basirahanalytics.com'
@@ -691,7 +551,7 @@
   /* ------------------------------- submit ------------------------------- */
   function finish(text) {
     btn.disabled = false;
-    btn.textContent = currentMode() === 'Call request' ? 'Request this call' : 'Send message';
+    btn.textContent = currentMode() === 'Call request' ? 'Request a call' : 'Send message';
     note.textContent = text;
   }
 
@@ -701,26 +561,21 @@
     var isCall = currentMode() === 'Call request';
     var name = form.elements['name'].value.trim();
     var email = form.elements['email'].value.trim();
+    var country = form.elements['country'].value;
 
     if (!name || !email) { note.textContent = 'Please add your name and email.'; return; }
     if (!form.elements['email'].checkValidity()) {
       note.textContent = 'That email address does not look right.'; return;
     }
+    if (!country) { note.textContent = 'Please pick your country.'; return; }
 
-    if (isCall) {
-      var custom = form.elements['custom_time'];
-      var hasCustom = custom && custom.value.trim();
-      if (!selectedDay() && !hasCustom) {
-        note.textContent = 'Pick a day, or tell us a time that suits you.'; return;
-      }
-      if (!form.querySelector('input[name="time_slot"]:checked') && !hasCustom) {
-        note.textContent = 'Pick a time, or tell us a time that suits you.'; return;
-      }
-    } else if (!form.elements['message'].value.trim()) {
+    if (isCall && !form.elements['preferred_time'].value) {
+      note.textContent = 'Let us know roughly when suits you.'; return;
+    }
+    if (!isCall && !form.elements['message'].value.trim()) {
       note.textContent = 'Add a short message first.'; return;
     }
 
-    paintEcho();                       // make sure time_ist is current
     btn.disabled = true;
     btn.textContent = 'Sending';
     note.textContent = '';
@@ -734,8 +589,6 @@
         if (res.ok) {
           form.reset();
           applyMode();
-          if (tzSelect) tzSelect.value = zone;
-          paintTimes();
           finish('Thanks, we will be in touch within one working day.');
           return;
         }
@@ -1025,7 +878,7 @@
       grid.classList.add('has-selection');
 
       var name = card.getAttribute('data-svc') || '';
-      var topic = document.getElementById('book-about');
+      var topic = document.getElementById('c-message');
       if (topic && !topic.value.trim() && name) topic.value = name + ': ';
     });
   });

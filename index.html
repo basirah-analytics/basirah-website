@@ -63,7 +63,7 @@
      JS for up to an hour after a deploy. index.html itself is served
      must-revalidate, so bumping this number is what releases a change.
      BUMP BOTH VALUES WHENEVER styles.css OR main.js CHANGES. -->
-<link rel="stylesheet" href="assets/css/styles.css?v=20">
+<link rel="stylesheet" href="assets/css/styles.css?v=21">
 
 <!-- Structured data. Everything below is asserted to search engines as fact,
      so it carries only what the site can back up: no aggregateRating, no
@@ -666,45 +666,9 @@
             </div>
 
             <input type="hidden" name="_subject" id="form-subject" value="Call request from basirahanalytics.com">
-            <input type="hidden" name="time_ist" id="time-ist-field" value="">
             <!-- Honeypot: hidden from people, tempting to bots. Formspree discards
                  any submission that arrives with _gotcha filled in. -->
             <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off">
-
-            <div class="call-only" id="call-fields">
-
-              <p class="sched-label" id="day-label">Which day?</p>
-              <div class="daypick" role="radiogroup" aria-labelledby="day-label">
-                <label class="daybox"><input type="radio" name="day" value="Monday"><span>Mon</span></label>
-                <label class="daybox"><input type="radio" name="day" value="Tuesday"><span>Tue</span></label>
-                <label class="daybox"><input type="radio" name="day" value="Wednesday"><span>Wed</span></label>
-                <label class="daybox"><input type="radio" name="day" value="Thursday"><span>Thu</span></label>
-                <label class="daybox"><input type="radio" name="day" value="Friday"><span>Fri</span></label>
-                <label class="daybox"><input type="radio" name="day" value="Saturday"><span>Sat</span></label>
-              </div>
-
-              <p class="sched-label" id="time-label">What time?</p>
-              <p class="tz-note">Times shown in your local timezone. We&rsquo;re based in India (IST).</p>
-              <div class="daypick timepick" id="time-pick" role="radiogroup" aria-labelledby="time-label"></div>
-              <p class="ist-echo" id="ist-echo" role="status" aria-live="polite"></p>
-
-              <div class="field">
-                <label for="tz-select">Your timezone</label>
-                <select id="tz-select" name="timezone"></select>
-                <p class="hint" id="tz-plain"></p>
-              </div>
-
-              <button type="button" class="link-toggle" id="custom-toggle"
-                      aria-expanded="false" aria-controls="custom-wrap">
-                None of these times work? Tell us a time that suits you.
-              </button>
-              <div class="field custom-wrap" id="custom-wrap" hidden>
-                <label for="custom-time">A time that would suit you</label>
-                <input id="custom-time" name="custom_time" type="text"
-                       placeholder="For example, weekday mornings before 8am my time">
-                <p class="hint">Tell us what works and we will do our best to fit around it.</p>
-              </div>
-            </div>
 
             <div class="field">
               <label for="c-name">Name</label>
@@ -716,19 +680,37 @@
               <input id="c-email" name="email" type="email" autocomplete="email" required>
             </div>
 
-            <div class="field call-only">
-              <label for="book-about">What would you like to go through? <span class="opt">optional</span></label>
-              <textarea id="book-about" name="topic" rows="3"></textarea>
+            <div class="field">
+              <label for="c-country">Country</label>
+              <select id="c-country" name="country" autocomplete="country-name" required></select>
             </div>
 
-            <div class="field msg-only" hidden>
-              <label for="c-message">What are you trying to figure out?</label>
+            <div class="field">
+              <label for="c-phone">Phone or WhatsApp <span class="opt">optional</span></label>
+              <input id="c-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
+              <p class="hint">Only if you would rather we reached you there.</p>
+            </div>
+
+            <div class="field call-only">
+              <label for="c-when">When is usually best for you?</label>
+              <select id="c-when" name="preferred_time">
+                <option value="" disabled selected>Choose one</option>
+                <option value="Weekday mornings">Weekday mornings</option>
+                <option value="Weekday afternoons">Weekday afternoons</option>
+                <option value="Weekday evenings">Weekday evenings</option>
+                <option value="Weekends">Weekends</option>
+                <option value="I'm flexible">I&rsquo;m flexible</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="c-message" id="message-label">What do you want to figure out?</label>
               <textarea id="c-message" name="message" rows="4"></textarea>
             </div>
 
             <button class="btn btn-paper book-submit" type="submit" id="form-submit">Request this call</button>
             <p class="sched-note" id="form-note" role="status" aria-live="polite"></p>
-            <p class="confirm-line">We&rsquo;ll confirm the exact time by email within one working day.</p>
+            <p class="confirm-line">We&rsquo;ll confirm a time by email or WhatsApp within one working day.</p>
           </form>
         </div>
       </div>
@@ -790,6 +772,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=20" defer></script>
+<script src="assets/js/main.js?v=21" defer></script>
 </body>
 </html>
