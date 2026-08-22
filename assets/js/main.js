@@ -551,7 +551,7 @@
       ['.resolve', 0], ['.proof-inner > *', 1],
       ['.tile-item', 1],
       ['.ai-copy > *', 1], ['.ai-card', 0],
-      ['.about-main > *', 1], ['.about-side', 0],
+      ['.about-main > *', 1],
       ['.scheduler', 0], ['.contact-side', 0],
       ['.footer-inner > *', 1]
     ];

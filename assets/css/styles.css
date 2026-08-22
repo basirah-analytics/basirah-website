@@ -1300,13 +1300,11 @@ html {
 .ai-card-note { padding-top: var(--space-4); color: var(--muted); }
 
 /* ------------------------------- 13. ABOUT ------------------------------- */
-.about-grid {
-  display: grid;
-  gap: clamp(2.5rem, 6vw, 4.5rem);
-  grid-template-columns: 1fr;
-  align-items: start;
-}
-
+/* Single column since the credentials card came out. The measure below is
+   what keeps it a column rather than text stretched across the full wrap:
+   the paragraphs already cap at 62ch, so without it the accent rule on the
+   founder note would run the whole width and read as a leftover. */
+.about-main { max-width: 68ch; }
 .about-main > * + * { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
 
 /* ---- origin story ---- */
@@ -1353,90 +1351,6 @@ html {
 .bio p { max-width: 62ch; color: var(--muted); }
 .bio p + p { margin-top: var(--space-4); }
 .bio .block-title { margin-bottom: var(--space-4); }
-
-/* ---- facts panel ---- */
-.about-side {
-  display: grid;
-  gap: var(--space-5);
-  padding: clamp(1.5rem, 3vw, 2rem);
-  border: var(--hairline) solid var(--border);
-  border-radius: var(--radius-lg);
-}
-
-/* Portrait when there is one. Until then the brand mark stands in, which reads
-   as deliberate where a box labelled "placeholder" reads as unfinished. */
-.headshot {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border-radius: var(--radius);
-}
-
-.headshot-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 4 / 5;
-  background: #F3F3F0;
-  border-radius: var(--radius);
-  color: #D5D5CE;
-}
-.headshot-mark svg { width: 42%; height: auto; }
-
-.facts { display: grid; gap: var(--space-4); }
-
-.fact { padding-top: var(--space-4); border-top: var(--hairline) solid var(--border); }
-.fact:first-child { padding-top: 0; border-top: 0; }
-
-.facts dt {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: var(--space-2);
-}
-.facts dd {
-  margin: 0;
-  font-size: var(--fs-small);
-  font-weight: var(--fw-label);
-  line-height: 1.45;
-}
-
-/* marks a fact still waiting on real content */
-.ph-chip {
-  display: inline-block;
-  padding: 0.1rem 0.45rem;
-  border: var(--hairline) dashed var(--border);
-  border-radius: 3px;
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.socials {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-  padding-top: var(--space-4);
-  border-top: var(--hairline) solid var(--border);
-}
-.socials a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4em;
-  font-size: var(--fs-small);
-  font-weight: var(--fw-label);
-  border-bottom: var(--hairline) solid var(--border);
-  padding-bottom: 2px;
-  transition: border-color var(--dur) var(--ease);
-}
-.socials a:hover { border-bottom-color: var(--text-dark); }
-.socials span { transition: transform var(--dur) var(--ease); }
-.socials a:hover span { transform: translateX(3px); }
 
 /* ------------------------------ 14. CONTACT ------------------------------ */
 .contact-head { max-width: 44ch; }
@@ -1601,8 +1515,6 @@ html {
 .contact-links a:hover { border-bottom-color: var(--text-light); }
 .contact-links span[aria-hidden] { transition: transform var(--dur) var(--ease); }
 .contact-links a:hover span[aria-hidden] { transform: translateX(3px); }
-
-.section-dark .ph-chip { border-color: var(--border-dark); }
 
 .msg-form { display: grid; gap: var(--space-4); }
 .msg-form .sched-label { margin-top: 0; }
@@ -1790,7 +1702,7 @@ html {
 
   /* comfortable touch targets throughout */
   .nav-link, .footer-nav a, .footer-contact a, .contact-links a,
-  .socials a, .link-mono, .sched-fallback a, .ai-crosslink a, .scope-line a {
+  .link-mono, .sched-fallback a, .ai-crosslink a, .scope-line a {
     min-height: 44px;
     display: inline-flex;
     align-items: center;
@@ -1874,7 +1786,6 @@ html {
    catches iPad portrait while leaving landscape phones single column. */
 @media (min-width: 800px) {
   .ai-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
-  .about-grid { grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr); }
   .contact-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
 
