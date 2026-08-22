@@ -63,7 +63,7 @@
      JS for up to an hour after a deploy. index.html itself is served
      must-revalidate, so bumping this number is what releases a change.
      BUMP BOTH VALUES WHENEVER styles.css OR main.js CHANGES. -->
-<link rel="stylesheet" href="assets/css/styles.css?v=17">
+<link rel="stylesheet" href="assets/css/styles.css?v=18">
 
 <!-- Structured data. Everything below is asserted to search engines as fact,
      so it carries only what the site can back up: no aggregateRating, no
@@ -552,13 +552,14 @@
   <section class="section section-light" id="about">
     <div class="wrap">
 
-      <header class="section-head">
-        <p class="eyebrow">about</p>
-        <h2>Why Basirah?</h2>
-      </header>
+      <!-- ---- top block: intro text beside the at a glance panel ---- -->
+      <div class="about-top">
 
-      <div class="about-grid">
-        <div class="about-main">
+        <div class="about-intro">
+          <header class="section-head">
+            <p class="eyebrow">about</p>
+            <h2>Why Basirah?</h2>
+          </header>
 
           <!-- ---------------- origin story ---------------- -->
           <div class="origin">
@@ -580,6 +581,33 @@
               not just looking. Most tools help you look. Basirah is built to help you understand.
             </p>
           </div>
+        </div>
+
+        <aside class="glance" aria-label="Basirah Analytics at a glance">
+          <h3 class="glance-title">At a glance</h3>
+          <dl class="glance-list">
+            <div class="glance-row">
+              <dt>What we do</dt>
+              <dd>Data analysis, dashboards and reporting</dd>
+            </div>
+            <div class="glance-row">
+              <dt>Who we serve</dt>
+              <dd>Small and mid-size businesses</dd>
+            </div>
+            <div class="glance-row">
+              <dt>How we work</dt>
+              <dd>Founder led, delivered by a team</dd>
+            </div>
+            <div class="glance-row">
+              <dt>Behind the numbers</dt>
+              <dd>An MBA in Finance shapes the analysis, so it starts from the business and not the chart</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-main">
 
           <!-- ---------------- founder note ---------------- -->
           <div class="statement">
@@ -804,6 +832,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=17" defer></script>
+<script src="assets/js/main.js?v=18" defer></script>
 </body>
 </html>
