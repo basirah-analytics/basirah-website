@@ -431,96 +431,321 @@
 
 
 /* =====================================================================
-   CONTACT: booking request and short message.
-   Both post to the same Formspree endpoint and share one handler; the
-   hidden _subject on each form is what tells them apart in the inbox.
+   CONTACT: one form, two modes, timezone aware booking.
+
+   The working window is defined once, here, in IST. Everything else is
+   derived from it, so changing these two numbers changes the whole picker.
    ===================================================================== */
 (function () {
   'use strict';
 
-  /* prefill the timezone so the visitor does not have to think about it */
-  var tzField = document.getElementById('book-tz');
-  if (tzField && !tzField.value) {
+  var WORK_START_IST = 9;    // 9:00 AM IST, first slot starts here
+  var WORK_END_IST   = 21;   // 9:00 PM IST, no slot starts at or after this
+  var SLOT_MINUTES   = 30;
+  var IST_ZONE       = 'Asia/Kolkata';
+  var IST_OFFSET_MIN = 330;  // UTC+5:30, and India has no daylight saving
+
+  var form = document.getElementById('contact-form');
+  if (!form) return;
+
+  var modeRadios = form.querySelectorAll('input[name="mode"]'),
+      timePick   = document.getElementById('time-pick'),
+      istEcho    = document.getElementById('ist-echo'),
+      tzSelect   = document.getElementById('tz-select'),
+      tzPlain    = document.getElementById('tz-plain'),
+      subject    = document.getElementById('form-subject'),
+      istField   = document.getElementById('time-ist-field'),
+      note       = document.getElementById('form-note'),
+      btn        = document.getElementById('form-submit'),
+      customBtn  = document.getElementById('custom-toggle'),
+      customWrap = document.getElementById('custom-wrap');
+
+  /* ------------------------------ timezone ------------------------------ */
+  function detectZone() {
+    try { return Intl.DateTimeFormat().resolvedOptions().timeZone || IST_ZONE; }
+    catch (e) { return IST_ZONE; }
+  }
+  var zone = detectZone();
+
+  function zoneList() {
     try {
-      tzField.value = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-    } catch (e) { /* older browser: leave it for them to type */ }
+      if (typeof Intl.supportedValuesOf === 'function') return Intl.supportedValuesOf('timeZone');
+    } catch (e) { /* fall through */ }
+    // enough of a spread to cover most visitors on browsers without the API
+    return ['Asia/Kolkata', 'Asia/Dubai', 'Asia/Singapore', 'Asia/Tokyo',
+            'Australia/Sydney', 'Europe/London', 'Europe/Berlin', 'Europe/Moscow',
+            'Africa/Lagos', 'Africa/Johannesburg', 'America/New_York',
+            'America/Chicago', 'America/Denver', 'America/Los_Angeles',
+            'America/Sao_Paulo', 'UTC'];
   }
 
-  function wire(formId, noteId, extraCheck) {
-    var form = document.getElementById(formId);
-    if (!form) return;
+  function fmtTime(ms, tz) {
+    try {
+      return new Date(ms).toLocaleTimeString([], {
+        hour: 'numeric', minute: '2-digit', timeZone: tz
+      });
+    } catch (e) { return new Date(ms).toUTCString().slice(17, 22) + ' UTC'; }
+  }
+  function fmtDate(ms, tz) {
+    try {
+      return new Date(ms).toLocaleDateString([], {
+        weekday: 'short', day: 'numeric', month: 'short', timeZone: tz
+      });
+    } catch (e) { return ''; }
+  }
+  // the timezone written out, not as an IANA path
+  function zoneInWords(tz) {
+    try {
+      var parts = new Intl.DateTimeFormat([], { timeZone: tz, timeZoneName: 'long' })
+        .formatToParts(new Date());
+      for (var i = 0; i < parts.length; i++) {
+        if (parts[i].type === 'timeZoneName') return parts[i].value;
+      }
+    } catch (e) { /* ignore */ }
+    return tz.replace(/_/g, ' ').split('/').pop();
+  }
 
-    var note = document.getElementById(noteId);
-    var btn = form.querySelector('[type="submit"]');
-    var label = btn.textContent;
+  if (tzSelect) {
+    var zones = zoneList(), frag = document.createDocumentFragment(), seen = false;
+    zones.forEach(function (z) {
+      var o = document.createElement('option');
+      o.value = z;
+      o.textContent = z.replace(/_/g, ' ');
+      if (z === zone) { o.selected = true; seen = true; }
+      frag.appendChild(o);
+    });
+    if (!seen) {                       // detected zone missing from the list
+      var own = document.createElement('option');
+      own.value = zone; own.textContent = zone.replace(/_/g, ' '); own.selected = true;
+      frag.insertBefore(own, frag.firstChild);
+    }
+    tzSelect.appendChild(frag);
+  }
 
-    function field(n) { return form.elements[n]; }
-    function finish(text) {
-      btn.disabled = false;
-      btn.textContent = label;
-      note.textContent = text;
+  function paintZoneWords() {
+    if (tzPlain) tzPlain.textContent = 'Detected as ' + zoneInWords(zone) + '. Change it if that is wrong.';
+  }
+  paintZoneWords();
+
+  /* ------------------------------ the slots ------------------------------ */
+  /* Every slot is built FROM the IST window and stored as a UTC instant, so a
+     slot outside 9 to 21 IST cannot exist no matter which zone is selected.
+     Switching zones only relabels these same instants. */
+  var DAY_INDEX = { Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3,
+                    Thursday: 4, Friday: 5, Saturday: 6 };
+
+  function istPartsNow() {
+    var now = new Date();
+    var istMs = now.getTime() + (now.getTimezoneOffset() + IST_OFFSET_MIN) * 60000;
+    var d = new Date(istMs);
+    return { y: d.getFullYear(), m: d.getMonth(), d: d.getDate(), dow: d.getDay() };
+  }
+
+  // the next date, in IST, whose weekday matches; always tomorrow or later
+  function nextIstDate(dayName) {
+    var want = DAY_INDEX[dayName];
+    if (want === undefined) return null;
+    var t = istPartsNow();
+    var ahead = (want - t.dow + 7) % 7;
+    if (ahead === 0) ahead = 7;                 // never offer today
+    return { y: t.y, m: t.m, d: t.d + ahead };
+  }
+
+  function slotsFor(dayName) {
+    var date = nextIstDate(dayName);
+    if (!date) return [];
+    var out = [];
+    for (var mins = WORK_START_IST * 60; mins < WORK_END_IST * 60; mins += SLOT_MINUTES) {
+      // Date.UTC treats the fields as UTC, so subtracting the IST offset turns
+      // an IST wall clock time into the real instant
+      out.push(Date.UTC(date.y, date.m, date.d, 0, mins) - IST_OFFSET_MIN * 60000);
+    }
+    return out;
+  }
+
+  function selectedDay() {
+    var el = form.querySelector('input[name="day"]:checked');
+    return el ? el.value : null;
+  }
+
+  function paintTimes() {
+    if (!timePick) return;
+    var day = selectedDay();
+    timePick.innerHTML = '';
+    if (istEcho) istEcho.textContent = '';
+    if (istField) istField.value = '';
+
+    if (!day) {
+      var hint = document.createElement('p');
+      hint.className = 'hint';
+      hint.textContent = 'Pick a day first and the times will appear here.';
+      timePick.appendChild(hint);
+      return;
     }
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
+    var slots = slotsFor(day);
+    var ourDate = fmtDate(slots[0], IST_ZONE);
 
-      var name = field('name').value.trim();
-      var email = field('email').value.trim();
-
-      if (!name || !email) {
-        note.textContent = 'Please add your name and email.';
-        return;
+    slots.forEach(function (ms) {
+      var label = fmtTime(ms, zone);
+      // a far enough zone lands the slot on a different calendar day, and
+      // showing only a bare time there would be genuinely misleading
+      var theirDate = fmtDate(ms, zone);
+      var wrap = document.createElement('label');
+      wrap.className = 'daybox';
+      var input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'time_slot';
+      input.value = label + (theirDate !== ourDate ? ' on ' + theirDate : '');
+      input.setAttribute('data-utc', String(ms));
+      var span = document.createElement('span');
+      span.textContent = label;
+      if (theirDate !== ourDate) {
+        var sm = document.createElement('em');
+        sm.className = 'slot-date';
+        sm.textContent = theirDate;
+        span.appendChild(sm);
       }
-      if (!field('email').checkValidity()) {
-        note.textContent = 'That email address does not look right.';
-        return;
-      }
-      var extra = extraCheck ? extraCheck(form) : null;
-      if (extra) { note.textContent = extra; return; }
-
-      btn.disabled = true;
-      btn.textContent = 'Sending';
-      note.textContent = '';
-
-      fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      })
-        .then(function (res) {
-          if (res.ok) {
-            form.reset();
-            if (tzField && form === document.getElementById('book-form')) {
-              try { tzField.value = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
-            }
-            finish('Thanks, we’ll get back to you soon.');
-            return;
-          }
-          return res.json().then(function (data) {
-            var detail = data && data.errors && data.errors.length
-              ? data.errors.map(function (err) { return err.message; }).join(', ')
-              : 'the form service rejected it';
-            finish('That did not send: ' + detail + '. Please email us directly instead.');
-          });
-        })
-        .catch(function () {
-          finish('That did not send, which usually means a connection problem. ' +
-                 'Please email us directly instead.');
-        });
+      wrap.appendChild(input);
+      wrap.appendChild(span);
+      timePick.appendChild(wrap);
     });
   }
 
-  // booking request: also needs at least one day and a time window
-  wire('book-form', 'book-note', function (form) {
-    var days = form.querySelectorAll('input[name="days"]:checked').length;
-    if (!days) return 'Pick at least one day that suits you.';
-    if (!form.querySelector('input[name="time_window"]:checked')) return 'Pick a rough time of day.';
-    return null;
+  function paintEcho() {
+    var picked = form.querySelector('input[name="time_slot"]:checked');
+    if (!picked) {
+      if (istEcho) istEcho.textContent = '';
+      if (istField) istField.value = '';
+      return;
+    }
+    var ms = Number(picked.getAttribute('data-utc'));
+    var ist = fmtTime(ms, IST_ZONE);
+    if (istEcho) istEcho.textContent = 'That is ' + ist + ' in India (IST).';
+    if (istField) istField.value = ist + ' IST on ' + fmtDate(ms, IST_ZONE);
+  }
+
+  form.addEventListener('change', function (e) {
+    if (e.target.name === 'day') { paintTimes(); paintEcho(); }
+    if (e.target.name === 'time_slot') paintEcho();
   });
 
-  // general message: needs a message body
-  wire('msg-form', 'msg-note', function (form) {
-    return form.elements['message'].value.trim() ? null : 'Add a short message first.';
+  if (tzSelect) {
+    tzSelect.addEventListener('change', function () {
+      zone = tzSelect.value || detectZone();
+      paintZoneWords();
+      paintTimes();          // same instants, new labels
+      paintEcho();
+    });
+  }
+
+  paintTimes();
+
+  /* --------------------------- the escape hatch --------------------------- */
+  if (customBtn && customWrap) {
+    customBtn.addEventListener('click', function () {
+      var open = customBtn.getAttribute('aria-expanded') === 'true';
+      customBtn.setAttribute('aria-expanded', String(!open));
+      customWrap.hidden = open;
+      if (!open) {
+        var f = customWrap.querySelector('input');
+        if (f) f.focus();
+      }
+    });
+  }
+
+  /* ------------------------------- the mode ------------------------------- */
+  function currentMode() {
+    var el = form.querySelector('input[name="mode"]:checked');
+    return el ? el.value : 'Call request';
+  }
+
+  function applyMode() {
+    var isCall = currentMode() === 'Call request';
+
+    Array.prototype.forEach.call(form.querySelectorAll('.call-only'), function (el) {
+      el.hidden = !isCall;
+    });
+    Array.prototype.forEach.call(form.querySelectorAll('.msg-only'), function (el) {
+      el.hidden = isCall;
+    });
+
+    // a required field inside a hidden block blocks submission invisibly
+    var msg = form.elements['message'];
+    if (msg) msg.required = !isCall;
+
+    btn.textContent = isCall ? 'Request this call' : 'Send message';
+    if (subject) {
+      subject.value = isCall
+        ? 'Call request from basirahanalytics.com'
+        : 'New enquiry from basirahanalytics.com';
+    }
+    if (note) note.textContent = '';
+  }
+
+  Array.prototype.forEach.call(modeRadios, function (r) {
+    r.addEventListener('change', applyMode);
+  });
+  applyMode();
+
+  /* ------------------------------- submit ------------------------------- */
+  function finish(text) {
+    btn.disabled = false;
+    btn.textContent = currentMode() === 'Call request' ? 'Request this call' : 'Send message';
+    note.textContent = text;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var isCall = currentMode() === 'Call request';
+    var name = form.elements['name'].value.trim();
+    var email = form.elements['email'].value.trim();
+
+    if (!name || !email) { note.textContent = 'Please add your name and email.'; return; }
+    if (!form.elements['email'].checkValidity()) {
+      note.textContent = 'That email address does not look right.'; return;
+    }
+
+    if (isCall) {
+      var custom = form.elements['custom_time'];
+      var hasCustom = custom && custom.value.trim();
+      if (!selectedDay() && !hasCustom) {
+        note.textContent = 'Pick a day, or tell us a time that suits you.'; return;
+      }
+      if (!form.querySelector('input[name="time_slot"]:checked') && !hasCustom) {
+        note.textContent = 'Pick a time, or tell us a time that suits you.'; return;
+      }
+    } else if (!form.elements['message'].value.trim()) {
+      note.textContent = 'Add a short message first.'; return;
+    }
+
+    paintEcho();                       // make sure time_ist is current
+    btn.disabled = true;
+    btn.textContent = 'Sending';
+    note.textContent = '';
+
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    })
+      .then(function (res) {
+        if (res.ok) {
+          form.reset();
+          applyMode();
+          if (tzSelect) tzSelect.value = zone;
+          paintTimes();
+          finish('Thanks, we will be in touch within one working day.');
+          return;
+        }
+        return res.json().then(function () {
+          finish('Something went wrong, please email hello@basirahanalytics.com');
+        });
+      })
+      .catch(function () {
+        finish('Something went wrong, please email hello@basirahanalytics.com');
+      });
   });
 })();
 
@@ -555,7 +780,7 @@
       // section head inside it already has its own entry above and would
       // otherwise be observed twice
       ['.origin', 0], ['.statement', 0], ['.bio', 0],
-      ['.scheduler', 0], ['.contact-side', 0],
+      ['.contact-intro', 0], ['.scheduler', 0],
       ['.footer-inner > *', 1]
     ];
 
@@ -674,10 +899,6 @@
       });
       collapsibles.push({ btn: btn, items: rest });
     }
-
-    // Contact: booking is the primary action, so fold the message form
-    var msg = document.getElementById('msg-form');
-    if (msg) addToggle(msg, 'Or send a message instead', function () { return [msg]; });
 
     // About: the bio paragraphs sit below the founder note
     var bio = document.querySelector('.bio');

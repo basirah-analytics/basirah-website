@@ -63,7 +63,7 @@
      JS for up to an hour after a deploy. index.html itself is served
      must-revalidate, so bumping this number is what releases a change.
      BUMP BOTH VALUES WHENEVER styles.css OR main.js CHANGES. -->
-<link rel="stylesheet" href="assets/css/styles.css?v=19">
+<link rel="stylesheet" href="assets/css/styles.css?v=20">
 
 <!-- Structured data. Everything below is asserted to search engines as fact,
      so it carries only what the site can back up: no aggregateRating, no
@@ -621,127 +621,114 @@
   <section class="section section-dark contact" id="contact">
     <div class="wrap">
 
-      <header class="section-head contact-head">
-        <p class="eyebrow">let&rsquo;s talk</p>
-        <h2>Pick a slot for a video call.</h2>
-        <p class="contact-lead">
-          A 30-minute video call to talk through your data and your goals. We&rsquo;ll follow up with a
-          custom quote. The call itself is free.
-        </p>
-      </header>
-
       <div class="contact-grid">
 
-        <!-- ------------------ booking request (own design, no third party) ------------------ -->
-        <!-- Posts to the same Formspree endpoint as the message form, with a
-             _subject that marks it as a booking rather than a general enquiry. -->
-        <div class="scheduler">
-          <div class="sched-head">
-            <div>
-              <p class="sched-title">Book a free call</p>
-              <p class="sched-meta">30 min · video</p>
-            </div>
-          </div>
-
-          <form class="book-form" id="book-form"
-                action="https://formspree.io/f/mojggvgg" method="POST" novalidate>
-
-            <input type="hidden" name="_subject" value="Call request from basirahanalytics.com">
-            <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off">
-
-            <p class="sched-label">Which days suit you?</p>
-            <div class="daypick" role="group" aria-label="Preferred days">
-              <label class="daybox"><input type="checkbox" name="days" value="Monday"><span>Mon</span></label>
-              <label class="daybox"><input type="checkbox" name="days" value="Tuesday"><span>Tue</span></label>
-              <label class="daybox"><input type="checkbox" name="days" value="Wednesday"><span>Wed</span></label>
-              <label class="daybox"><input type="checkbox" name="days" value="Thursday"><span>Thu</span></label>
-              <label class="daybox"><input type="checkbox" name="days" value="Friday"><span>Fri</span></label>
-            </div>
-
-            <p class="sched-label">And roughly what time?</p>
-            <div class="daypick timepick" role="group" aria-label="Preferred time of day">
-              <label class="daybox"><input type="radio" name="time_window" value="Morning"><span>Morning</span></label>
-              <label class="daybox"><input type="radio" name="time_window" value="Afternoon"><span>Afternoon</span></label>
-              <label class="daybox"><input type="radio" name="time_window" value="Evening"><span>Evening</span></label>
-            </div>
-
-            <div class="field">
-              <label for="book-tz">Your timezone</label>
-              <input id="book-tz" name="timezone" type="text" autocomplete="off">
-            </div>
-
-            <div class="field">
-              <label for="book-name">Name</label>
-              <input id="book-name" name="name" type="text" autocomplete="name" required>
-            </div>
-
-            <div class="field">
-              <label for="book-email">Email</label>
-              <input id="book-email" name="email" type="email" autocomplete="email" required>
-            </div>
-
-            <div class="field">
-              <label for="book-about">What would you like to go through? <span class="opt">optional</span></label>
-              <textarea id="book-about" name="topic" rows="3"></textarea>
-            </div>
-
-            <button class="btn btn-paper book-submit" type="submit">Request this call</button>
-            <p class="sched-note" id="book-note" role="status" aria-live="polite"></p>
-          </form>
-
-          <p class="sched-fallback">
-            <a href="mailto:hello@basirahanalytics.com">
-              Rather just email us? <span aria-hidden="true">&rarr;</span>
-            </a>
-          </p>
-        </div>
-
-        <!-- ------------------ direct contact + short message ------------------ -->
-        <div class="contact-side">
+        <!-- ---------------- left: the pitch, plus direct routes ---------------- -->
+        <div class="contact-intro">
+          <header class="section-head contact-head">
+            <p class="eyebrow">let&rsquo;s talk</p>
+            <h2>Pick a slot for a video call.</h2>
+            <p class="contact-lead">
+              A 30-minute video call to talk through your data and your goals. We&rsquo;ll follow up
+              with a custom quote. The call itself is free.
+            </p>
+          </header>
 
           <div class="direct">
             <p class="sched-label">Or reach us directly</p>
             <ul class="contact-links">
-              <li>
-                <!-- TODO(contact-email): interim address. Swap for hello@basirahanalytics.com
-                     once the branded inbox is set up (also in the footer). -->
-                <a href="mailto:hello@basirahanalytics.com">hello@basirahanalytics.com</a>
-              </li>
+              <li><a href="mailto:hello@basirahanalytics.com">hello@basirahanalytics.com</a></li>
               <li><a href="https://www.linkedin.com/company/basirah-analytics/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&rarr;</span></a></li>
               <li><a href="https://github.com/basirah-analytics" target="_blank" rel="noopener">GitHub <span aria-hidden="true">&rarr;</span></a></li>
             </ul>
           </div>
+        </div>
 
-          <!-- Posts to Formspree. main.js intercepts and submits via fetch so the
-               visitor stays on the page; without JS the browser posts normally and
-               Formspree shows its own confirmation. -->
-          <form class="msg-form" id="msg-form"
+        <!-- ---------------- right: one form, two modes ---------------- -->
+        <!-- TODO(form-key): posts to the existing Formspree endpoint so the form
+             works today. Swap the action for a dedicated endpoint or a Web3Forms
+             access key when you have one. Without JS the browser posts normally
+             and Formspree shows its own confirmation, so the form still works. -->
+        <div class="scheduler">
+
+          <form class="book-form" id="contact-form"
                 action="https://formspree.io/f/mojggvgg" method="POST" novalidate>
-            <p class="sched-label">Send a short message</p>
 
-            <input type="hidden" name="_subject" value="New enquiry from basirahanalytics.com">
+            <div class="mode-toggle" role="radiogroup" aria-label="What would you like to do?">
+              <label class="mode-opt">
+                <input type="radio" name="mode" value="Call request" checked>
+                <span>Book a call</span>
+              </label>
+              <label class="mode-opt">
+                <input type="radio" name="mode" value="Message">
+                <span>Send a message</span>
+              </label>
+            </div>
 
+            <input type="hidden" name="_subject" id="form-subject" value="Call request from basirahanalytics.com">
+            <input type="hidden" name="time_ist" id="time-ist-field" value="">
             <!-- Honeypot: hidden from people, tempting to bots. Formspree discards
                  any submission that arrives with _gotcha filled in. -->
             <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off">
 
-            <div class="field">
-              <label for="msg-name">Name</label>
-              <input id="msg-name" name="name" type="text" autocomplete="name" required>
+            <div class="call-only" id="call-fields">
+
+              <p class="sched-label" id="day-label">Which day?</p>
+              <div class="daypick" role="radiogroup" aria-labelledby="day-label">
+                <label class="daybox"><input type="radio" name="day" value="Monday"><span>Mon</span></label>
+                <label class="daybox"><input type="radio" name="day" value="Tuesday"><span>Tue</span></label>
+                <label class="daybox"><input type="radio" name="day" value="Wednesday"><span>Wed</span></label>
+                <label class="daybox"><input type="radio" name="day" value="Thursday"><span>Thu</span></label>
+                <label class="daybox"><input type="radio" name="day" value="Friday"><span>Fri</span></label>
+                <label class="daybox"><input type="radio" name="day" value="Saturday"><span>Sat</span></label>
+              </div>
+
+              <p class="sched-label" id="time-label">What time?</p>
+              <p class="tz-note">Times shown in your local timezone. We&rsquo;re based in India (IST).</p>
+              <div class="daypick timepick" id="time-pick" role="radiogroup" aria-labelledby="time-label"></div>
+              <p class="ist-echo" id="ist-echo" role="status" aria-live="polite"></p>
+
+              <div class="field">
+                <label for="tz-select">Your timezone</label>
+                <select id="tz-select" name="timezone"></select>
+                <p class="hint" id="tz-plain"></p>
+              </div>
+
+              <button type="button" class="link-toggle" id="custom-toggle"
+                      aria-expanded="false" aria-controls="custom-wrap">
+                None of these times work? Tell us a time that suits you.
+              </button>
+              <div class="field custom-wrap" id="custom-wrap" hidden>
+                <label for="custom-time">A time that would suit you</label>
+                <input id="custom-time" name="custom_time" type="text"
+                       placeholder="For example, weekday mornings before 8am my time">
+                <p class="hint">Tell us what works and we will do our best to fit around it.</p>
+              </div>
             </div>
 
             <div class="field">
-              <label for="msg-email">Email</label>
-              <input id="msg-email" name="email" type="email" autocomplete="email" required>
+              <label for="c-name">Name</label>
+              <input id="c-name" name="name" type="text" autocomplete="name" required>
             </div>
 
             <div class="field">
-              <label for="msg-body">What are you trying to figure out?</label>
-              <textarea id="msg-body" name="message" rows="4" required></textarea>
+              <label for="c-email">Email</label>
+              <input id="c-email" name="email" type="email" autocomplete="email" required>
             </div>
 
-            <button class="btn btn-outline" type="submit">Send</button>
-            <p class="sched-note" id="msg-note" role="status" aria-live="polite"></p>
+            <div class="field call-only">
+              <label for="book-about">What would you like to go through? <span class="opt">optional</span></label>
+              <textarea id="book-about" name="topic" rows="3"></textarea>
+            </div>
+
+            <div class="field msg-only" hidden>
+              <label for="c-message">What are you trying to figure out?</label>
+              <textarea id="c-message" name="message" rows="4"></textarea>
+            </div>
+
+            <button class="btn btn-paper book-submit" type="submit" id="form-submit">Request this call</button>
+            <p class="sched-note" id="form-note" role="status" aria-live="polite"></p>
+            <p class="confirm-line">We&rsquo;ll confirm the exact time by email within one working day.</p>
           </form>
         </div>
       </div>
@@ -803,6 +790,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=19" defer></script>
+<script src="assets/js/main.js?v=20" defer></script>
 </body>
 </html>
