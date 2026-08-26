@@ -466,27 +466,34 @@ html {
   color: #F3F2F2;
 
   opacity: 0;
-  animation: heroQ 29.4s ease-in-out infinite;
+  animation: heroQ 32.4s ease-in-out infinite;
 }
 
-/* 29.4s is six questions at 4.9s each. Within one question: 1.2s in, 3.7s
-   held still, 1.2s out. The tail overlaps the next question's entrance by
-   exactly that 1.2s, which is what makes it a crossfade rather than a blink
-   through the background. */
+/* Strictly one at a time. Every question shares this one cell, so any moment
+   where two are above zero opacity paints them on top of each other and the
+   text is unreadable. An earlier version crossfaded them on purpose and did
+   exactly that.
+
+   One question occupies 5.4s: 0.8s in, 3.5s held still, 0.8s out, then 0.3s
+   of nothing. The slot is 5.4s but the visible span ends at 5.1s, and that
+   0.3s difference is the guarantee: the next question's fade-in starts at
+   5.4s, after this one has already reached zero. Six slots make the 32.4s
+   loop, and the wrap from the sixth back to the first inherits the same
+   0.3s gap, so the seam is not a special case. */
 @keyframes heroQ {
-  0%       { opacity: 0; }
-  4.0816%  { opacity: 1; }   /* 1.2s */
-  16.6667% { opacity: 1; }   /* 4.9s */
-  20.7483% { opacity: 0; }   /* 6.1s */
-  100%     { opacity: 0; }
+  0%        { opacity: 0; }
+  2.4691%   { opacity: 1; }   /* 0.8s, faded in */
+  13.2716%  { opacity: 1; }   /* 4.3s, held for 3.5s */
+  15.7407%  { opacity: 0; }   /* 5.1s, faded out */
+  100%      { opacity: 0; }   /* 5.1s to 32.4s, off while the others run */
 }
 
 .hero-q:nth-child(1) { animation-delay: 0s; }
-.hero-q:nth-child(2) { animation-delay: 4.9s; }
-.hero-q:nth-child(3) { animation-delay: 9.8s; }
-.hero-q:nth-child(4) { animation-delay: 14.7s; }
-.hero-q:nth-child(5) { animation-delay: 19.6s; }
-.hero-q:nth-child(6) { animation-delay: 24.5s; }
+.hero-q:nth-child(2) { animation-delay: 5.4s; }
+.hero-q:nth-child(3) { animation-delay: 10.8s; }
+.hero-q:nth-child(4) { animation-delay: 16.2s; }
+.hero-q:nth-child(5) { animation-delay: 21.6s; }
+.hero-q:nth-child(6) { animation-delay: 27s; }
 
 /* The global reduced-motion rule collapses every animation to 0.01ms and one
    iteration, which would leave all six sitting at their end state of opacity
