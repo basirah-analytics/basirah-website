@@ -17,6 +17,7 @@
   --border-dark:    #2A2A26;   /* hairline on dark */
   --border-2:       #E2E2DD;   /* card hairline, one step darker than --border */
   --accent:         #EC3013;   /* Signal Red: ONE focal element per view */
+  --signal-amber:   #EF9F27;   /* data signals only, never an action (8.6:1 on --ink) */
 
   /* type */
   --font-sans: "Archivo", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -134,7 +135,6 @@ p { text-wrap: pretty; }
 
 /* mono eyebrow / label */
 .eyebrow,
-.link-mono,
 .rail-label,
 .badge-available {
   font-family: var(--font-mono);
@@ -267,19 +267,6 @@ html {
   border-color: var(--text-light);
 }
 .btn-paper:hover { background: #fff; border-color: #fff; }
-
-.link-mono {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4em;
-  padding-block: 0.25rem;
-  color: var(--text-light);
-  border-bottom: var(--hairline) solid rgba(245, 244, 241, 0.28);
-  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
-}
-.link-mono:hover { border-bottom-color: var(--text-light); }
-.link-mono span { transition: transform var(--dur) var(--ease); }
-.link-mono:hover span { transform: translateX(3px); }
 
 /* ------------------------------ 6. NAVBAR ------------------------------ */
 .site-header {
@@ -723,10 +710,9 @@ html {
   white-space: nowrap;
 }
 
+/* A plain label, not a chip. The outlined box read as something you could
+   press, which put a fake control next to the real one on every card. */
 .pkg-tag {
-  padding: 0.25rem 0.55rem;
-  border: var(--hairline) solid var(--border-dark);
-  border-radius: 3px;
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
   letter-spacing: 0.08em;
@@ -1249,10 +1235,12 @@ html {
 .proof-org::before { content: " · "; }
 
 /* ----------------------------- 12. BASIRA AI ----------------------------- */
-/* The one section CLAUDE.md marks accent-forward. Red appears three times and
-   only where it carries meaning: the word "free", the CTA, and the outlier
-   signal. Each use is sized and placed to hold WCAG AA against #141412, see the
-   notes on .btn-accent and .accent-word. */
+/* The one section CLAUDE.md marks accent-forward. Red now appears twice and
+   only where it carries meaning: the word "free" and the CTA. The outlier
+   signal moved to --signal-amber, because red is what this site uses for
+   things you can act on, and a data anomaly is not one of them. Each use is
+   sized and placed to hold WCAG AA against #141412, see the notes on
+   .btn-accent and .accent-word. */
 .ai-grid {
   display: grid;
   gap: clamp(2.5rem, 6vw, 4.5rem);
@@ -1393,7 +1381,7 @@ html {
   background: var(--muted);
   flex: none;
 }
-.finding-outlier .finding-kind::before { background: var(--accent); }
+.finding-outlier .finding-kind::before { background: var(--signal-amber); }
 
 .finding-text {
   font-size: var(--fs-small);
@@ -1404,7 +1392,7 @@ html {
 .spark { width: 76px; height: 22px; flex: none; color: var(--muted); }
 .spark polyline { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .spark-bars rect { fill: #3A3A34; }
-.spark-bars .spark-hi { fill: var(--accent); }
+.spark-bars .spark-hi { fill: var(--signal-amber); }
 
 .ai-card-note { padding-top: var(--space-4); color: var(--muted); }
 
@@ -1814,7 +1802,7 @@ html {
 
   /* comfortable touch targets throughout */
   .nav-link, .footer-nav a, .footer-contact a, .contact-links a,
-  .link-mono, .ai-crosslink a {
+  .ai-crosslink a {
     min-height: 44px;
     display: inline-flex;
     align-items: center;
