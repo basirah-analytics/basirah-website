@@ -631,7 +631,17 @@ html {
 /* Three tiers on a dark band. Collapsed they are scannable in a couple of
    seconds; the depth lives behind the expander. */
 .pkg-head { max-width: 46ch; margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
-.pkg-head .eyebrow { display: block; margin-bottom: var(--space-4); }
+/* Lifted from --muted (#8A8A85, 5.4:1 on Ink) to the tone the body copy in
+   this section already uses (10.98:1). Same font, size, weight, tracking and
+   "//" prefix, so it is still the same eyebrow, just legible. The other
+   option was a red "//", but this section already carries six Signal Red
+   elements and a seventh above the heading would pull against the Start
+   here badge. Scoped to .pkg-head so the other eyebrows are untouched. */
+.pkg-head .eyebrow {
+  display: block;
+  margin-bottom: var(--space-4);
+  color: #C9C7C1;
+}
 .pkg-head h2 { margin-bottom: var(--space-5); }
 .pkg-head .section-lead { max-width: 58ch; color: #C9C7C1; }
 
@@ -701,12 +711,16 @@ html {
   margin-bottom: var(--space-4);
 }
 
+/* A quiet index, deliberately plainer than the tag beside it: no border,
+   no box, and it keeps the muted tone while the tag carries the hairline. */
 .pkg-num {
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
   font-weight: 500;
   letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
   color: var(--muted);
+  white-space: nowrap;
 }
 
 .pkg-tag {
@@ -726,6 +740,19 @@ html {
   font-weight: var(--fw-head);
   letter-spacing: -0.01em;
   margin-bottom: var(--space-3);
+}
+
+/* Marks the line below as the reader's own thought rather than ours. No
+   "//" prefix: that belongs to section eyebrows, and three of them inside
+   one row of cards would read as three new sections. */
+.pkg-cue {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  font-weight: 500;
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--space-2);
 }
 
 .pkg-quote {
