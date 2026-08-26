@@ -777,15 +777,19 @@ html {
   color: #C9C7C1;
 }
 
-/* ---- expander ---- */
-/* The label stays paper white and the chevron carries the red. Signal Red
-   on Ink measures 4.44:1, which clears AA for large text but not for a
-   label this size, and a cue nobody can read is not a cue. */
+/* ---- expander, the secondary control ---- */
+/* Text and a chevron, no fill and no border, so it reads as quieter than
+   the solid button above it. The chevron is muted rather than red: with a
+   real call to action on the card now, spending the accent on the control
+   that only reveals copy would point the eye at the wrong thing. */
 .pkg-toggle {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  margin-top: auto;
+  /* shrink to the label: as a flex item it would otherwise stretch the full
+     card width, giving the quiet control a hit box the size of the button */
+  align-self: flex-start;
+  margin-top: var(--space-3);
   padding: 0.4rem 0;
   min-height: 44px;
   font-family: var(--font-mono);
@@ -802,8 +806,8 @@ html {
 .pkg-chev {
   width: 9px;
   height: 9px;
-  border-right: 2px solid var(--accent);
-  border-bottom: 2px solid var(--accent);
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
   transform: rotate(45deg) translate(-1px, -1px);
   transition: transform var(--dur) var(--ease);
 }
@@ -879,7 +883,14 @@ html {
   border-radius: 1px;
 }
 
-.pkg-cta { margin-top: var(--space-5); width: 100%; }
+/* Always visible, and the dominant thing on the card. Card 1 fills it with
+   Signal Red as the recommended route in; the other two take .btn-paper,
+   the solid the hero already uses on dark. Not .btn-ink, which the header
+   uses: that is a near black fill and would vanish against this card. */
+.pkg-cta {
+  margin-top: var(--space-5);
+  width: 100%;
+}
 
 /* ---- upgrade note ---- */
 .pkg-upgrade {
