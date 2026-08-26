@@ -63,7 +63,7 @@
      JS for up to an hour after a deploy. index.html itself is served
      must-revalidate, so bumping this number is what releases a change.
      BUMP BOTH VALUES WHENEVER styles.css OR main.js CHANGES. -->
-<link rel="stylesheet" href="assets/css/styles.css?v=27">
+<link rel="stylesheet" href="assets/css/styles.css?v=28">
 
 <!-- Structured data. Everything below is asserted to search engines as fact,
      so it carries only what the site can back up: no aggregateRating, no
@@ -298,140 +298,182 @@
   </section>
 
 
-  <!-- ============================ SERVICES (light) ============================ -->
-  <section class="section section-light" id="services">
+  <!-- ============================ PACKAGES (dark) ============================ -->
+  <section class="section section-dark packages" id="services">
     <div class="wrap">
 
-      <div class="svc-head">
-        <div class="svc-head-text svc-head-left">
-          <p class="eyebrow">services</p>
-          <h2>From guessing to<br class="br-lg"> clear decisions.</h2>
-          <p class="section-lead">
-            Five ways we help you see your business clearly. Every project starts with the
-            question you need answered, not the tool.
-          </p>
-        </div>
+      <header class="section-head pkg-head">
+        <p class="eyebrow">how we work with you</p>
+        <h2>Start with clarity. Grow into a partnership.</h2>
+        <p class="section-lead">
+          Most clients start with a one-time Deep Dive, then choose how much they want us
+          involved. Tap a package to see the full process and what you get.
+        </p>
+      </header>
 
-        <div class="svc-aside">
-          <p class="eyebrow">how it works</p>
-          <p class="svc-flow">
-            Most owners need two or three of these, not all five. We work out which ones fit
-            your problem on the first call.
+      <div class="pkg-grid">
+
+        <!-- ---------------- 01: the entry point ---------------- -->
+        <article class="pkg-card is-start" data-pkg="Business Deep Dive">
+          <p class="pkg-badge">Start here</p>
+
+          <div class="pkg-top">
+            <span class="pkg-num">01</span>
+            <span class="pkg-tag">One-time</span>
+          </div>
+
+          <h3 class="pkg-name">Business Deep Dive</h3>
+          <p class="pkg-quote">
+            &ldquo;I have all this data, but I don&rsquo;t really understand my business.&rdquo;
           </p>
-        </div>
+
+          <ul class="pkg-chips">
+            <li>Sales &amp; revenue</li>
+            <li>Financial</li>
+            <li>Customers</li>
+            <li>Report</li>
+          </ul>
+
+          <button class="pkg-toggle" type="button" id="pkg-btn-1"
+                  aria-expanded="false" aria-controls="pkg-detail-1">
+            <span class="pkg-chev" aria-hidden="true"></span>
+            See what&rsquo;s inside
+          </button>
+
+          <div class="pkg-detail" id="pkg-detail-1" role="region" aria-labelledby="pkg-btn-1">
+            <div class="pkg-detail-inner">
+              <h4 class="pkg-block">How it works</h4>
+              <p class="pkg-text">
+                Your data in, we analyse it, you get a clear report and a walkthrough call,
+                done.
+              </p>
+
+              <h4 class="pkg-block">What we look at</h4>
+              <ul class="pkg-list">
+                <li>Sales and revenue: what sells, and what actually makes money</li>
+                <li>Financial analysis: where your money goes, your margins, and where it leaks</li>
+                <li>Customer analysis: your repeat rate and who your best buyers are</li>
+                <li>Trends and problems: what is rising, what is falling, and why</li>
+              </ul>
+
+              <h4 class="pkg-block">What you get</h4>
+              <p class="pkg-text">
+                A plain-English report of findings and recommended actions. It starts and it
+                finishes.
+              </p>
+
+              <a class="btn btn-paper pkg-cta" href="#contact">Book a free call</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ---------------- 02: self serve ---------------- -->
+        <article class="pkg-card" data-pkg="Your Live Dashboard">
+          <div class="pkg-top">
+            <span class="pkg-num">02</span>
+            <span class="pkg-tag">Setup + monthly</span>
+          </div>
+
+          <h3 class="pkg-name">Your Live Dashboard</h3>
+          <p class="pkg-quote">
+            &ldquo;I don&rsquo;t want to ask every month. I want to see it myself.&rdquo;
+          </p>
+
+          <ul class="pkg-chips">
+            <li>Custom dashboard</li>
+            <li>Live refresh</li>
+            <li>Ongoing support</li>
+          </ul>
+
+          <button class="pkg-toggle" type="button" id="pkg-btn-2"
+                  aria-expanded="false" aria-controls="pkg-detail-2">
+            <span class="pkg-chev" aria-hidden="true"></span>
+            See what&rsquo;s inside
+          </button>
+
+          <div class="pkg-detail" id="pkg-detail-2" role="region" aria-labelledby="pkg-btn-2">
+            <div class="pkg-detail-inner">
+              <h4 class="pkg-block">How it works</h4>
+              <p class="pkg-text">
+                We build your dashboard, your data connects, it stays refreshed, you check it
+                any time.
+              </p>
+
+              <h4 class="pkg-block">What we look at</h4>
+              <ul class="pkg-list">
+                <li>A custom Power BI or Tableau dashboard of your business</li>
+                <li>Revenue, orders, top products, repeat rate, month on month, and trends</li>
+                <li>Kept accurate and reliable each month</li>
+                <li>KPIs added or changed as your business changes</li>
+              </ul>
+
+              <h4 class="pkg-block">What you get</h4>
+              <p class="pkg-text">
+                A live dashboard you check any time, kept current and reliable. You monitor and
+                interpret it yourself, which is what keeps this tier light and affordable.
+              </p>
+
+              <a class="btn btn-paper pkg-cta" href="#contact">Book a free call</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ---------------- 03: done for you ---------------- -->
+        <article class="pkg-card" data-pkg="Analytics Partner">
+          <div class="pkg-top">
+            <span class="pkg-num">03</span>
+            <span class="pkg-tag">Monthly</span>
+          </div>
+
+          <h3 class="pkg-name">Analytics Partner</h3>
+          <p class="pkg-quote">
+            &ldquo;I want Basirah to handle the analytics for me.&rdquo;
+          </p>
+
+          <ul class="pkg-chips">
+            <li>Monthly analysis</li>
+            <li>Reports</li>
+            <li>Recommendations</li>
+            <li>Calls</li>
+          </ul>
+
+          <button class="pkg-toggle" type="button" id="pkg-btn-3"
+                  aria-expanded="false" aria-controls="pkg-detail-3">
+            <span class="pkg-chev" aria-hidden="true"></span>
+            See what&rsquo;s inside
+          </button>
+
+          <div class="pkg-detail" id="pkg-detail-3" role="region" aria-labelledby="pkg-btn-3">
+            <div class="pkg-detail-inner">
+              <h4 class="pkg-block">How it works</h4>
+              <p class="pkg-text">
+                We watch your numbers, analyse them each month, send reports and clear
+                recommendations, then review it together on a call.
+              </p>
+
+              <h4 class="pkg-block">What we look at</h4>
+              <ul class="pkg-list">
+                <li>Everything in the dashboard, monitored for you</li>
+                <li>Monthly analysis of what changed and why</li>
+                <li>Automated reports and plain-English recommendations</li>
+                <li>A regular call to walk through the month</li>
+              </ul>
+
+              <h4 class="pkg-block">What you get</h4>
+              <p class="pkg-text">
+                Ongoing analytics without you lifting a finger, reviewed together every month.
+              </p>
+
+              <a class="btn btn-paper pkg-cta" href="#contact">Book a free call</a>
+            </div>
+          </div>
+        </article>
+
       </div>
 
-      <div class="svc-grid" role="group" tabindex="0"
-           aria-label="Services, choose the closest fit">
-
-        <article class="svc-card" data-svc="Sales & Revenue Analysis">
-          <div class="svc-top">
-            <span class="svc-num">01<span class="svc-kicker">Service</span></span>
-            <span class="svc-icon ic-line" aria-hidden="true"><svg viewBox="0 0 42 42"><polyline class="path" points="4,34 14,26 22,28 30,14 38,8" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle class="pt" cx="30" cy="14" r="3" fill="currentColor"/></svg></span>
-          </div>
-          <h3 class="svc-name">Sales &amp; Revenue Analysis</h3>
-          <p class="svc-fit">You know sales are happening. You just can&rsquo;t see which ones are worth it.</p>
-          <p class="svc-body">Every sale looks fine on its own. The full picture is harder to see: which products, days, and places actually make you money, and which quietly waste your effort. We put it all in one view so you can push what works and drop what does not.</p>
-          <ul class="svc-points">
-            <li>The products and services that truly earn</li>
-            <li>Your best days, seasons and locations</li>
-            <li>What is quietly draining time and money</li>
-            <li>A clear list of what to do more of</li>
-          </ul>
-          <div class="svc-foot">
-            <span class="svc-time">2 to 4 weeks</span>
-            <button class="svc-choose" type="button" aria-pressed="false"><span class="box"></span><span class="lbl">Choose</span></button>
-          </div>
-        </article>
-
-        <article class="svc-card" data-svc="Business & Financial Analysis">
-          <div class="svc-top">
-            <span class="svc-num">02<span class="svc-kicker">Service</span></span>
-            <span class="svc-icon ic-bars" aria-hidden="true"><svg viewBox="0 0 42 42"><g fill="currentColor"><rect class="b1" x="6" y="20" width="7" height="16"/><rect class="b2" x="18" y="12" width="7" height="24"/><rect class="b3" x="30" y="24" width="7" height="12"/></g><line x1="4" y1="37" x2="39" y2="37" stroke-width="2" stroke-linecap="round"/></svg></span>
-          </div>
-          <h3 class="svc-name">Business &amp; Financial Analysis</h3>
-          <p class="svc-fit">Money comes in and goes out. The hard part is seeing where.</p>
-          <p class="svc-body">You feel whether a month was good or bad. What you cannot always see is why. We show you what earns, what quietly costs you, and whether your prices are set right, so your next money decision is one you can stand behind.</p>
-          <ul class="svc-points">
-            <li>Profit and margins, in plain numbers</li>
-            <li>Whether your pricing is helping or hurting</li>
-            <li>Costs that eat more than they should</li>
-            <li>A simple forecast for the months ahead</li>
-          </ul>
-          <div class="svc-foot">
-            <span class="svc-time">2 to 5 weeks</span>
-            <button class="svc-choose" type="button" aria-pressed="false"><span class="box"></span><span class="lbl">Choose</span></button>
-          </div>
-        </article>
-
-        <article class="svc-card" data-svc="Customer Insights & Retention">
-          <div class="svc-top">
-            <span class="svc-num">03<span class="svc-kicker">Service</span></span>
-            <span class="svc-icon ic-people" aria-hidden="true"><svg viewBox="0 0 42 42"><g fill="none" stroke-width="2"><circle class="c c1" cx="9" cy="16" r="5"/><circle class="c c2" cx="21" cy="16" r="5"/><circle class="c c3" cx="33" cy="16" r="5"/></g><path d="M4 36 q17 -12 34 0" fill="none" stroke-width="2" stroke-linecap="round"/></svg></span>
-          </div>
-          <h3 class="svc-name">Customer Insights &amp; Retention</h3>
-          <p class="svc-fit">Some customers come back. Most don&rsquo;t. Do you know which is which?</p>
-          <p class="svc-body">It costs far more to win a new customer than to keep one you already have. We show you who your best customers are, who is slipping away, and where a little effort would keep them, so your marketing goes where it counts.</p>
-          <ul class="svc-points">
-            <li>Who your most valuable customers really are</li>
-            <li>Who is drifting away, before they are gone</li>
-            <li>Repeat buyers versus one-time visitors</li>
-            <li>Where to focus to keep more of them</li>
-          </ul>
-          <div class="svc-foot">
-            <span class="svc-time">2 to 4 weeks</span>
-            <button class="svc-choose" type="button" aria-pressed="false"><span class="box"></span><span class="lbl">Choose</span></button>
-          </div>
-        </article>
-
-        <article class="svc-card" data-svc="Dashboards & Live Reporting">
-          <div class="svc-top">
-            <span class="svc-num">04<span class="svc-kicker">Service</span></span>
-            <span class="svc-icon ic-grid" aria-hidden="true"><svg viewBox="0 0 42 42"><g fill="none" stroke-width="2"><rect class="g1" x="5" y="5" width="14" height="14" rx="1"/><rect class="g2" x="23" y="5" width="14" height="14" rx="1"/><rect class="g3" x="5" y="23" width="14" height="14" rx="1"/><rect class="g4" x="23" y="23" width="14" height="14" rx="1"/></g></svg></span>
-          </div>
-          <h3 class="svc-name">Dashboards &amp; Live Reporting</h3>
-          <p class="svc-fit">You shouldn&rsquo;t have to ask someone for your own numbers.</p>
-          <p class="svc-body">Most owners wait on a person or a spreadsheet to know how things are going. We build you one clear screen that shows the health of the business at a glance, kept up to date, that anyone on your team can read without us.</p>
-          <ul class="svc-points">
-            <li>One clear view of the whole business</li>
-            <li>Always current, no manual updates</li>
-            <li>The same number means the same thing to everyone</li>
-            <li>Simple enough for the whole team to use</li>
-          </ul>
-          <div class="svc-foot">
-            <span class="svc-time">3 to 5 weeks</span>
-            <button class="svc-choose" type="button" aria-pressed="false"><span class="box"></span><span class="lbl">Choose</span></button>
-          </div>
-        </article>
-
-        <article class="svc-card" data-svc="Automation">
-          <div class="svc-top">
-            <span class="svc-num">05<span class="svc-kicker">Service</span></span>
-            <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 42 42"><g class="ic-loop" fill="none" stroke-width="2.2" stroke-linecap="round"><path d="M32 14 A13 13 0 1 0 34 26"/><polyline points="32,5 33,14 24,15"/></g></svg></span>
-          </div>
-          <h3 class="svc-name">Automation</h3>
-          <p class="svc-fit">You rebuild the same report every week. That is time you never get back.</p>
-          <p class="svc-body">If a report takes the same steps every time, a person should not be doing it. We set your reporting up to build and update itself, so the numbers are ready before you ask and nobody loses a day to copy-paste.</p>
-          <ul class="svc-points">
-            <li>The weekly manual report, gone</li>
-            <li>Numbers that refresh on their own</li>
-            <li>One reliable flow from data to report</li>
-            <li>Hours handed back to your team</li>
-          </ul>
-          <div class="svc-foot">
-            <span class="svc-time">2 to 4 weeks</span>
-            <button class="svc-choose" type="button" aria-pressed="false"><span class="box"></span><span class="lbl">Choose</span></button>
-          </div>
-        </article>
-      </div>
-
-      <!-- Position dots for the mobile swipe strip. Built by main.js from the
-           real card count, and hidden by CSS above 640px. -->
-      <div class="svc-dots" role="tablist" aria-label="Service slides"></div>
-
-      <p class="scope-line">
-        Every project is scoped individually.
-        <a href="#contact">Book a free call</a> for a quote.
+      <p class="pkg-upgrade">
+        <span class="pkg-dot" aria-hidden="true"></span>
+        Your Deep Dive fee counts toward your dashboard if you upgrade.
       </p>
 
     </div>
@@ -799,6 +841,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=27" defer></script>
+<script src="assets/js/main.js?v=28" defer></script>
 </body>
 </html>

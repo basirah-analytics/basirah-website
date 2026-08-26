@@ -621,11 +621,7 @@
     var groups = [
       ['.hero-inner > *', 1],
       ['.pains-title', 0], ['.pain', 1],
-      // .svc-aside is listed because the scoping line it holds used to sit
-      // inside .svc-head-text and faded in with it. Splitting the header into
-      // two columns took it out of that block, and without an entry here it
-      // would appear instantly beside a column that fades.
-      ['.section-head', 0], ['.svc-head-text', 0], ['.svc-aside', 0], ['.svc-card', 1],
+      ['.section-head', 0], ['.pkg-card', 1],
       ['.resolve', 0], ['.proof-inner > *', 1],
       ['.tile-item', 1],
       ['.ai-copy > *', 1], ['.ai-card', 0],
@@ -833,136 +829,40 @@
 
 
 /* =====================================================================
-   SERVICE SELECTION
-   Choose marks one card, dims the rest, and clicking the marked one clears
-   it, so only one Signal Red focal element is ever lit at rest.
+   PACKAGES: one expander per card.
 
-   The selected service is written into the booking form's topic field, so
-   the choice a visitor makes here carries into the enquiry instead of
-   being retyped.
+   Independent by design: a visitor comparing the Deep Dive against the
+   Partner tier needs both open at once, so opening one never closes
+   another. The height animation is CSS, this only flips the state.
    ===================================================================== */
 (function () {
   'use strict';
 
-  var grid = document.querySelector('.svc-grid');
-  if (!grid) return;
+  var toggles = document.querySelectorAll('.pkg-toggle');
+  if (!toggles.length) return;
 
-  var cards = Array.prototype.slice.call(grid.querySelectorAll('.svc-card'));
-
-  function clear() {
-    cards.forEach(function (c) {
-      c.classList.remove('is-selected');
-      var b = c.querySelector('.svc-choose');
-      if (!b) return;
-      b.setAttribute('aria-pressed', 'false');
-      var lbl = b.querySelector('.lbl');
-      if (lbl) lbl.textContent = 'Choose';
-    });
-    grid.classList.remove('has-selection');
-  }
-
-  cards.forEach(function (card) {
-    var btn = card.querySelector('.svc-choose');
-    if (!btn) return;
+  Array.prototype.forEach.call(toggles, function (btn) {
+    var card = btn.closest('.pkg-card');
+    var panel = document.getElementById(btn.getAttribute('aria-controls'));
+    if (!card || !panel) return;
 
     btn.addEventListener('click', function () {
-      var already = card.classList.contains('is-selected');
-      clear();
-      if (already) return;
-
-      card.classList.add('is-selected');
-      btn.setAttribute('aria-pressed', 'true');
-      var lbl = btn.querySelector('.lbl');
-      if (lbl) lbl.textContent = 'Selected';
-      // the grid is the cards' parent, so this alone drives the dimming
-      grid.classList.add('has-selection');
-
-      var name = card.getAttribute('data-svc') || '';
-      var topic = document.getElementById('c-message');
-      if (topic && !topic.value.trim() && name) topic.value = name + ': ';
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      card.classList.toggle('is-open', !open);
+      btn.lastChild.textContent = open ? ' See what’s inside' : ' Hide the detail';
     });
   });
-})();
 
-
-/* =====================================================================
-   SERVICES SWIPE DOTS
-   The card grid becomes a horizontal scroll-snap strip under 640px. These
-   dots report position and jump to a card. They are built at any width
-   because CSS hides them above 640px and a resize past the breakpoint would
-   otherwise reveal a control that was never wired.
-   ===================================================================== */
-(function () {
-  'use strict';
-
-  var grid = document.querySelector('.svc-grid');
-  var dotsWrap = document.querySelector('.svc-dots');
-  if (!grid || !dotsWrap) return;
-
-  var cards = Array.prototype.slice.call(grid.querySelectorAll('.svc-card'));
-  if (!cards.length) return;
-
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  cards.forEach(function (card, i) {
-    var b = document.createElement('button');
-    b.type = 'button';
-    b.setAttribute('role', 'tab');
-    b.setAttribute('aria-label', 'Go to service ' + (i + 1));
-    b.setAttribute('aria-selected', 'false');
-    b.addEventListener('click', function () {
-      card.scrollIntoView({
-        behavior: reduce ? 'auto' : 'smooth',
-        inline: 'center',
-        block: 'nearest'
-      });
+  /* Carries the package name into the contact form, the way choosing a
+     service card used to. Without it that link between the two sections
+     would have gone out with the old cards. */
+  Array.prototype.forEach.call(document.querySelectorAll('.pkg-cta'), function (link) {
+    link.addEventListener('click', function () {
+      var card = link.closest('.pkg-card');
+      var name = card ? card.getAttribute('data-pkg') : '';
+      var field = document.getElementById('c-message');
+      if (field && !field.value.trim() && name) field.value = name + ': ';
     });
-    dotsWrap.appendChild(b);
   });
-
-  var dots = Array.prototype.slice.call(dotsWrap.children);
-
-  function setActive(i) {
-    dots.forEach(function (d, j) {
-      var on = j === i;
-      d.classList.toggle('on', on);
-      // a tablist whose tabs never report selection is broken to a screen
-      // reader, so keep aria-selected in step with the visual state
-      d.setAttribute('aria-selected', String(on));
-    });
-  }
-  setActive(0);
-
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        var i = cards.indexOf(e.target);
-        if (i > -1) setActive(i);
-      });
-    }, { root: grid, threshold: 0.6 });
-
-    cards.forEach(function (c) { io.observe(c); });
-  }
-
-  /* Scroll fallback. A 0.6 threshold can be skipped entirely by a fast flick,
-     and momentum scrolling on iOS does not always deliver an intersection at
-     rest, which leaves the dots showing the wrong card. Measuring which card
-     is nearest the container centre is exact and cheap for five items. It
-     agrees with the observer rather than competing with it. */
-  var last = 0;
-  grid.addEventListener('scroll', function () {
-    var now = Date.now();
-    if (now - last < 80) return;
-    last = now;
-
-    var centre = grid.scrollLeft + grid.clientWidth / 2;
-    var best = 0;
-    var bestGap = Infinity;
-    cards.forEach(function (c, i) {
-      var gap = Math.abs((c.offsetLeft + c.offsetWidth / 2) - centre);
-      if (gap < bestGap) { bestGap = gap; best = i; }
-    });
-    setActive(best);
-  }, { passive: true });
 })();
