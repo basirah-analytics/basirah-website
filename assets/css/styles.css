@@ -495,6 +495,17 @@ html {
 .hero-q:nth-child(5) { animation-delay: 21.6s; }
 .hero-q:nth-child(6) { animation-delay: 27s; }
 
+/* Forced break for the two questions short enough to sit on one line, so
+   every question reads as two. Named after .br-lg, which does the same job
+   in the services heading, but at 600px rather than 767px: between those
+   two widths these questions still fit on one line, so .br-lg would have
+   left them unbalanced exactly where the break is wanted. Below 600px the
+   break is dropped and they wrap on their own. The space that rejoins the
+   halves lives after the br in the markup. */
+@media (max-width: 600px) {
+  .br-md { display: none; }
+}
+
 /* The global reduced-motion rule collapses every animation to 0.01ms and one
    iteration, which would leave all six sitting at their end state of opacity
    0 and the hero empty. So this has to override it and pin the first
