@@ -63,7 +63,7 @@
      JS for up to an hour after a deploy. index.html itself is served
      must-revalidate, so bumping this number is what releases a change.
      BUMP BOTH VALUES WHENEVER styles.css OR main.js CHANGES. -->
-<link rel="stylesheet" href="assets/css/styles.css?v=23">
+<link rel="stylesheet" href="assets/css/styles.css?v=24">
 
 <!-- Structured data. Everything below is asserted to search engines as fact,
      so it carries only what the site can back up: no aggregateRating, no
@@ -205,14 +205,35 @@
 
       <p class="eyebrow">data + business analysis</p>
 
-      <h1 class="hero-title">
-        See what your data is<br class="br-lg"> telling you<span class="accent-dot">.</span>
-      </h1>
+      <!-- Decorative for assistive tech. A node whose text swaps every few
+           seconds is hostile to a screen reader, and the list below carries
+           the same six questions as stable text. -->
+      <div class="hero-rotator" aria-hidden="true">
+        <p class="hero-q">Why are sales falling?</p>
+        <p class="hero-q">Where is our money actually going?</p>
+        <p class="hero-q">Which products are actually making money?</p>
+        <p class="hero-q">Why aren&rsquo;t customers coming back?</p>
+        <p class="hero-q">Can we trust our numbers?</p>
+        <p class="hero-q">Which branch needs attention?</p>
+      </div>
 
-      <p class="hero-sub">
-        We&nbsp;turn messy spreadsheets and disconnected systems into clear answers: dashboards,
-        financial analysis and automation for small and mid-size businesses.
-      </p>
+      <!-- The same questions as plain text, for crawlers and screen readers. -->
+      <ul class="sr-only">
+        <li>Why are sales falling?</li>
+        <li>Where is our money actually going?</li>
+        <li>Which products are actually making money?</li>
+        <li>Why aren&rsquo;t customers coming back?</li>
+        <li>Can we trust our numbers?</li>
+        <li>Which branch needs attention?</li>
+      </ul>
+
+      <!-- The page's only h1, and deliberately the stable line rather than the
+           rotating one: a heading that rewrites itself is worth nothing to a
+           crawler. -->
+      <h1 class="hero-sub">
+        Basirah turns these questions into clear answers: a full analysis, a live dashboard,
+        and an ongoing analytics partner as you grow.
+      </h1>
 
       <div class="hero-actions">
         <a class="btn btn-paper btn-lg" href="#contact">Book a free call</a>
@@ -778,6 +799,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=23" defer></script>
+<script src="assets/js/main.js?v=24" defer></script>
 </body>
 </html>
