@@ -635,6 +635,20 @@ html {
 .pkg-head h2 { margin-bottom: var(--space-5); }
 .pkg-head .section-lead { max-width: 58ch; color: #C9C7C1; }
 
+/* Desktop only, and additive: the base rules above are what mobile keeps.
+   Neither max-width even binds below 768px, where the wrap is narrower than
+   both, so widening here cannot reach the mobile layout.
+
+   46ch on the container was squeezing a 44 character heading into three
+   lines inside a 1104px column. The br above is what fixes the split at the
+   sentence: width alone cannot, because the balancer prefers breaking after
+   "Grow" (549px longest line) over breaking after "clarity." (585px). */
+@media (min-width: 768px) {
+  .pkg-head { max-width: none; }
+  .pkg-head h2 { max-width: none; }
+  .pkg-head .section-lead { max-width: 72ch; }
+}
+
 .pkg-grid {
   display: grid;
   gap: clamp(1rem, 2vw, 1.4rem);
