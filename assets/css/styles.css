@@ -441,7 +441,13 @@ html {
    differently as the viewport changes. */
 .hero-rotator {
   display: grid;
-  margin-bottom: var(--space-5);
+  /* The box stays as tall as the tallest question, but each one is pinned to
+     the bottom of it, so the last line of every question sits the same short
+     distance above the subline. Any slack a shorter question leaves opens
+     above it, under the eyebrow, where it reads as breathing room rather
+     than as the question being stranded from the line it belongs with. */
+  align-items: end;
+  margin-bottom: var(--space-3);
 }
 
 .hero-q {
@@ -457,12 +463,7 @@ html {
   max-width: 22ch;
   text-wrap: balance;
 
-  /* colour first, so the text is still readable if background-clip fails */
   color: #F3F2F2;
-  background: linear-gradient(180deg, #FFFFFF 0%, #F3F2F2 45%, #C9C4BE 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
 
   opacity: 0;
   animation: heroQ 29.4s ease-in-out infinite;
