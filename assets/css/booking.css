@@ -1,0 +1,328 @@
+/* =====================================================================
+   Basirah Analytics: booking.css
+   The custom booking widget, kept in its own file so its rules stay
+   visibly separate from the site's.
+
+   Everything is scoped under .bsr-book. The widget shipped with its
+   variables on :root, which cannot stand here: it defines --paper as
+   #F3F2F2, a text colour, while this site defines --paper as #FBFBFA,
+   the background of every light section. At :root the widget would have
+   repainted half the page. The variables are therefore declared on
+   .bsr-book itself and prefixed --bsr-, so neither set can reach the
+   other whichever way a rule is written later.
+
+   The global `* { box-sizing: border-box }` the widget also shipped is
+   dropped: styles.css already sets it for the whole document.
+   ===================================================================== */
+
+.bsr-book {
+  --bsr-ink: #141412;
+  --bsr-ink-raise: #1c1b19;
+  --bsr-ink-line: #2a2825;
+  --bsr-paper: #F3F2F2;
+  --bsr-grey-500: #9B9797;
+  --bsr-grey-300: #D7D3D3;
+  --bsr-signal: #EC3013;      /* reserved: single key action + focal point only */
+  --bsr-radius: 10px;
+  --bsr-slot-radius: 8px;
+
+  font-family: "Archivo", system-ui, sans-serif;
+  color: var(--bsr-paper);
+  background: var(--bsr-ink);
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 34px 30px 30px;
+  border: 1px solid var(--bsr-ink-line);
+  border-radius: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.bsr-book .eyebrow {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--bsr-grey-500);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* the site's .eyebrow draws a "//" through ::before; this one has its own
+   mark in the markup, so that content must not be inherited in as well */
+.bsr-book .eyebrow::before { content: none; }
+.bsr-book .eyebrow svg { display: block; }
+
+.bsr-book h2 {
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1.02;
+  letter-spacing: -.01em;
+  margin: 0 0 6px;
+}
+
+/* Timezone picker */
+.bsr-book .tzpick {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 22px 0;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--bsr-ink-line);
+}
+.bsr-book .tzpick label { margin: 0; }
+.bsr-book .tzselect {
+  background: var(--bsr-ink-raise);
+  border: 1px solid var(--bsr-ink-line);
+  border-radius: var(--bsr-radius);
+  color: var(--bsr-paper);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  padding: 9px 12px;
+  cursor: pointer;
+  min-width: 238px;
+}
+.bsr-book .tzselect:hover { border-color: var(--bsr-grey-500); }
+
+.bsr-book .steplabel {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--bsr-grey-500);
+  margin: 0 0 12px;
+}
+
+/* Day chips */
+.bsr-book .days {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  margin-bottom: 22px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bsr-ink-line) transparent;
+}
+.bsr-book .day {
+  flex: 0 0 auto;
+  background: var(--bsr-ink-raise);
+  border: 1px solid var(--bsr-ink-line);
+  border-radius: var(--bsr-radius);
+  color: var(--bsr-grey-300);
+  padding: 11px 14px 12px;
+  min-width: 66px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .15s ease, transform .12s ease, color .15s ease;
+  font-family: inherit;
+}
+.bsr-book .day:hover { border-color: var(--bsr-grey-500); transform: translateY(-1px); }
+.bsr-book .day .dow {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--bsr-grey-500);
+  display: block;
+  margin-bottom: 5px;
+}
+.bsr-book .day .num { font-weight: 800; font-size: 19px; line-height: 1; display: block; }
+.bsr-book .day .mon {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--bsr-grey-500);
+  display: block;
+  margin-top: 5px;
+}
+.bsr-book .day[aria-pressed="true"] {
+  border-color: var(--bsr-paper);
+  color: var(--bsr-paper);
+  background: var(--bsr-ink-line);
+}
+.bsr-book .day[aria-pressed="true"] .dow,
+.bsr-book .day[aria-pressed="true"] .mon { color: var(--bsr-grey-300); }
+
+/* Time-of-day pills */
+.bsr-book .periods { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.bsr-book .period {
+  background: var(--bsr-ink-raise);
+  border: 1px solid var(--bsr-ink-line);
+  border-radius: 999px;
+  color: var(--bsr-grey-300);
+  padding: 8px 15px;
+  cursor: pointer;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  transition: border-color .14s ease, color .14s ease, transform .12s ease;
+}
+.bsr-book .period:hover { border-color: var(--bsr-grey-500); transform: translateY(-1px); }
+.bsr-book .period[aria-pressed="true"] {
+  border-color: var(--bsr-paper);
+  color: var(--bsr-paper);
+  background: var(--bsr-ink-line);
+}
+.bsr-book .period .cnt { color: var(--bsr-grey-500); margin-left: 7px; }
+
+/* Slots */
+.bsr-book .slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 9px;
+  margin-bottom: 6px;
+}
+.bsr-book .slot {
+  position: relative;
+  background: var(--bsr-ink-raise);
+  border: 1px solid var(--bsr-ink-line);
+  border-radius: var(--bsr-slot-radius);
+  color: var(--bsr-paper);
+  padding: 12px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color .14s ease, transform .12s ease;
+  font-family: inherit;
+}
+.bsr-book .slot:hover { border-color: var(--bsr-grey-300); transform: translateY(-1px); }
+.bsr-book .slot[aria-pressed="true"] { border-color: var(--bsr-signal); color: #fff; }
+.bsr-book .slot[aria-pressed="true"]::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid var(--bsr-signal);
+  border-radius: 4px;
+  opacity: .55;
+}
+.bsr-book .slot:focus-visible,
+.bsr-book .day:focus-visible,
+.bsr-book .period:focus-visible,
+.bsr-book .tzselect:focus-visible,
+.bsr-book button:focus-visible,
+.bsr-book input:focus-visible,
+.bsr-book textarea:focus-visible {
+  outline: 2px solid var(--bsr-paper);
+  outline-offset: 2px;
+}
+
+.bsr-book .empty { color: var(--bsr-grey-500); font-size: 14px; padding: 18px 2px; }
+
+/* Details form */
+.bsr-book .details {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--bsr-ink-line);
+}
+.bsr-book .picked { font-size: 14px; color: var(--bsr-grey-300); margin: 0 0 18px; }
+.bsr-book .picked b { color: var(--bsr-paper); font-weight: 600; }
+.bsr-book label {
+  display: block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--bsr-grey-500);
+  margin: 0 0 7px;
+}
+.bsr-book .field { margin-bottom: 16px; }
+.bsr-book input,
+.bsr-book textarea {
+  width: 100%;
+  background: var(--bsr-ink-raise);
+  border: 1px solid var(--bsr-ink-line);
+  border-radius: var(--bsr-radius);
+  color: var(--bsr-paper);
+  font-family: inherit;
+  font-size: 15px;
+  padding: 12px 13px;
+  transition: border-color .14s ease;
+}
+.bsr-book input::placeholder,
+.bsr-book textarea::placeholder { color: #6d6a67; }
+.bsr-book input:focus,
+.bsr-book textarea:focus { border-color: var(--bsr-grey-300); }
+.bsr-book textarea { min-height: 88px; resize: vertical; }
+
+/* Honeypot: off-screen, real users never see or fill it */
+.bsr-book .bsr-hp {
+  position: absolute !important;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.bsr-book .confirm {
+  width: 100%;
+  background: var(--bsr-signal);
+  color: #fff;
+  border: none;
+  border-radius: var(--bsr-radius);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: .01em;
+  padding: 15px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: filter .14s ease, transform .12s ease;
+}
+.bsr-book .confirm:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.bsr-book .confirm:disabled {
+  background: var(--bsr-ink-line);
+  color: var(--bsr-grey-500);
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+.bsr-book .err { color: var(--bsr-signal); font-size: 13px; margin: 10px 0 0; min-height: 1em; }
+
+/* Confirmation */
+.bsr-book .done { text-align: center; padding: 20px 6px 8px; }
+.bsr-book .aperture { margin: 0 auto 22px; display: block; }
+.bsr-book .aperture rect { fill: none; stroke: var(--bsr-signal); }
+.bsr-book .done h3 { font-weight: 800; font-size: 24px; margin: 0 0 10px; }
+.bsr-book .done p {
+  color: var(--bsr-grey-300);
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0 auto 8px;
+  max-width: 46ch;
+}
+.bsr-book .done .meta {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: var(--bsr-grey-500);
+  letter-spacing: .03em;
+  margin-top: 16px;
+}
+
+.bsr-hidden { display: none !important; }
+
+/* The widget sets its inputs at 15px. Anything under 16px makes iOS Safari
+   zoom the page when the field takes focus, and it never zooms back out.
+   styles.css used to cover this through its own .field rules, which no
+   longer exist, so the guard lives here where the fields do. */
+@media (max-width: 767px) {
+  .bsr-book input,
+  .bsr-book textarea,
+  .bsr-book .tzselect { font-size: 16px; }
+}
+
+@media (max-width: 560px) {
+  .bsr-book { padding: 26px 18px 22px; border-radius: 14px; }
+  .bsr-book h2 { font-size: 25px; }
+  .bsr-book .slots { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); }
+  .bsr-book .tzselect { min-width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bsr-book * { transition: none !important; animation: none !important; }
+}

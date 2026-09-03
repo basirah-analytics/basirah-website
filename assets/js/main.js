@@ -143,12 +143,11 @@
       tools: 'SQL Server (T-SQL) · Data modeling · Power BI · DAX',
       scope: 'Four years of transactions, over 1 million in total',
       repo: 'https://github.com/basirah-analytics/rose-city-roasters-analysis',
-      /* No dashboard images in assets/img/work yet, so null and [] send both
-         the tile and the detail down the same placeholder path the schema
-         above describes. Drop the three page exports in and fill these two
-         fields to swap the placeholders for the real thing. */
-      thumb: null,
-      images: [],
+      thumb: 'assets/img/work/rosecity-1.png',
+      images: [
+        'assets/img/work/rosecity-1.png',
+        'assets/img/work/rosecity-2.png'
+      ],
       insights: [
         'The business swung from a $187K profit in 2022 to a $525K loss in 2025, while sales kept climbing the whole time.',
         'About $210K was lost on sales priced below what the stock cost.',
