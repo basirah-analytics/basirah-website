@@ -17,8 +17,8 @@
   //     offered and two people can pick the same slot. apiBase is what would
   //     fix that, and it is still empty.
   //   - It does NOT create a calendar event or send the visitor an invite.
-  //     The confirmation screen currently promises one. See the note by
-  //     showDone().
+  //     Only the site owner is emailed, so the confirmation screen says a
+  //     reply is coming rather than promising an invite that nothing sends.
   //
   // apiBase stays as the hook for a real backend later. If it is ever set it
   // wins, because a backend can check availability and issue an invite,
