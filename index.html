@@ -63,7 +63,8 @@
      JS for up to an hour after a deploy. index.html itself is served
      must-revalidate, so bumping this number is what releases a change.
      BUMP BOTH VALUES WHENEVER styles.css OR main.js CHANGES. -->
-<link rel="stylesheet" href="assets/css/styles.css?v=32">
+<link rel="stylesheet" href="assets/css/styles.css?v=36">
+<link rel="stylesheet" href="assets/css/booking.css?v=1">
 
 <!-- Structured data. Everything below is asserted to search engines as fact,
      so it carries only what the site can back up: no aggregateRating, no
@@ -718,76 +719,78 @@
           </div>
         </div>
 
-        <!-- ---------------- right: one form, two modes ---------------- -->
-        <!-- TODO(form-key): posts to the existing Formspree endpoint so the form
-             works today. Swap the action for a dedicated endpoint or a Web3Forms
-             access key when you have one. Without JS the browser posts normally
-             and Formspree shows its own confirmation, so the form still works. -->
-        <div class="scheduler">
+        <!-- ---------------- right: the booking widget ---------------- -->
+        <!-- Self contained and namespaced under .bsr-book. Its CSS is in
+             assets/css/booking.css and its script in assets/js/booking.js:
+             the CSP here sets script-src and style-src to 'self' with no
+             unsafe-inline, so the inline <style> and <script> it shipped
+             with would both have been refused by the browser.
+             The widget's own lede is dropped: the left column already
+             carries the 30 minute description. -->
+        <div class="bsr-book" id="bsrBook">
+          <p class="eyebrow">
+            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+              <rect x="0.5" y="0.5" width="13" height="13" fill="none" stroke="#9B9797"/>
+              <rect x="3.5" y="3.5" width="7" height="7" fill="none" stroke="#9B9797"/>
+              <rect x="6" y="6" width="2" height="2" fill="#EC3013"/>
+            </svg>
+            Book a call
+          </p>
+          <h2>Pick a time that works.</h2>
 
-          <form class="book-form" id="contact-form"
-                action="https://formspree.io/f/mojggvgg" method="POST" novalidate>
+          <div class="tzpick">
+            <label for="tzSelect">Your timezone</label>
+            <select class="tzselect" id="tzSelect" aria-label="Your timezone"></select>
+          </div>
 
-            <div class="mode-toggle" role="radiogroup" aria-label="What would you like to do?">
-              <label class="mode-opt">
-                <input type="radio" name="mode" value="Call request" checked>
-                <span>Book a call</span>
-              </label>
-              <label class="mode-opt">
-                <input type="radio" name="mode" value="Message">
-                <span>Send a message</span>
-              </label>
+          <div id="bsrFlow">
+            <p class="steplabel">1 &middot; Choose a day</p>
+            <div class="days" id="dayRow" role="group" aria-label="Choose a day"></div>
+
+            <p class="steplabel">2 &middot; Choose a time</p>
+            <div class="periods" id="periodRow" role="group" aria-label="Time of day"></div>
+            <div class="slots" id="slotGrid" aria-live="polite"></div>
+            <p class="empty bsr-hidden" id="slotHint">Choose a part of the day above to see open times.</p>
+            <p class="empty bsr-hidden" id="slotEmpty">No open times this day. Try another.</p>
+
+            <div class="details bsr-hidden" id="detailsBlock">
+              <p class="steplabel">3 &middot; Your details</p>
+              <p class="picked" id="pickedLine"></p>
+
+              <div class="field">
+                <label for="bName">Name</label>
+                <input type="text" id="bName" autocomplete="name" placeholder="Your name">
+              </div>
+              <div class="field">
+                <label for="bEmail">Email</label>
+                <input type="email" id="bEmail" autocomplete="email" placeholder="you@company.com">
+              </div>
+              <div class="field">
+                <label for="bTopic">What do you want to figure out?</label>
+                <textarea id="bTopic" placeholder="One or two lines about the data or the decision you&rsquo;re stuck on."></textarea>
+              </div>
+
+              <div class="field bsr-hp" aria-hidden="true">
+                <label for="bWebsite">Company website</label>
+                <input type="text" id="bWebsite" name="website" tabindex="-1" autocomplete="off">
+              </div>
+
+              <button class="confirm" id="confirmBtn" disabled>Confirm booking</button>
+              <p class="err" id="errLine"></p>
             </div>
+          </div>
 
-            <input type="hidden" name="_subject" id="form-subject" value="Call request from basirahanalytics.com">
-            <!-- Honeypot: hidden from people, tempting to bots. Formspree discards
-                 any submission that arrives with _gotcha filled in. -->
-            <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off">
-
-            <div class="field">
-              <label for="c-name">Name</label>
-              <input id="c-name" name="name" type="text" autocomplete="name" required>
-            </div>
-
-            <div class="field">
-              <label for="c-email">Email</label>
-              <input id="c-email" name="email" type="email" autocomplete="email" required>
-            </div>
-
-            <div class="field">
-              <label for="c-country">Country</label>
-              <select id="c-country" name="country" autocomplete="country-name" required></select>
-            </div>
-
-            <div class="field">
-              <label for="c-phone">Phone or WhatsApp <span class="opt">optional</span></label>
-              <input id="c-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
-              <p class="hint">Only if you would rather we reached you there.</p>
-            </div>
-
-            <div class="field call-only">
-              <label for="c-when">When is usually best for you?</label>
-              <select id="c-when" name="preferred_time">
-                <option value="" disabled selected>Choose one</option>
-                <option value="Weekday mornings">Weekday mornings</option>
-                <option value="Weekday afternoons">Weekday afternoons</option>
-                <option value="Weekday evenings">Weekday evenings</option>
-                <option value="Weekends">Weekends</option>
-                <option value="I'm flexible">I&rsquo;m flexible</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label for="c-message" id="message-label">What do you want to figure out?</label>
-              <textarea id="c-message" name="message" rows="4"></textarea>
-            </div>
-
-            <!-- JS rewrites this per mode; the static text has to be the call
-                 mode label so it is already right before the script runs -->
-            <button class="btn btn-paper book-submit" type="submit" id="form-submit">Request a call</button>
-            <p class="sched-note" id="form-note" role="status" aria-live="polite"></p>
-            <p class="confirm-line">We&rsquo;ll confirm a time by email or WhatsApp within one working day.</p>
-          </form>
+          <div class="done bsr-hidden" id="bsrDone">
+            <svg class="aperture" width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">
+              <rect x="1" y="1" width="50" height="50" stroke-width="1.5"/>
+              <rect x="12" y="12" width="28" height="28" stroke-width="1.5"/>
+              <rect x="23" y="23" width="6" height="6" fill="#EC3013" stroke="none"/>
+            </svg>
+            <h3>You&rsquo;re booked.</h3>
+            <p id="doneWhen"></p>
+            <p>A calendar invite with the video link is on its way to your inbox. We&rsquo;ll see you then.</p>
+            <p class="meta" id="doneMeta"></p>
+          </div>
         </div>
       </div>
 
@@ -844,6 +847,7 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=32" defer></script>
+<script src="assets/js/main.js?v=36" defer></script>
+<script src="assets/js/booking.js?v=1" defer></script>
 </body>
 </html>

@@ -1101,6 +1101,16 @@ html {
 }
 .snapshot dd { margin: 0; font-size: var(--fs-small); font-weight: var(--fw-label); }
 
+/* The Code row's link. Without this the global `a { text-decoration: none }`
+   would render it as plain text with no sign it can be clicked. */
+.snapshot a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.snapshot a span { display: inline-block; transition: transform var(--dur) var(--ease); }
+.snapshot a:hover span { transform: translateX(3px); }
+
 .visuals {
   display: grid;
   gap: var(--space-4);
@@ -1474,52 +1484,16 @@ html {
 }
 
 /* ---- the form panel ---- */
-.scheduler {
-  padding: clamp(1.25rem, 3vw, 2rem);
-  background: #1B1B18;
-  border: var(--hairline) solid var(--border-dark);
-  border-radius: var(--radius-lg);
-}
-
-.sched-label,
-.sched-note {
+/* the mono label above the direct contact links */
+.sched-label {
+  display: block;
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
   letter-spacing: var(--tracking-mono);
-  color: var(--muted);
-}
-
-.sched-label {
-  display: block;
   text-transform: uppercase;
-  margin: var(--space-5) 0 var(--space-3);
-}
-
-/* ---- booking request form ---- */
-.book-form { margin-top: var(--space-5); }
-.book-form .field { margin-top: var(--space-4); }
-.book-form .sched-label:first-of-type { margin-top: 0; }
-
-.opt {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: 0.06em;
   color: var(--muted);
-  text-transform: uppercase;
+  margin-top: var(--space-5);
 }
-
-.book-submit { width: 100%; margin-top: var(--space-5); }
-
-
-.sched-note:empty { display: none; }
-.sched-note {
-  margin-top: var(--space-4);
-  line-height: 1.5;
-  text-transform: none;
-  letter-spacing: 0.06em;
-  color: #C9C7C1;
-}
-.sched-note a { color: var(--text-light); text-decoration: underline; }
 
 /* ---- direct contact + form ---- */
 
@@ -1546,96 +1520,6 @@ html {
 /* ---- mode toggle ---- */
 /* Deliberately NOT Signal Red: the checked chip below already carries this
    section's accent, and a second red element would split the focus. */
-.mode-toggle {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-2);
-  padding: var(--space-1);
-  border: var(--hairline) solid var(--border-dark);
-  border-radius: var(--radius);
-  margin-bottom: var(--space-5);
-}
-.mode-opt input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  pointer-events: none;
-}
-.mode-opt span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  padding: 0.5rem 0.75rem;
-  border-radius: 4px;
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  font-weight: 500;
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--muted);
-  text-align: center;
-  cursor: pointer;
-  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
-}
-.mode-opt span:hover { color: var(--text-light); }
-.mode-opt input:checked + span { background: #2E2E28; color: var(--text-light); }
-.mode-opt input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-.hint {
-  font-size: var(--fs-mono);
-  line-height: 1.6;
-  color: var(--muted);
-}
-
-.field select {
-  width: 100%;
-  /* a select renders its own smaller line box, so the same padding as an
-     input lands it at 43px, one pixel under the touch target */
-  min-height: 48px;
-  padding: 0.7rem 0.85rem;
-  background: #141412;
-  color: var(--text-light);
-  border: var(--hairline) solid var(--border-dark);
-  border-radius: var(--radius);
-  transition: border-color var(--dur) var(--ease);
-}
-.field select:hover { border-color: #46463F; }
-
-.confirm-line {
-  margin-top: var(--space-4);
-  font-size: var(--fs-mono);
-  font-family: var(--font-mono);
-  line-height: 1.6;
-  color: var(--muted);
-}
-
-/* [hidden] loses to the display rules above without this */
-.call-only[hidden], .msg-only[hidden] { display: none; }
-
-.field { display: grid; gap: var(--space-2); }
-.field label {
-  font-size: var(--fs-small);
-  font-weight: var(--fw-label);
-  color: #C9C7C1;
-}
-
-.field input,
-.field textarea {
-  padding: 0.7rem 0.85rem;
-  background: var(--ink);
-  border: var(--hairline) solid var(--border-dark);
-  border-radius: var(--radius);
-  color: var(--text-light);
-  font-size: var(--fs-small);
-  line-height: 1.5;
-  transition: border-color var(--dur) var(--ease);
-}
-.field input:hover,
-.field textarea:hover { border-color: #46463F; }
-.field textarea { resize: vertical; min-height: 6.5rem; }
-
 .btn-outline {
   background: transparent;
   border-color: #46463F;
@@ -1726,7 +1610,6 @@ html {
 /* The .anim class is added by main.js only when the visitor has not asked for
    reduced motion. Nothing is hidden until then, so if JS fails or motion is
    reduced the page renders fully visible with no reveal at all. */
-.hp { display: none; }
 
 /* :where() keeps the reveal layer at zero specificity so it can never win a
    cascade fight with a state style. Without it, .anim .reveal.is-in (0,3,0)
@@ -1850,8 +1733,6 @@ html {
   .ai-actions .btn { width: 100%; }
 
 
-  /* 16px minimum stops iOS Safari zooming the page on field focus */
-  .field input, .field textarea { font-size: 1rem; }
   .finding { grid-template-columns: 1fr; row-gap: var(--space-3); }
   .spark { justify-self: start; }
 

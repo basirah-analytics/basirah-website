@@ -81,11 +81,11 @@
   'use strict';
 
   /* -------------------------------------------------------------------
-     Real work only. Every figure below comes from the write up in
-     basirah-analytics/restaurant-sales-analysis, and that project states
-     plainly that it runs on a realistic simulated dataset rather than a
-     real client's numbers. The site says the same, in the summary and in
-     the context line, so nobody can read it as a client engagement.
+     Real work only. Every figure below comes from the write up in the
+     project's own repo, linked from each entry. Both projects state plainly
+     that they run on documented demonstration datasets rather than a real
+     client's numbers, and the site says the same in the summary and in the
+     context line, so neither can be read as a client engagement.
 
      Shape:
        title      string        required
@@ -99,6 +99,7 @@
        thumb      string|null   tile image; null draws the placeholder visual
        images     string[]      detail visuals; empty draws placeholders
        insights   string[]      required, 3 to 5 findings
+       repo       string|null   optional public repo; adds a Code row to the snapshot
        caseStudy  object|null   optional { problem, approach, results }
      ------------------------------------------------------------------- */
   var PROJECTS = [
@@ -111,6 +112,7 @@
       context: 'Demonstration dataset, five outlet restaurant',
       tools: 'SQL Server · Power BI · Python',
       scope: 'Two years of orders, 433k in total',
+      repo: 'https://github.com/basirah-analytics/restaurant-sales-analysis',
       thumb: 'assets/img/work/restaurant-1.png',
       images: [
         'assets/img/work/restaurant-1.png',
@@ -128,6 +130,35 @@
         problem: 'Two years of order data had piled up across five outlets and three sales channels, and nobody had turned it into answers. The owner needed to know what was making money and where it was leaking.',
         approach: 'We checked the data in SQL Server first: row counts, types, value ranges, missing values, duplicates and hidden characters. Then we built one view joining orders to the menu with the sale amount calculated per line, so every later number came from a single trusted table. Each question was answered in SQL and brought together in a three page Power BI report.',
         results: 'The cancellation leak was traced to the delivery channels rather than any branch or time of day, which pointed the fix at the aggregators first. The menu work separated the dishes that carry revenue from the ones that only carry volume, and the seasonal read gave a clear window for promotions. The write up is explicit about what the data cannot show: it holds no cost, customer or table information, so it makes no claim about profit, retention or table turnover.'
+      }
+    },
+
+    {
+      title: 'Rose City Roasters sales and profitability analysis',
+      slug: 'rose-city-roasters-analysis',
+      category: 'financial',
+      headline: 'Revenue kept climbing, but the business was quietly sliding into a loss.',
+      summary: 'A specialty coffee business that kept growing sales while profit slipped year after year. We cleaned four years of messy transaction data, modelled it in SQL, and built a three page Power BI dashboard that shows exactly where the money was leaking: sales below cost, heavy discounting, and slow paying wholesale accounts.',
+      context: 'Documented demonstration dataset, specialty coffee business',
+      tools: 'SQL Server (T-SQL) · Data modeling · Power BI · DAX',
+      scope: 'Four years of transactions, over 1 million in total',
+      repo: 'https://github.com/basirah-analytics/rose-city-roasters-analysis',
+      /* No dashboard images in assets/img/work yet, so null and [] send both
+         the tile and the detail down the same placeholder path the schema
+         above describes. Drop the three page exports in and fill these two
+         fields to swap the placeholders for the real thing. */
+      thumb: null,
+      images: [],
+      insights: [
+        'The business swung from a $187K profit in 2022 to a $525K loss in 2025, while sales kept climbing the whole time.',
+        'About $210K was lost on sales priced below what the stock cost.',
+        '$1.77M was given away in discounts across the four years.',
+        '79% of wholesale invoices were paid late, which is where the cash was tied up.'
+      ],
+      caseStudy: {
+        problem: 'Sales were growing every year and the owner could see that much, but profit was going the other way and nobody could say why. Four years of transaction data existed and none of it had been made to agree.',
+        approach: 'We cleaned four years of messy transaction data and modelled it in SQL Server, so every later figure traces back to one trusted table. A three page Power BI report was built on top of it, with the measures written in DAX.',
+        results: 'The report traced a swing from a $187K profit in 2022 to a $525K loss in 2025, all while sales were still rising. It then split that swing into the three things causing it: about $210K lost on sales priced below cost, $1.77M given away in discounts over the four years, and 79% of wholesale invoices paid late. Naming them separately is what lets the owner see which to fix first instead of guessing at the whole.'
       }
     }
 
@@ -308,6 +339,10 @@
             '<div><dt>Context</dt><dd>' + esc(project.context) + '</dd></div>' +
             '<div><dt>Tools</dt><dd>' + esc(project.tools) + '</dd></div>' +
             '<div><dt>Scope</dt><dd>' + esc(project.scope) + '</dd></div>' +
+            // only for projects with a public repo; the rest render three rows
+            (project.repo
+              ? '<div><dt>Code</dt><dd><a href="' + esc(project.repo) + '" target="_blank" rel="noopener">View on GitHub <span aria-hidden="true">&rarr;</span></a></dd></div>'
+              : '') +
           '</dl>' +
         '</header>' +
 
@@ -431,179 +466,6 @@
 
 
 /* =====================================================================
-   CONTACT: one form, two modes.
-   Country plus a rough preference is all the booking needs, so there is
-   no clock and no timezone maths here. The exact time gets agreed in the
-   reply, which is what the line under the button promises.
-   ===================================================================== */
-(function () {
-  'use strict';
-
-  var form = document.getElementById('contact-form');
-  if (!form) return;
-
-  var modeRadios = form.querySelectorAll('input[name="mode"]'),
-      countrySel = document.getElementById('c-country'),
-      msgLabel   = document.getElementById('message-label'),
-      subject    = document.getElementById('form-subject'),
-      note       = document.getElementById('form-note'),
-      btn        = document.getElementById('form-submit');
-
-  /* ------------------------------ country ------------------------------ */
-  /* Codes only. The display names come from Intl at runtime, so there is no
-     hand maintained list of country names to drift or to misspell. */
-  var CODES = ('AD AE AF AG AL AM AO AR AT AU AZ BA BB BD BE BF BG BH BI BJ BN BO BR BS BT BW BY BZ ' +
-    'CA CD CF CG CH CI CL CM CN CO CR CU CV CY CZ DE DJ DK DM DO DZ EC EE EG ER ES ET FI FJ FM FR ' +
-    'GA GB GD GE GH GM GN GQ GR GT GW GY HN HR HT HU ID IE IL IN IQ IR IS IT JM JO JP KE KG KH KI ' +
-    'KM KN KP KR KW KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MG MH MK ML MM MN MR MT MU MV ' +
-    'MW MX MY MZ NA NE NG NI NL NO NP NR NZ OM PA PE PG PH PK PL PT PW PY QA RO RS RU RW SA SB SC ' +
-    'SD SE SG SI SK SL SM SN SO SR SS ST SV SY SZ TD TG TH TJ TL TM TN TO TR TT TV TZ UA UG US UY ' +
-    'UZ VA VC VE VN VU WS YE ZA ZM ZW').split(' ');
-
-  function nameFor(code) {
-    try {
-      var dn = new Intl.DisplayNames(['en'], { type: 'region' });
-      var n = dn.of(code);
-      if (n && n !== code) return n;
-    } catch (e) { /* older browser */ }
-    return code;
-  }
-
-  // the browser's own locale is the cheapest guess at where they are
-  function guessCode() {
-    var langs = (navigator.languages && navigator.languages.length)
-      ? navigator.languages : [navigator.language || ''];
-    for (var i = 0; i < langs.length; i++) {
-      var m = String(langs[i]).match(/[-_]([A-Za-z]{2})$/);
-      if (m) {
-        var up = m[1].toUpperCase();
-        if (CODES.indexOf(up) > -1) return up;
-      }
-    }
-    return '';
-  }
-
-  if (countrySel) {
-    var guess = guessCode();
-    var list = CODES.map(function (c) { return { code: c, label: nameFor(c) }; });
-    list.sort(function (a, b) { return a.label.localeCompare(b.label); });
-
-    var frag = document.createDocumentFragment();
-    var ph = document.createElement('option');
-    ph.value = ''; ph.textContent = 'Choose your country';
-    ph.disabled = true;
-    if (!guess) ph.selected = true;
-    frag.appendChild(ph);
-
-    list.forEach(function (item) {
-      var o = document.createElement('option');
-      o.value = item.label;                 // the email should read as a name
-      o.setAttribute('data-code', item.code);
-      o.textContent = item.label;
-      if (item.code === guess) o.selected = true;
-      frag.appendChild(o);
-    });
-    countrySel.appendChild(frag);
-  }
-
-  /* ------------------------------- the mode ------------------------------- */
-  function currentMode() {
-    var el = form.querySelector('input[name="mode"]:checked');
-    return el ? el.value : 'Call request';
-  }
-
-  function applyMode() {
-    var isCall = currentMode() === 'Call request';
-
-    Array.prototype.forEach.call(form.querySelectorAll('.call-only'), function (el) {
-      el.hidden = !isCall;
-    });
-    Array.prototype.forEach.call(form.querySelectorAll('.msg-only'), function (el) {
-      el.hidden = isCall;
-    });
-
-    // hiding a field does not stop it being submitted, so the preference has
-    // to be disabled in message mode or it turns up in an email about nothing
-    var when = form.elements['preferred_time'];
-    if (when) when.disabled = !isCall;
-
-    // one textarea serves both modes, so the question has to change with them
-    if (msgLabel) {
-      msgLabel.textContent = isCall
-        ? 'What do you want to figure out?'
-        : 'What are you trying to figure out?';
-    }
-
-    btn.textContent = isCall ? 'Request a call' : 'Send message';
-    if (subject) {
-      subject.value = isCall
-        ? 'Call request from basirahanalytics.com'
-        : 'New enquiry from basirahanalytics.com';
-    }
-    if (note) note.textContent = '';
-  }
-
-  Array.prototype.forEach.call(modeRadios, function (r) {
-    r.addEventListener('change', applyMode);
-  });
-  applyMode();
-
-  /* ------------------------------- submit ------------------------------- */
-  function finish(text) {
-    btn.disabled = false;
-    btn.textContent = currentMode() === 'Call request' ? 'Request a call' : 'Send message';
-    note.textContent = text;
-  }
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    var isCall = currentMode() === 'Call request';
-    var name = form.elements['name'].value.trim();
-    var email = form.elements['email'].value.trim();
-    var country = form.elements['country'].value;
-
-    if (!name || !email) { note.textContent = 'Please add your name and email.'; return; }
-    if (!form.elements['email'].checkValidity()) {
-      note.textContent = 'That email address does not look right.'; return;
-    }
-    if (!country) { note.textContent = 'Please pick your country.'; return; }
-
-    if (isCall && !form.elements['preferred_time'].value) {
-      note.textContent = 'Let us know roughly when suits you.'; return;
-    }
-    if (!isCall && !form.elements['message'].value.trim()) {
-      note.textContent = 'Add a short message first.'; return;
-    }
-
-    btn.disabled = true;
-    btn.textContent = 'Sending';
-    note.textContent = '';
-
-    fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    })
-      .then(function (res) {
-        if (res.ok) {
-          form.reset();
-          applyMode();
-          finish('Thanks, we will be in touch within one working day.');
-          return;
-        }
-        return res.json().then(function () {
-          finish('Something went wrong, please email hello@basirahanalytics.com');
-        });
-      })
-      .catch(function () {
-        finish('Something went wrong, please email hello@basirahanalytics.com');
-      });
-  });
-})();
-
-
-/* =====================================================================
    MOTION + MOBILE DISCLOSURE
    Reveal-on-scroll is opt-in: the .anim class is only added when the
    visitor has not asked for reduced motion, so nothing is ever hidden
@@ -629,7 +491,7 @@
       // section head inside it already has its own entry above and would
       // otherwise be observed twice
       ['.origin', 0], ['.statement', 0], ['.bio', 0],
-      ['.contact-intro', 0], ['.scheduler', 0],
+      ['.contact-intro', 0], ['.bsr-book', 0],
       ['.footer-inner > *', 1]
     ];
 
@@ -861,7 +723,7 @@
     link.addEventListener('click', function () {
       var card = link.closest('.pkg-card');
       var name = card ? card.getAttribute('data-pkg') : '';
-      var field = document.getElementById('c-message');
+      var field = document.getElementById('bTopic');
       if (field && !field.value.trim() && name) field.value = name + ': ';
     });
   });
