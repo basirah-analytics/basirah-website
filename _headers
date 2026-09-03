@@ -31,7 +31,7 @@
   # ignored when delivered via meta and only works as a header. Keep the two in
   # step: when both are present a browser enforces both, so a rule added here
   # and not there silently does nothing.
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com https://formspree.io; form-action 'self' https://formspree.io; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'
 
 # Fingerprinted assets could be cached far longer, but nothing here is
 # content-hashed yet, so a conservative hour avoids serving stale CSS or JS.

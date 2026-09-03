@@ -10,24 +10,27 @@
   // ------------------------------------------------------------------
   // CONFIG
   //
-  // TODO(backend): apiBase MUST be set to the Render backend URL before
-  // this goes anywhere near production, for example
-  //   apiBase: "https://basirah-booking.onrender.com"
+  // web3formsKey sends the request as an email. That is all it does, and
+  // the difference matters:
   //
-  // While apiBase is "", nothing is booked. The widget shows every half
-  // hour of a 24 hour day as if it were free, and Confirm only waits
-  // 650ms and then draws the success screen. No request is sent, no
-  // calendar event is created, and no email goes out. A visitor would be
-  // told they are booked when they are not.
+  //   - It does NOT read a calendar, so every half hour of a 24 hour day is
+  //     offered and two people can pick the same slot. apiBase is what would
+  //     fix that, and it is still empty.
+  //   - It does NOT create a calendar event or send the visitor an invite.
+  //     The confirmation screen currently promises one. See the note by
+  //     showDone().
   //
-  // Do not deploy until the backend is live AND one real test booking has
-  // been made and confirmed on the calendar.
+  // apiBase stays as the hook for a real backend later. If it is ever set it
+  // wins, because a backend can check availability and issue an invite,
+  // which the email service cannot.
   // ------------------------------------------------------------------
   const CONFIG = {
     eventLengthMin: 30,
     daysToShow: 14,
     leadDays: 1,        // earliest bookable day = today + leadDays (no same-day)
-    apiBase: ""         // TODO(backend): see the note above before deploying
+    apiBase: "",        // optional: a real booking backend, takes priority
+    web3formsKey: "26e22b98-59e6-4618-8610-7997ac7a7325",
+    web3formsUrl: "https://api.web3forms.com/submit"
   };
 
   const $ = function (id) { return document.getElementById(id); };
@@ -115,7 +118,28 @@
       // Backend: combine date + time in tz -> instant, re-check free/busy,
       // create the event with a Meet link, invite the client, return { ok:true }.
     }
-    return new Promise(function (res) { setTimeout(res, 650); });
+
+    if (CONFIG.web3formsKey) {
+      return fetch(CONFIG.web3formsUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(payload)
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (data) {
+          // A 200 on its own is not proof. Web3Forms answers 200 with
+          // success:false for a rejected or throttled key, and treating that
+          // as sent would show the visitor a confirmation for an email that
+          // never left.
+          if (!r.ok || data.success === false) throw new Error("submit");
+          return data;
+        });
+      });
+    }
+
+    // Nothing configured. Reject rather than resolve: this used to wait 650ms
+    // and then draw the success screen, which told people they were booked
+    // when no request had been made at all.
+    return Promise.reject(new Error("not configured"));
   }
 
   function all24() {
@@ -314,15 +338,27 @@
     btn.textContent = "Booking…";
     $("errLine").textContent = "";
 
+    // The slot as a person reads it, so the email does not arrive as a bare
+    // "2026-09-04 / 06:30" that has to be decoded before it can be answered.
+    const dayFmt = new Intl.DateTimeFormat([], { weekday: "long", month: "long", day: "numeric" });
+    const slotLabel = dayFmt.format(state.day) + " at " + label12FromStr(state.time24) +
+                      " (" + tzFriendly(state.tz) + ")";
+
     const payload = {
-      date: state.dayStr,        // "YYYY-MM-DD"
-      time: state.time24,        // "HH:MM" wall time in the chosen tz
-      tz: state.tz,              // IANA zone, e.g. "America/New_York"
-      lengthMin: CONFIG.eventLengthMin,
+      access_key: CONFIG.web3formsKey,
+      subject: "Call booking: " + slotLabel,
+      from_name: "Basirah booking widget",
+      replyto: $("bEmail").value.trim(),   // so Reply goes to the visitor
+
       name: $("bName").value.trim(),
       email: $("bEmail").value.trim(),
+      slot: slotLabel,
+      timezone: state.tz,               // IANA zone, e.g. "America/New_York"
+      date: state.dayStr,               // "YYYY-MM-DD"
+      time: state.time24,               // "HH:MM" wall time in the chosen tz
+      lengthMin: CONFIG.eventLengthMin,
       topic: $("bTopic").value.trim(),
-      website: $("bWebsite").value    // honeypot; backend must reject if non-empty
+      website: $("bWebsite").value      // honeypot; sent so the far end can reject too
     };
 
     submitBooking(payload).then(function () {
@@ -331,7 +367,10 @@
     }).catch(function () {
       btn.disabled = false;
       btn.textContent = "Confirm booking";
-      $("errLine").textContent = "That time may have just been taken. Pick another.";
+      // Nothing here checks a calendar, so a clash is not something this can
+      // know about. Say what is actually true: it did not send.
+      $("errLine").textContent =
+        "That did not send. Please try again, or email hello@basirahanalytics.com";
     });
   });
 

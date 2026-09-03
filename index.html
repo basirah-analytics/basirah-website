@@ -15,7 +15,7 @@
 <!-- Kept alongside the headers in _headers so the policy still applies if a
      response ever reaches a visitor without them. frame-ancestors is header
      only and is set there, not here. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com https://formspree.io; form-action 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
 <!-- Absolute URLs below are required: social crawlers will not follow
@@ -63,7 +63,7 @@
      JS for up to an hour after a deploy. index.html itself is served
      must-revalidate, so bumping this number is what releases a change.
      BUMP BOTH VALUES WHENEVER styles.css OR main.js CHANGES. -->
-<link rel="stylesheet" href="assets/css/styles.css?v=37">
+<link rel="stylesheet" href="assets/css/styles.css?v=38">
 <link rel="stylesheet" href="assets/css/booking.css?v=1">
 
 <!-- Structured data. Everything below is asserted to search engines as fact,
@@ -847,7 +847,7 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=37" defer></script>
-<script src="assets/js/booking.js?v=1" defer></script>
+<script src="assets/js/main.js?v=38" defer></script>
+<script src="assets/js/booking.js?v=2" defer></script>
 </body>
 </html>
