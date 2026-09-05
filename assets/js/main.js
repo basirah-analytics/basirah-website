@@ -153,6 +153,7 @@
       context: 'Documented demonstration dataset, specialty coffee business',
       tools: 'SQL Server (T-SQL) · Data modeling · Power BI · DAX',
       scope: 'Four years of transactions, over 1 million in total',
+      page: '/case-studies/profitability-analysis',
       repo: 'https://github.com/basirah-analytics/rose-city-roasters-analysis',
       thumb: 'assets/img/work/rosecity-1.png',
       images: [
@@ -160,15 +161,15 @@
         'assets/img/work/rosecity-2.png'
       ],
       insights: [
-        'The business swung from a $187K profit in 2022 to a $525K loss in 2025, while sales kept climbing the whole time.',
-        'About $210K was lost on sales priced below what the stock cost.',
-        '$1.77M was given away in discounts across the four years.',
-        '79% of wholesale invoices were paid late, which is where the cash was tied up.'
+        'Revenue reached $31.4M across four years, yet operating profit came out at minus $760.76K.',
+        'About 22,000 order lines sold below cost, losing $228.15K on $1.38M of revenue, 4.39% of the total.',
+        'Margin fell from 43% on undiscounted orders to 13% at the steepest discount tier.',
+        'Around 80% of wholesale invoices were paid late, which is where the cash was tied up.'
       ],
       caseStudy: {
         problem: 'Sales were growing every year and the owner could see that much, but profit was going the other way and nobody could say why. Four years of transaction data existed and none of it had been made to agree.',
         approach: 'We cleaned four years of messy transaction data and modelled it in SQL Server, so every later figure traces back to one trusted table. A three page Power BI report was built on top of it, with the measures written in DAX.',
-        results: 'The report traced a swing from a $187K profit in 2022 to a $525K loss in 2025, all while sales were still rising. It then split that swing into the three things causing it: about $210K lost on sales priced below cost, $1.77M given away in discounts over the four years, and 79% of wholesale invoices paid late. Naming them separately is what lets the owner see which to fix first instead of guessing at the whole.'
+        results: 'The report showed $31.4M of revenue and a 35% gross margin sitting alongside an operating profit of minus $760.76K, with the cost of goods climbing from $3.3M in 2022 to $7.1M in 2025 while sales were still rising. It then split that gap into the three things causing it: about 22,000 order lines sold below cost, losing $228.15K, margin falling from 43% to 13% as discounts deepened, and roughly 80% of wholesale invoices paid late. Naming them separately is what lets the owner see which to fix first instead of guessing at the whole.'
       }
     }
 
