@@ -49,8 +49,15 @@
   });
 
   /* ------------------------------ scrollspy ---------------------------- */
+  /* Only in-page hrefs name a section. Now that the site has a second page,
+     the nav also carries "/#services" and "/", and passing either of those to
+     querySelector throws a SyntaxError that would take the rest of this block
+     down with it. */
   var sections = navLinks
-    .map(function (link) { return document.querySelector(link.getAttribute('href')); })
+    .map(function (link) {
+      var href = link.getAttribute('href') || '';
+      return href.charAt(0) === '#' ? document.querySelector(href) : null;
+    })
     .filter(Boolean);
 
   function markCurrent(id) {
@@ -99,6 +106,8 @@
        thumb      string|null   tile image; null draws the placeholder visual
        images     string[]      detail visuals; empty draws placeholders
        insights   string[]      required, 3 to 5 findings
+       page       string|null   optional case study URL; the tile links there
+                                instead of opening the inline detail panel
        repo       string|null   optional public repo; adds a Code row to the snapshot
        caseStudy  object|null   optional { problem, approach, results }
      ------------------------------------------------------------------- */
@@ -112,6 +121,8 @@
       context: 'Demonstration dataset, five outlet restaurant',
       tools: 'SQL Server · Power BI · Python',
       scope: 'Two years of orders, 433k in total',
+      // extensionless, matching the canonical on the page itself
+      page: '/case-studies/restaurant-sales-analysis',
       repo: 'https://github.com/basirah-analytics/restaurant-sales-analysis',
       thumb: 'assets/img/work/restaurant-1.png',
       images: [
@@ -246,9 +257,11 @@
 
   /* ------------------------------- tiles ------------------------------- */
   function tileMarkup(project) {
+    // A project with its own page links there; the rest keep the inline panel.
+    var href = project.page ? esc(project.page) : '#' + SLUG_PREFIX + esc(project.slug);
     return '' +
       '<li class="tile-item" data-category="' + esc(project.category) + '">' +
-        '<a class="tile" href="#' + SLUG_PREFIX + esc(project.slug) + '" data-slug="' + esc(project.slug) + '">' +
+        '<a class="tile" href="' + href + '" data-slug="' + esc(project.slug) + '">' +
           '<span class="tile-thumb">' + thumbMarkup(project) + '</span>' +
           '<span class="tile-body">' +
             '<span class="tile-meta">' +
@@ -446,6 +459,8 @@
   grid.addEventListener('click', function (e) {
     var link = e.target.closest('.tile');
     if (!link || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    // a real URL is a real navigation, so do not swallow the click
+    if (link.getAttribute('href').charAt(0) !== '#') return;
     e.preventDefault();
     openedFromGrid = true;
     history.pushState(null, '', link.getAttribute('href'));

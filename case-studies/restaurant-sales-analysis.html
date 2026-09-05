@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restaurant Sales Analysis Case Study | Basirah Analytics</title>
+<meta name="description" content="A restaurant sales analysis across five branches that shows where revenue was lost, which branches earned most, and how delivery apps compared to dine-in.">
+<meta name="author" content="Haseeb Ur Rahman">
+<meta name="theme-color" content="#141412">
+
+<!-- Same policy as the home page. Kept alongside the headers in _headers so
+     it still applies if a response ever reaches a visitor without them. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com https://formspree.io; form-action 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<!-- Extensionless, matching the URL Cloudflare serves this file at. -->
+<link rel="canonical" href="https://basirahanalytics.com/case-studies/restaurant-sales-analysis">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Basirah Analytics">
+<meta property="og:title" content="Restaurant Sales Analysis Case Study | Basirah Analytics">
+<meta property="og:description" content="A restaurant sales analysis across five branches that shows where revenue was lost, which branches earned most, and how delivery apps compared to dine-in.">
+<meta property="og:url" content="https://basirahanalytics.com/case-studies/restaurant-sales-analysis">
+<meta property="og:image" content="https://basirahanalytics.com/assets/img/work/restaurant-1.png">
+<meta property="og:image:width" content="1400">
+<meta property="og:image:height" content="810">
+<meta property="og:image:alt" content="Restaurant dashboard overview page showing 32.72 crore earned revenue, 2.39 crore lost revenue, 755.16 average order value, 433K total orders, a revenue trend over time, and revenue by channel">
+<meta property="og:locale" content="en_GB">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Restaurant Sales Analysis Case Study | Basirah Analytics">
+<meta name="twitter:description" content="A restaurant sales analysis across five branches that shows where revenue was lost, which branches earned most, and how delivery apps compared to dine-in.">
+<meta name="twitter:image" content="https://basirahanalytics.com/assets/img/work/restaurant-1.png">
+<meta name="twitter:image:alt" content="Restaurant dashboard overview page showing 32.72 crore earned revenue, 2.39 crore lost revenue, 755.16 average order value, 433K total orders, a revenue trend over time, and revenue by channel">
+
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/img/icon-192.png" sizes="192x192" type="image/png">
+<link rel="icon" href="/assets/img/favicon-96.png" sizes="96x96" type="image/png">
+<link rel="icon" href="/assets/img/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/img/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Root relative, so the same tags work from any folder depth. The ?v= must
+     stay in step with index.html: both pages share one stylesheet, and a
+     mismatch would have one page on a stale copy for up to an hour. -->
+<link rel="stylesheet" href="/assets/css/styles.css?v=45">
+
+<!-- The Article describes this page. The ProfessionalService below it repeats
+     the @id from the home page rather than inventing a second organisation,
+     so the two documents describe one entity instead of competing. Only the
+     identifying fields are carried; the full offer catalogue stays on the
+     home page where it belongs. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://basirahanalytics.com/case-studies/restaurant-sales-analysis#article",
+      "headline": "Restaurant Sales Analysis: Finding Where the Money Goes Across Five Branches",
+      "description": "A restaurant sales analysis across five branches that shows where revenue was lost, which branches earned most, and how delivery apps compared to dine-in.",
+      "image": "https://basirahanalytics.com/assets/img/work/restaurant-1.png",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "datePublished": "2026-09-05",
+      "dateModified": "2026-09-05",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://basirahanalytics.com/case-studies/restaurant-sales-analysis"
+      },
+      "author": { "@id": "https://basirahanalytics.com/#haseeb" },
+      "publisher": { "@id": "https://basirahanalytics.com/#business" },
+      "about": [
+        "Restaurant analytics",
+        "Sales analysis",
+        "Revenue analysis",
+        "Power BI dashboard"
+      ]
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://basirahanalytics.com/#business",
+      "name": "Basirah Analytics",
+      "alternateName": "Basirah",
+      "url": "https://basirahanalytics.com/",
+      "email": "hello@basirahanalytics.com",
+      "logo": "https://basirahanalytics.com/assets/img/icon-512.png",
+      "sameAs": [
+        "https://www.linkedin.com/company/basirah-analytics/",
+        "https://github.com/basirah-analytics"
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://basirahanalytics.com/#haseeb",
+      "name": "Haseeb Ur Rahman",
+      "jobTitle": "Founder",
+      "worksFor": { "@id": "https://basirahanalytics.com/#business" }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="site-header">
+  <div class="wrap header-inner">
+
+    <a class="brand" href="/" aria-label="Basirah Analytics, home">
+      <svg class="brand-mark" viewBox="0 0 220 220" aria-hidden="true" focusable="false">
+        <rect x="8" y="8" width="204" height="204" fill="none" stroke="currentColor" stroke-width="16"/>
+        <rect x="54" y="54" width="112" height="112" fill="none" stroke="currentColor" stroke-width="16"/>
+        <rect x="88" y="88" width="44" height="44" fill="var(--accent)"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-name">Basirah</span>
+        <span class="brand-sub">Analytics</span>
+      </span>
+    </a>
+
+    <!-- Root relative rather than bare fragments: on this page a "#services"
+         href would point at a section that is not here. -->
+    <nav class="nav" id="nav" aria-label="Primary">
+      <ul class="nav-list">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/#services" class="nav-link">Services</a></li>
+        <li><a href="/#portfolio" class="nav-link is-current" aria-current="page">Portfolio</a></li>
+        <li><a href="/#basira-ai" class="nav-link">Basira AI</a></li>
+        <li><a href="/#about" class="nav-link">About</a></li>
+        <li><a href="/#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <a class="btn btn-ink nav-cta" href="/#contact">Book a call</a>
+    </nav>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-expanded="false" aria-controls="nav" aria-label="Open menu">
+      <span class="nav-toggle-bars" aria-hidden="true"></span>
+    </button>
+
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="section section-light">
+    <div class="wrap">
+
+      <article class="detail case-study">
+
+        <header class="detail-head">
+          <p class="eyebrow detail-cat">case study</p>
+          <h1 class="detail-title">Restaurant Sales Analysis: Finding Where the Money Goes Across Five Branches</h1>
+          <p class="detail-summary">
+            Most restaurant owners can tell you their busiest branch and their most-loved dish from
+            memory. What they usually cannot tell you is where the money quietly leaks out. Which
+            branch cancels the most orders. Whether Swiggy and Zomato actually earn more than they
+            cost. Which items look popular but barely move the bill. This is a demonstration project
+            we built to show exactly how we answer those questions with data. It uses a realistic
+            simulated dataset of a five-branch Hyderabadi restaurant chain, one million order
+            records in all, of which 433 thousand completed and paid. The patterns are true to life
+            even though the business is not a real client.
+          </p>
+        </header>
+
+        <section class="case">
+          <h2 class="block-title">The Problem</h2>
+          <div class="origin">
+            <p>
+              A growing chain runs five branches across Hyderabad, sells on dine-in as well as
+              Swiggy and Zomato, and takes both cash and online payments. Sales are healthy, but
+              nobody has a clear picture of the whole business in one place. Cancelled and refunded
+              orders are treated as noise. Delivery apps feel expensive, but no one has checked. The
+              owner is making decisions on gut feel because the numbers live in scattered reports
+              nobody has time to join together.
+            </p>
+          </div>
+        </section>
+
+        <section class="insights">
+          <h2 class="block-title">The Questions We Set Out to Answer</h2>
+          <ul class="insight-list">
+            <li>How much did the business actually earn, and how much did it lose to cancellations?</li>
+            <li>Which branches carry the business, and which are quietly underperforming?</li>
+            <li>Do the delivery apps help or hurt once cancellations are counted?</li>
+            <li>Which menu categories and dishes truly drive revenue, not just order counts?</li>
+          </ul>
+        </section>
+
+        <section class="case">
+          <h2 class="block-title">What We Analyzed</h2>
+          <div class="origin">
+            <p>
+              We worked with one million order records across the five branches, covering the full
+              menu of 32 Hyderabadi items, three sales channels (dine-in, Swiggy, Zomato), and every
+              order status: completed, cancelled, and refunded. The 433 thousand on the dashboard is
+              the completed and paid count, which is the figure the revenue numbers are built on. We
+              treated refunded orders as revenue
+              retained rather than lost, and counted only cancelled orders as lost revenue, so the
+              earnings figure reflects money the business actually kept. The data was cleaned and
+              modelled in SQL, then built into a three-page Power BI dashboard covering the
+              overview, the menu, and operations.
+            </p>
+          </div>
+
+          <!-- Report page 1 of 3. Sits under the paragraph describing the
+               model, because it is the overview the rest of the page drills
+               down from. -->
+          <figure class="visual">
+            <a href="/assets/img/work/restaurant-1.png"
+               aria-label="Open the full size overview dashboard image">
+              <img src="/assets/img/work/restaurant-1.png"
+                   alt="Restaurant dashboard overview page showing 32.72 crore earned revenue, 2.39 crore lost revenue, 755.16 average order value, 433K total orders, a revenue trend over time, and revenue by channel"
+                   width="1400" height="810" loading="lazy" decoding="async">
+            </a>
+            <figcaption class="visual-hint">Tap to enlarge</figcaption>
+          </figure>
+        </section>
+
+        <section class="case">
+          <h2 class="block-title">What We Found</h2>
+          <div class="origin">
+            <p>
+              The chain earned around &#8377;32.7 crore over the period. It lost about &#8377;2.39
+              crore to cancelled orders, a cancellation rate of 6.80 percent, with an average order
+              value near &#8377;755.
+            </p>
+            <p>
+              The branches told a clear story. Banjara Hills led the chain, followed by Gachibowli,
+              the upscale and IT-hub areas where spend runs highest. Charminar behaved differently,
+              leaning heavily on dine-in and local orders rather than delivery.
+            </p>
+            <p>
+              The delivery-app question had a sharp answer. Dine-in and local orders brought in the
+              most revenue and cancelled the least, around 3 percent. Swiggy and Zomato cancelled
+              roughly three times as often, near 9 to 10 percent, which means a real slice of their
+              apparent sales never turned into money. The apps still add reach, but they cost more
+              in lost orders than the direct channel does.
+            </p>
+          </div>
+
+          <!-- Report page 3 of 3, placed directly under the cancellation and
+               channel paragraph it evidences. -->
+          <figure class="visual">
+            <a href="/assets/img/work/restaurant-3.png"
+               aria-label="Open the full size operations and channels dashboard image">
+              <img src="/assets/img/work/restaurant-3.png"
+                   alt="Restaurant dashboard operations and channels page showing a 6.80 percent overall cancellation rate against 9.41 percent for aggregators and 3.02 percent for dine-in, cancellation rate by platform, revenue by day-part, revenue by branch, and payment mix"
+                   width="1400" height="810" loading="lazy" decoding="async">
+            </a>
+            <figcaption class="visual-hint">Tap to enlarge</figcaption>
+          </figure>
+
+          <div class="origin">
+            <p>
+              On the menu, Main Course led the categories, with Starters and Biryani close behind,
+              so no single part of the menu carries the business on its own. The individual dishes
+              tell a sharper story. Mutton Dum Biryani and Chicken Dum Biryani top the earners, with
+              Chicken 65, Nihari, and Haleem close behind them. Most orders were small, one or two
+              items, which points to a clear opportunity in combos and add-ons.
+            </p>
+          </div>
+
+          <!-- Report page 2 of 3, under the menu paragraph. -->
+          <figure class="visual">
+            <a href="/assets/img/work/restaurant-2.png"
+               aria-label="Open the full size menu and product dashboard image">
+              <img src="/assets/img/work/restaurant-2.png"
+                   alt="Restaurant dashboard menu and product page showing Main Course as top category, Mutton Dum Biryani as top item, 2.31 items per order, a popularity versus revenue scatter plot, revenue by category, and the top ten items by revenue"
+                   width="1400" height="810" loading="lazy" decoding="async">
+            </a>
+            <figcaption class="visual-hint">Tap to enlarge</figcaption>
+          </figure>
+        </section>
+
+        <section class="case">
+          <h2 class="block-title">The Result</h2>
+          <div class="origin">
+            <p>
+              In one dashboard, the owner can now see earned versus lost revenue, spot the branch
+              and channel dragging on cancellations, and know which dishes to build promotions
+              around. Decisions that used to run on instinct now run on evidence. That is the
+              difference between having data and understanding it.
+            </p>
+          </div>
+        </section>
+
+        <section class="case">
+          <h2 class="block-title">Want this for your business?</h2>
+          <div class="origin">
+            <p>
+              If you run a restaurant or any multi-location business and your numbers live in
+              scattered reports, we can turn them into one clear picture like this.
+            </p>
+          </div>
+
+          <!-- The code link sits here because the tile now opens this page
+               instead of the inline panel that used to carry it. -->
+          <div class="detail-cta">
+            <a class="btn btn-ink btn-lg" href="/#contact">Book a free call</a>
+            <a class="link-arrow" href="https://github.com/basirah-analytics/restaurant-sales-analysis"
+               target="_blank" rel="noopener">View code <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </section>
+
+      </article>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer section-dark">
+  <div class="wrap footer-inner">
+
+    <div class="footer-brand">
+      <a class="brand footer-logo" href="/" aria-label="Basirah Analytics, home">
+        <svg class="brand-mark" viewBox="0 0 220 220" aria-hidden="true" focusable="false">
+          <rect x="8" y="8" width="204" height="204" fill="none" stroke="currentColor" stroke-width="16"/>
+          <rect x="54" y="54" width="112" height="112" fill="none" stroke="currentColor" stroke-width="16"/>
+          <rect x="88" y="88" width="44" height="44" fill="var(--accent)"/>
+        </svg>
+        <span class="brand-text">
+          <span class="brand-name">Basirah</span>
+          <span class="brand-sub">Analytics</span>
+        </span>
+      </a>
+      <p class="footer-tagline">See what your data is telling you.</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Footer">
+      <p class="footer-heading">Sections</p>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/#services">Services</a></li>
+        <li><a href="/#portfolio">Portfolio</a></li>
+        <li><a href="/#basira-ai">Basira AI</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer-contact">
+      <p class="footer-heading">Elsewhere</p>
+      <ul>
+        <li><a href="https://www.linkedin.com/company/basirah-analytics/" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/basirah-analytics" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="mailto:hello@basirahanalytics.com">hello@basirahanalytics.com</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="wrap footer-base">
+    <p class="footer-copy">&copy; 2026 Basirah Analytics</p>
+    <p class="footer-built">Independent analysis, founder led.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js?v=45" defer></script>
+</body>
+</html>

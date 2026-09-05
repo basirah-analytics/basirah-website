@@ -1187,6 +1187,127 @@ html {
 }
 .case-step p { color: var(--text-dark); }
 
+/* Secondary link beside a primary button, used on the case study page.
+   Modelled on .snapshot a: the global `a { text-decoration: none }` would
+   otherwise leave it looking like plain text. */
+.link-arrow {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-label);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.link-arrow span { display: inline-block; transition: transform var(--dur) var(--ease); }
+.link-arrow:hover span { transform: translateX(3px); }
+
+/* --- standalone case-study pages: full-width layout ---------------------
+   These pages reuse the portfolio panel's classes, but unlike the panel
+   they have no neighbouring column, so every measure cap the panel relies
+   on (.detail-head at 62ch, .insight-list and .case-steps at 68ch) would
+   strand the text in the left half of the container. Lift all of them so
+   the header and every section share one full-container width and one left
+   edge, and let a lone visual take the whole row instead of leaving the
+   second grid column empty.
+
+   Width still comes from .wrap, so the text lines up with the navbar and
+   footer rather than reaching the viewport edge.
+
+   Every selector is scoped to .case-study: the inline portfolio panel and
+   the About section keep their measures.
+
+   Four page-level tokens carry the whole vertical rhythm, so every gap on
+   the page is one of four values rather than a different clamp per class,
+   which is what made the spacing read as uneven. */
+.case-study {
+  --cs-rule-gap:    clamp(var(--space-6), 4.5vw, var(--space-8)); /* each side of a section rule */
+  --cs-heading-gap: var(--space-6);                               /* heading to its own body */
+  --cs-flow-gap:    var(--space-5);                               /* paragraph to paragraph */
+  --cs-figure-gap:  var(--space-6);                               /* body to figure, figure to figure */
+}
+
+/* 1. Full width. */
+.case-study .detail-head,
+.case-study .insight-list,
+.case-study .case-steps,
+.case-study .origin { max-width: none; }
+
+/* 2. One body size. The panel mixes --fs-lead (intro, question list) with
+      --fs-body (section paragraphs); across a full-width measure that read
+      as three different sizes. --fs-lead is the larger of the two and holds
+      a wide line better, so it becomes the single body size here. One
+      line-height with it, so every block of prose sets the same rhythm. */
+.case-study .detail-summary,
+.case-study .origin p,
+.case-study .insight-list li {
+  font-size: var(--fs-lead);
+  line-height: 1.6;
+}
+
+/* 3. Vertical rhythm. Sections sit symmetrically around their rule, so the
+      space above and below each hairline is equal all the way down. */
+.case-study .insights,
+.case-study .case,
+.case-study .detail-cta {
+  margin-top: var(--cs-rule-gap);
+  padding-top: var(--cs-rule-gap);
+}
+.case-study .detail-title,
+.case-study .block-title { margin-bottom: var(--cs-heading-gap); }
+.case-study .origin p + p { margin-top: var(--cs-flow-gap); }
+.case-study .insight-list { gap: var(--cs-flow-gap); }
+.case-study .visual { margin-top: var(--cs-figure-gap); }
+/* prose that resumes after a figure needs the same gap the figure took
+   above it, or the paragraph butts straight up against the image */
+.case-study .visual + .origin,
+.case-study .visual + .visual { margin-top: var(--cs-figure-gap); }
+
+/* 4. Dashboards keep their own proportions instead of the panel's 16/9
+      crop. These are dense screenshots and `cover` shaves figures off the
+      edges; letting them run at their real ratio also means they scale
+      down cleanly on a phone rather than being cropped tighter. */
+.case-study .visual { aspect-ratio: auto; }
+.case-study .visual img { height: auto; object-fit: contain; }
+
+/* 5. Each dashboard links to its own full-size file. At 375px a 1400px wide
+      Power BI page renders about 334px across, which shows the shape of the
+      analysis but not the numbers; tapping opens the real image so a phone
+      reader can pinch to zoom.
+
+      The frame moves from the figure onto the link, so the caption below
+      sits outside the border rather than inside it. */
+.case-study .visual { border: 0; border-radius: 0; overflow: visible; }
+.case-study .visual a {
+  display: block;
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* The hint only appears where the interaction it names is the real one:
+   below 768px, where a dashboard is too small to read in place. On desktop
+   the image renders past 1000px wide and needs no prompt. */
+.case-study .visual-hint {
+  display: none;
+  margin-top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+@media (max-width: 767px) {
+  .case-study .visual-hint { display: block; }
+}
+
+/* 6. The secondary link beside the CTA is a 22px tap target inline, under
+      the 44px minimum. Give it the same height as the button next to it
+      without turning it into a second button. */
+.case-study .detail-cta .link-arrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
 .detail-cta {
   display: flex;
   flex-wrap: wrap;
