@@ -63,7 +63,7 @@
      JS for up to an hour after a deploy. index.html itself is served
      must-revalidate, so bumping this number is what releases a change.
      BUMP BOTH VALUES WHENEVER styles.css OR main.js CHANGES. -->
-<link rel="stylesheet" href="assets/css/styles.css?v=48">
+<link rel="stylesheet" href="assets/css/styles.css?v=49">
 <link rel="stylesheet" href="assets/css/booking.css?v=1">
 
 <!-- Structured data. Everything below is asserted to search engines as fact,
@@ -511,10 +511,38 @@
           <p class="filter-count" id="work-count" role="status" aria-live="polite"></p>
         </div>
 
-        <ul class="work-grid" id="work-grid"></ul>
+        <!-- These tiles are the real content, not a fallback. main.js rebuilds
+             this list from PROJECTS on load, so the two must be kept in step,
+             but the proof of work is never gated behind a script: with JS off,
+             slow, or broken, a visitor still sees every project and can reach
+             its case study. Markup mirrors tileMarkup() in main.js exactly. -->
+        <ul class="work-grid" id="work-grid">
+          <li class="tile-item" data-category="analysis">
+            <a class="tile" href="/case-studies/restaurant-sales-analysis" data-slug="restaurant-sales-analysis">
+              <span class="tile-thumb"><img class="tile-img" src="assets/img/work/restaurant-1.png" alt="" loading="lazy" decoding="async"></span>
+              <span class="tile-body">
+                <span class="tile-meta"><span class="tile-cat">Analysis</span></span>
+                <span class="tile-title">Restaurant sales and operations analysis</span>
+                <span class="tile-insight">About 2.4 crore was lost to cancelled orders, nearly all of it on the delivery apps.</span>
+              </span>
+            </a>
+          </li>
+          <li class="tile-item" data-category="financial">
+            <a class="tile" href="/case-studies/profitability-analysis" data-slug="rose-city-roasters-analysis">
+              <span class="tile-thumb"><img class="tile-img" src="assets/img/work/rosecity-1.png" alt="" loading="lazy" decoding="async"></span>
+              <span class="tile-body">
+                <span class="tile-meta"><span class="tile-cat">Financial</span></span>
+                <span class="tile-title">Rose City Roasters sales and profitability analysis</span>
+                <span class="tile-insight">Revenue kept climbing, but the business was quietly sliding into a loss.</span>
+              </span>
+            </a>
+          </li>
+        </ul>
 
         <noscript>
-          <p class="section-lead">Project details need JavaScript enabled. Or just book a call and we&rsquo;ll walk you through the work.</p>
+          <!-- The filter row and the inline detail panel are the only parts that
+               genuinely need a script. The projects themselves are above. -->
+          <p class="section-lead">Filtering needs JavaScript. Every project is listed above, and each links to its full case study.</p>
         </noscript>
       </div>
 
@@ -707,10 +735,11 @@
               <li><a href="mailto:hello@basirahanalytics.com">hello@basirahanalytics.com</a></li>
               <li><a href="https://www.linkedin.com/company/basirah-analytics/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&rarr;</span></a></li>
               <li><a href="https://github.com/basirah-analytics" target="_blank" rel="noopener">GitHub <span aria-hidden="true">&rarr;</span></a></li>
-              <!-- TODO(whatsapp-number): replace with the full number, country code
-                   first, no plus sign and no spaces, for example 9198XXXXXXXX.
-                   Until then this link resolves to a wa.me error page. -->
-              <li><a href="https://wa.me/TODO(whatsapp-number)" target="_blank" rel="noopener">WhatsApp <span aria-hidden="true">&rarr;</span></a></li>
+              <!-- WhatsApp is deliberately absent rather than placeholdered. To
+                   restore it, add a list item linking to https://wa.me/<number>
+                   with the full number, country code first, no plus sign and no
+                   spaces, for example 9198XXXXXXXX. A wa.me link with anything
+                   other than a real number resolves to an error page. -->
             </ul>
 
             <p class="contact-foot">
@@ -847,7 +876,7 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=48" defer></script>
+<script src="assets/js/main.js?v=49" defer></script>
 <script src="assets/js/booking.js?v=3" defer></script>
 </body>
 </html>
