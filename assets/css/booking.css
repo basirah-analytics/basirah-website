@@ -29,6 +29,24 @@
   font-family: "Archivo", system-ui, sans-serif;
   color: var(--bsr-paper);
   background: var(--bsr-ink);
+
+  /* width and min-width are load bearing, do not drop them.
+     The day picker below holds 14 chips at min-width 66px, so its min-content
+     width is about 1028px. That propagates up to this box, where max-width
+     clamps it to 760px. Two things then conspire:
+       - as a grid item this box has min-width: auto, so the .contact-grid
+         track cannot shrink below that 760px, and
+       - `margin: 0 auto` makes the box shrink to fit, and shrink to fit never
+         goes below min-content, so it stays 760px even in a narrower track.
+     Below about 800px the widget therefore stayed 760px wide and pushed the
+     document wider than the viewport. The full bleed dark sections are sized
+     to the viewport, so that extra width showed as a light strip down the
+     right of the hero, the packages and the Basira AI blocks.
+     min-width: 0 lets the track shrink; width: 100% makes this box definite so
+     it follows the track instead of its own min-content. max-width still caps
+     it at 760px on wide screens, and the chip row keeps its own scrollbar. */
+  min-width: 0;
+  width: 100%;
   max-width: 760px;
   margin: 0 auto;
   padding: 34px 30px 30px;
