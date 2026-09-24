@@ -462,29 +462,39 @@ html {
   color: var(--text-light);
 
   opacity: 0;
-  animation: heroQ 32.4s ease-in-out infinite;
+  animation: heroQ 5.1s var(--ease) both;
 }
 
-/* Strictly one at a time. Every question shares this one cell, so any moment
-   where two are above zero opacity paints them on top of each other and the
-   text is unreadable. An earlier version crossfaded them on purpose and did
-   exactly that.
+/* Strictly one at a time, and once. Every question shares this one cell, so
+   any moment where two are above zero opacity paints them on top of each other
+   and the text is unreadable. An earlier version crossfaded them on purpose
+   and did exactly that.
 
-   One question occupies 5.4s: 0.8s in, 3.5s held still, 0.8s out, then 0.3s
-   of nothing. The slot is 5.4s but the visible span ends at 5.1s, and that
-   0.3s difference is the guarantee: the next question's fade-in starts at
-   5.4s, after this one has already reached zero. Six slots make the 32.4s
-   loop, and the wrap from the sixth back to the first inherits the same
-   0.3s gap, so the seam is not a special case. */
+   One question occupies a 5.4s slot: 0.8s in, 3.5s held still, 0.8s out,
+   then 0.3s of nothing, which guarantees the next question's fade starts
+   after this one has reached zero. The rotator plays one full cycle and then
+   stops on the first question, so it is not a looping distraction: the first
+   question is visible from the first paint (nothing waits on motion), and
+   after the sixth it fades back in at 32.4s and holds. Fades use the shared
+   ease-out curve. */
 @keyframes heroQ {
   0%        { opacity: 0; }
-  2.4691%   { opacity: 1; }   /* 0.8s, faded in */
-  13.2716%  { opacity: 1; }   /* 4.3s, held for 3.5s */
-  15.7407%  { opacity: 0; }   /* 5.1s, faded out */
-  100%      { opacity: 0; }   /* 5.1s to 32.4s, off while the others run */
+  15.6863%  { opacity: 1; }   /* 0.8s, faded in */
+  84.3137%  { opacity: 1; }   /* 4.3s, held for 3.5s */
+  100%      { opacity: 0; }   /* 5.1s, faded out */
 }
 
-.hero-q:nth-child(1) { animation-delay: 0s; }
+/* The first question: on at rest, out at 4.3s to 5.1s, back at 32.4s to
+   33.2s, and it stays. */
+@keyframes heroQFirst {
+  0%        { opacity: 1; }
+  12.9518%  { opacity: 1; }   /* 4.3s */
+  15.3614%  { opacity: 0; }   /* 5.1s */
+  97.5904%  { opacity: 0; }   /* 32.4s, the sixth question has gone */
+  100%      { opacity: 1; }   /* 33.2s, and it holds */
+}
+
+.hero-q:nth-child(1) { opacity: 1; animation: heroQFirst 33.2s var(--ease) forwards; }
 .hero-q:nth-child(2) { animation-delay: 5.4s; }
 .hero-q:nth-child(3) { animation-delay: 10.8s; }
 .hero-q:nth-child(4) { animation-delay: 16.2s; }
@@ -540,16 +550,31 @@ html {
 }
 /* the spec names .badge .d; this site's markup is .badge-available .dot */
 .badge-available .dot {
+  position: relative;
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--accent);
-  animation: live 2.4s ease-out infinite;
+}
+/* The pulse is a ring on a pseudo-element, scaled and faded (transform and
+   opacity only, never box-shadow, which repaints every frame). Three pulses
+   on load, then it stops: a live-status cue, not a permanent flicker. The
+   ring rests at opacity 0, so when the animation ends nothing is left. */
+.badge-available .dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .badge-available .dot::after { animation: live 2.4s var(--ease) 3; }
 }
 @keyframes live {
-  0%   { box-shadow: 0 0 0 0 rgba(236, 48, 19, .5); }
-  70%  { box-shadow: 0 0 0 7px rgba(236, 48, 19, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(236, 48, 19, 0); }
+  0%   { opacity: 0.5; transform: scale(1); }
+  70%  { opacity: 0;   transform: scale(3); }
+  100% { opacity: 0;   transform: scale(3); }
 }
 
 /* toolkit rail: hairline strip at the foot of the hero */
@@ -856,7 +881,7 @@ html {
 .pkg-detail {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 420ms var(--ease);
+  transition: grid-template-rows 250ms var(--ease);
 }
 .pkg-card.is-open .pkg-detail { grid-template-rows: 1fr; }
 
@@ -867,7 +892,7 @@ html {
      collapse has finished. The delay is what keeps it on screen for the
      duration of that animation. */
   visibility: hidden;
-  transition: visibility 0s 420ms;
+  transition: visibility 0s 250ms;
 }
 .pkg-card.is-open .pkg-detail-inner {
   visibility: visible;
@@ -999,15 +1024,6 @@ html {
 .pain-ic svg { width: 100%; height: 100%; display: block; overflow: visible; }
 .pain-ic [stroke] { stroke: currentColor; }
 
-.p-sheets .s { transition: transform .5s var(--ease); }
-.pain:hover .p-sheets .s1 { transform: translate(-2px, -2px); }
-.pain:hover .p-sheets .s3 { transform: translate(2px, 2px); }
-
-.p-q .mark { transform-origin: center; transition: transform .4s var(--ease); }
-.pain:hover .p-q .mark { transform: scale(1.15); }
-
-.p-clock .hand { transform-origin: 23px 23px; transition: transform .8s var(--ease); }
-.pain:hover .p-clock .hand { transform: rotate(300deg); }
 
 /* ---------------------------- 10. PORTFOLIO ---------------------------- */
 /* The intro ran the full 1440px container, about 166 characters a line. */
@@ -1068,7 +1084,11 @@ html {
   background: var(--paper);
   transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
-.tile:hover { border-color: #D8D8D2; transform: translateY(-2px); }
+.tile:hover { border-color: #D8D8D2; }
+/* The lift is for mouse users only: on touch a tap would leave it stuck. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .tile:hover { transform: translateY(-2px); }
+}
 
 .tile-thumb {
   display: block;
@@ -1237,7 +1257,9 @@ html {
   text-decoration-thickness: 1px;
 }
 .snapshot a span { display: inline-block; transition: transform var(--dur) var(--ease); }
-.snapshot a:hover span { transform: translateX(3px); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .snapshot a:hover span { transform: translateX(3px); }
+}
 
 .visuals {
   display: grid;
@@ -1329,7 +1351,9 @@ h2.block-title { line-height: 1.2; }
   text-decoration-thickness: 1px;
 }
 .link-arrow span { display: inline-block; transition: transform var(--dur) var(--ease); }
-.link-arrow:hover span { transform: translateX(3px); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .link-arrow:hover span { transform: translateX(3px); }
+}
 
 /* --- standalone case-study pages: full-width layout ---------------------
    These pages reuse the portfolio panel's classes, but unlike the panel
@@ -1550,7 +1574,9 @@ h2.block-title { line-height: 1.2; }
 }
 .btn-accent:hover { background: #FF3A1B; border-color: #FF3A1B; }
 .btn-accent span { transition: transform var(--dur) var(--ease); }
-.btn-accent:hover span { transform: translateX(3px); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .btn-accent:hover span { transform: translateX(3px); }
+}
 
 /* A full sentence, so plain body text: mono is for short labels only. */
 .ai-privacy {
@@ -1830,7 +1856,9 @@ h2.block-title { line-height: 1.2; }
   text-decoration-thickness: 1px;
 }
 .team-link span { display: inline-block; transition: transform var(--dur) var(--ease); }
-.team-link:hover span { transform: translateX(3px); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .team-link:hover span { transform: translateX(3px); }
+}
 
 @media (min-width: 640px) {
   .team-list { grid-template-columns: repeat(2, 1fr); }
@@ -1959,7 +1987,9 @@ h2.block-title { line-height: 1.2; }
 }
 .contact-social a:hover { border-bottom-color: var(--text-light); }
 .contact-social span { display: inline-block; transition: transform var(--dur) var(--ease); }
-.contact-social a:hover span { transform: translateX(3px); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .contact-social a:hover span { transform: translateX(3px); }
+}
 
 /* ---- FAQ ---- */
 .faq-list { display: grid; gap: var(--space-6); margin-top: clamp(2rem, 4vw, 3rem); }
@@ -2083,34 +2113,64 @@ h2.block-title { line-height: 1.2; }
 }
 
 /* ---------------------------- 16. MOTION ---------------------------- */
-/* The .anim class is added by main.js only when the visitor has not asked for
-   reduced motion. Nothing is hidden until then, so if JS fails or motion is
-   reduced the page renders fully visible with no reveal at all. */
+/* Content never waits on motion: there is no reveal-on-scroll, and the hero
+   paints at rest. Everything below is gated on prefers-reduced-motion:
+   no-preference, so with reduced motion on nothing moves and nothing is
+   ever hidden. */
 
-/* :where() keeps the reveal layer at zero specificity so it can never win a
-   cascade fight with a state style. Without it, .anim .reveal.is-in (0,3,0)
-   outranks .card.is-picked (0,2,0) and silently cancels the selected card's
-   lift and the dimming of the others. An animation layer should decorate
-   state, never override it. */
-.anim :where(.reveal) {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 620ms var(--ease), transform 620ms var(--ease);
+@media (prefers-reduced-motion: no-preference) {
+
+  /* ---- the one authored moment: the Basira AI findings card ----
+     main.js adds .is-armed only when motion is allowed, then .is-playing once,
+     the first time the card scrolls into view. Rows arrive in order, 60ms
+     apart, and the amber outlier marker lands last. The armed state carries
+     no transition, so arming hides the rows instantly rather than fading
+     them out; the transitions live on the playing state. */
+  .ai-card.is-armed .finding {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  .ai-card.is-armed .finding-outlier .finding-kind::before,
+  .ai-card.is-armed .spark-hi {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  .ai-card.is-armed .spark-hi { transform-box: fill-box; transform-origin: center bottom; }
+
+  .ai-card.is-playing .finding {
+    opacity: 1;
+    transform: none;
+    transition: opacity 240ms var(--ease), transform 240ms var(--ease);
+  }
+  .ai-card.is-playing .finding:nth-child(2) { transition-delay: 60ms; }
+  .ai-card.is-playing .finding:nth-child(3) { transition-delay: 120ms; }
+  .ai-card.is-playing .finding-outlier .finding-kind::before,
+  .ai-card.is-playing .spark-hi {
+    opacity: 1;
+    transform: none;
+    transition: opacity 240ms var(--ease) 360ms, transform 240ms var(--ease) 360ms;
+  }
+
+  /* ---- press feedback on the main buttons ---- */
+  .btn {
+    transition-property: background-color, color, border-color, transform;
+    transition-duration: var(--dur), var(--dur), var(--dur), 160ms;
+  }
+  .btn:active { transform: scale(0.97); }
+
+  /* ---- mobile menu panel: fade plus a 4px drop on open ----
+     @starting-style gives the panel an entry state as it switches from
+     display:none, so no script or keyframes are needed. Browsers without it
+     simply open the panel at rest. Closing stays instant. */
+  @media (max-width: 767px) {
+    .nav.is-open {
+      transition: opacity 180ms var(--ease), transform 180ms var(--ease);
+    }
+    @starting-style {
+      .nav.is-open { opacity: 0; transform: translateY(-4px); }
+    }
+  }
 }
-.anim :where(.reveal.is-in) { opacity: 1; transform: none; }
-
-/* children stagger in sequence rather than all at once */
-.anim :where(.reveal)[data-delay="1"] { transition-delay: 70ms; }
-.anim :where(.reveal)[data-delay="2"] { transition-delay: 140ms; }
-.anim :where(.reveal)[data-delay="3"] { transition-delay: 210ms; }
-.anim :where(.reveal)[data-delay="4"] { transition-delay: 280ms; }
-.anim :where(.reveal)[data-delay="5"] { transition-delay: 350ms; }
-
-/* The hero settles on load rather than on scroll. It uses the same class-driven
-   transition as everything else, never a keyframe animation with a backwards
-   fill: that would hold the most important content on the page at opacity 0
-   until frames run, and leave it blank if they never do. */
-.anim .hero-inner > .reveal { transition-duration: 760ms; }
 
 /* ------------------------- mobile "show more" ------------------------- */
 /* Injected by main.js under 768px only; desktop markup is untouched. */

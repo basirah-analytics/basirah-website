@@ -521,95 +521,35 @@
 
 /* =====================================================================
    MOTION + MOBILE DISCLOSURE
-   Reveal-on-scroll is opt-in: the .anim class is only added when the
-   visitor has not asked for reduced motion, so nothing is ever hidden
-   by default. If this file fails to load the page still renders whole.
+   Content never waits on motion: there is no reveal-on-scroll. The one
+   scripted moment is the Basira AI findings card, and it only runs when the
+   visitor has not asked for reduced motion. If this file fails to load the
+   page still renders whole.
    ===================================================================== */
 (function () {
   'use strict';
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  /* ------------------------- reveal on scroll ------------------------- */
-  function setupReveal() {
-    if (reduced.matches || !('IntersectionObserver' in window)) return;
+  /* ------------------ Basira AI findings card, plays once ------------------ */
+  /* The rows arrive in sequence the first time the card scrolls into view,
+     ending on the amber outlier marker (the timing lives in styles.css).
+     Arming hides the rows instantly; playing is added a frame later so the
+     browser has a hidden state to transition from. With reduced motion, or
+     without IntersectionObserver, the card is simply left at rest. */
+  function setupFindings() {
+    var card = document.querySelector('.ai-card');
+    if (!card || reduced.matches || !('IntersectionObserver' in window)) return;
 
-    var groups = [
-      ['.hero-inner > *', 1],
-      ['.pains-title', 0], ['.pain', 1],
-      ['.section-head', 0], ['.pkg-card', 1],
-      ['.resolve', 0], ['.proof-inner > *', 1],
-      ['.tile-item', 1],
-      ['.ai-copy > *', 1], ['.ai-card', 0],
-      // listed individually rather than as .about-body > *, because the
-      // section head inside it already has its own entry above and would
-      // otherwise be observed twice
-      ['.origin', 0], ['.statement', 0], ['.bio', 0],
-      ['.contact-intro', 0],
-      ['.footer-inner > *', 1]
-    ];
-
-    // Only elements below the fold are ever given the hidden state. Anything
-    // already on screen is left alone, so a stalled transition or a failed
-    // observer can never blank out content the visitor is looking at.
-    var fold = window.innerHeight;
-    var targets = [];
-    groups.forEach(function (g) {
-      var stagger = g[1];
-      Array.prototype.forEach.call(document.querySelectorAll(g[0]), function (el, i) {
-        if (el.getBoundingClientRect().top < fold && !el.closest('.hero')) return;
-        el.classList.add('reveal');
-        if (stagger) el.setAttribute('data-delay', String(Math.min(i % 6, 5)));
-        targets.push(el);
-      });
-    });
-
-    document.documentElement.classList.add('anim');
-
-    /* Once an element has finished revealing, drop the classes entirely.
-       Leaving them on means .anim .reveal.is-in keeps asserting
-       `transform: none; opacity: 1` at specificity 0,3,0, which outranks
-       state styles like .card.is-picked (0,2,0) and silently cancels them.
-       Removing the hooks after the transition ends leaves the element in
-       its natural state with nothing left to fight. */
-    function markIn(el) {
-      el.classList.add('is-in');
-      setTimeout(function () {
-        el.classList.remove('reveal', 'is-in');
-        el.removeAttribute('data-delay');
-      }, 1200);                     // 620ms transition + 350ms max stagger
-    }
-
+    card.classList.add('is-armed');
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        markIn(entry.target);
-        io.unobserve(entry.target);
+      if (!entries[0].isIntersecting) return;
+      io.disconnect();
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { card.classList.add('is-playing'); });
       });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-
-    targets.forEach(function (el) { io.observe(el); });
-
-    function revealVisible() {
-      targets.forEach(function (el) {
-        if (el.classList.contains('is-in')) return;
-        if (el.getBoundingClientRect().top < window.innerHeight) markIn(el);
-      });
-    }
-    setTimeout(revealVisible, 120);
-
-    // Safety net. Hiding content behind an animation is only acceptable if it
-    // cannot get stuck. This measures rendered opacity rather than trusting the
-    // class, so it also catches a transition that was started but never
-    // advanced. Removing .anim un-hides everything at once.
-    setTimeout(function () {
-      var stuck = targets.some(function (el) {
-        var r = el.getBoundingClientRect();
-        if (r.top >= window.innerHeight || r.bottom <= 0) return false;   // off screen, fine
-        return parseFloat(getComputedStyle(el).opacity) < 0.95;
-      });
-      if (stuck) document.documentElement.classList.remove('anim');
-    }, 3000);
+    }, { threshold: 0.35 });
+    io.observe(card);
   }
 
   /* --------------------- collapse long lists on phones --------------------- */
@@ -685,7 +625,7 @@
     });
   }
 
-  setupReveal();
+  setupFindings();
   applyCollapse(mobile.matches);
   mobile.addEventListener('change', function (e) { applyCollapse(e.matches); });
 })();

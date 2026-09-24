@@ -10,7 +10,7 @@
 
 <!-- Same policy as the home page. Kept alongside the headers in _headers so
      it still applies if a response ever reaches a visitor without them. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://i.ytimg.com; connect-src 'self' https://api.web3forms.com https://formspree.io; form-action 'self' https://formspree.io; frame-src https://www.youtube-nocookie.com; object-src 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com https://formspree.io; form-action 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
 <!-- Extensionless, matching the URL Cloudflare serves this file at. -->
@@ -49,7 +49,7 @@
 <!-- Root relative, so the same tags work from any folder depth. The ?v= must
      stay in step with index.html: every page shares one stylesheet, and a
      mismatch would have one page on a stale copy for up to an hour. -->
-<link rel="stylesheet" href="/assets/css/styles.css?v=60">
+<link rel="stylesheet" href="/assets/css/styles.css?v=61">
 
 <!-- The Article describes this page. The ProfessionalService and Person below
      it repeat the @ids from the home page and the restaurant case study
@@ -501,6 +501,6 @@
   </div>
 </footer>
 
-<script src="/assets/js/main.js?v=60" defer></script>
+<script src="/assets/js/main.js?v=61" defer></script>
 </body>
 </html>

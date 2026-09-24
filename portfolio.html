@@ -8,10 +8,9 @@
 <meta name="author" content="Haseeb Ur Rahman">
 <meta name="theme-color" content="#141412">
 
-<!-- One policy, shared by every page. frame-src allows only
-     www.youtube-nocookie.com, for the intro video embed; img-src allows
-     i.ytimg.com for its poster frame. Nothing else may frame or be framed. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://i.ytimg.com; connect-src 'self' https://api.web3forms.com https://formspree.io; form-action 'self' https://formspree.io; frame-src https://www.youtube-nocookie.com; object-src 'none'; base-uri 'none'">
+<!-- One policy, shared by every page. No page embeds a frame, so frame-src
+     is 'none'. Nothing may frame or be framed. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com https://formspree.io; form-action 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
 <link rel="canonical" href="https://basirahanalytics.com/portfolio">
@@ -41,7 +40,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/styles.css?v=60">
+<link rel="stylesheet" href="/assets/css/styles.css?v=61">
 <!-- Structured data. Every node describes something this page actually
      shows. The Organization, Person and WebSite @ids are shared across the
      whole site so all pages describe one entity rather than competing copies.
@@ -310,6 +309,6 @@
   </div>
 </footer>
 
-<script src="/assets/js/main.js?v=60" defer></script>
+<script src="/assets/js/main.js?v=61" defer></script>
 </body>
 </html>
