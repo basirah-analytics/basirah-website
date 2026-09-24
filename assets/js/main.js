@@ -545,7 +545,7 @@
       // section head inside it already has its own entry above and would
       // otherwise be observed twice
       ['.origin', 0], ['.statement', 0], ['.bio', 0],
-      ['.contact-intro', 0], ['.bsr-book', 0],
+      ['.contact-intro', 0],
       ['.footer-inner > *', 1]
     ];
 

@@ -458,7 +458,7 @@ html {
   max-width: 22ch;
   text-wrap: balance;
 
-  color: #F3F2F2;
+  color: var(--text-light);
 
   opacity: 0;
   animation: heroQ 32.4s ease-in-out infinite;

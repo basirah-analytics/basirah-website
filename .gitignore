@@ -14,3 +14,13 @@ desktop.ini
 
 # Working brief, must never be served publicly by the Worker.
 SCHEMA-FIXES.md
+
+# Design skills installed by npx. Kept on disk, never published: the Worker
+# serves repo files publicly, and these are third-party instruction files.
+.agents/
+skills-lock.json
+
+# Impeccable product record, design system and config: internal, never published.
+PRODUCT.md
+DESIGN.md
+.impeccable/
