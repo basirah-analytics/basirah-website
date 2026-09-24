@@ -1,0 +1,25 @@
+# Cloudflare Pages redirects.
+#
+# The site used to be one page with anchor navigation. Fragments (#services)
+# are never sent to the server, so those old links cannot be redirected here;
+# they are handled client side in main.js instead. What this file covers is
+# anyone who typed or linked a path.
+#
+# Format: <from> <to> <status>
+
+/home              /            301
+/index             /            301
+/index.html        /            301
+
+# Plural and alternate spellings people guess at.
+/service           /services    301
+/packages          /services    301
+/pricing           /services    301
+/work              /portfolio   301
+/case-studies      /portfolio   301
+/projects          /portfolio   301
+/team              /about       301
+/basira            /basira-ai   301
+/basira-ai-tool    /basira-ai   301
+/get-in-touch      /contact     301
+/book              /contact     301

@@ -1,4 +1,36 @@
 /* =====================================================================
+   LEGACY HASH LINKS
+   The site was one page until the split, so links like /#services and
+   /#portfolio are out in the wild: in the old sitemap, in anything anyone
+   bookmarked or shared. A fragment never reaches the server, so _redirects
+   cannot catch these. This does, on the client, before anything paints.
+
+   Only exact, known section ids are mapped. An unknown hash is left alone
+   so in-page anchors on the new pages still work normally.
+   ===================================================================== */
+(function () {
+  'use strict';
+
+  var MOVED = {
+    '#services':  '/services',
+    '#portfolio': '/portfolio',
+    '#basira-ai': '/basira-ai',
+    '#about':     '/about',
+    '#contact':   '/contact',
+    '#home':      '/'
+  };
+
+  // Only from the home page: /portfolio#contact should scroll, not redirect.
+  var onHome = location.pathname === '/' || /\/index\.html?$/.test(location.pathname);
+  var target = MOVED[location.hash];
+
+  if (onHome && target) {
+    location.replace(target);
+  }
+})();
+
+
+/* =====================================================================
    Basirah Analytics: main.js
    Vanilla JS, no dependencies, no browser storage.
    Built so far: sticky-nav state, mobile menu, scrollspy.
@@ -124,11 +156,11 @@
       // extensionless, matching the canonical on the page itself
       page: '/case-studies/restaurant-sales-analysis',
       repo: 'https://github.com/basirah-analytics/restaurant-sales-analysis',
-      thumb: 'assets/img/work/restaurant-1.png',
+      thumb: '/assets/img/work/restaurant-1.png',
       images: [
-        'assets/img/work/restaurant-1.png',
-        'assets/img/work/restaurant-2.png',
-        'assets/img/work/restaurant-3.png'
+        '/assets/img/work/restaurant-1.png',
+        '/assets/img/work/restaurant-2.png',
+        '/assets/img/work/restaurant-3.png'
       ],
       insights: [
         'About 2.4 crore of revenue was lost to cancelled orders, and almost all of it sat on the delivery apps.',
@@ -155,10 +187,10 @@
       scope: 'Four years of transactions, over 1 million in total',
       page: '/case-studies/profitability-analysis',
       repo: 'https://github.com/basirah-analytics/rose-city-roasters-analysis',
-      thumb: 'assets/img/work/rosecity-1.png',
+      thumb: '/assets/img/work/rosecity-1.png',
       images: [
-        'assets/img/work/rosecity-1.png',
-        'assets/img/work/rosecity-2.png'
+        '/assets/img/work/rosecity-1.png',
+        '/assets/img/work/rosecity-2.png'
       ],
       insights: [
         'Revenue reached $31.4M across four years, yet operating profit came out at minus $760.76K.',
@@ -267,6 +299,11 @@
           '<span class="tile-body">' +
             '<span class="tile-meta">' +
               '<span class="tile-cat">' + esc(CATEGORY_LABELS[project.category] || project.category) + '</span>' +
+              // Every project here runs on a documented demonstration dataset.
+              // The label is on the tile, not just inside the case study, so a
+              // visitor scanning the grid cannot mistake a figure for a real
+              // client's result. Kept in step with the static tiles in index.html.
+              '<span class="tile-demo">Demonstration project</span>' +
             '</span>' +
             '<span class="tile-title">' + esc(project.title) + '</span>' +
             '<span class="tile-insight">' + esc(project.headline) + '</span>' +
@@ -384,7 +421,9 @@
 
         '<div class="detail-cta">' +
           '<p class="detail-cta-text">Want results like this?</p>' +
-          '<a class="btn btn-ink btn-lg" href="#contact">Book a free call</a>' +
+          // /contact, not #contact: the contact section moved to its own page in
+          // the split, so an in-page anchor here scrolls nowhere.
+          '<a class="btn btn-ink btn-lg" href="/contact">Book a free call</a>' +
         '</div>' +
       '</article>';
   }
@@ -672,7 +711,9 @@
   'use strict';
 
   var TESTIMONIALS = [
-    // no real client quotes yet, the section stays hidden until there are
+    // Real testimonials only. Fill with real name, role, and quote once
+    // collected. Do not use placeholder or invented testimonials in
+    // production. While this array is empty the section stays hidden.
   ];
 
   var section = document.getElementById('proof');

@@ -12,14 +12,12 @@
      un-verify the property and cut off the indexing and coverage reports. -->
 <meta name="google-site-verification" content="HMHLV7Yq7KLXkqKQEQdJhz9tr5lEsVtddXTUTiQMQo8">
 
-<!-- Kept alongside the headers in _headers so the policy still applies if a
-     response ever reaches a visitor without them. frame-ancestors is header
-     only and is set there, not here. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com https://formspree.io; form-action 'self' https://formspree.io; frame-src 'none'; object-src 'none'; base-uri 'none'">
+<!-- One policy, shared by every page. frame-src allows only
+     www.youtube-nocookie.com, for the intro video embed; img-src allows
+     i.ytimg.com for its poster frame. Nothing else may frame or be framed. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://i.ytimg.com; connect-src 'self' https://api.web3forms.com https://formspree.io; form-action 'self' https://formspree.io; frame-src https://www.youtube-nocookie.com; object-src 'none'; base-uri 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
-<!-- Absolute URLs below are required: social crawlers will not follow
-     relative paths. They must match the domain in CNAME. -->
 <link rel="canonical" href="https://basirahanalytics.com/">
 
 <meta property="og:type" content="website">
@@ -28,50 +26,30 @@
 <meta property="og:description" content="We turn messy data into decisions you can act on: dashboards, financial analysis and automation for small and mid-size businesses. Book a free call.">
 <meta property="og:url" content="https://basirahanalytics.com/">
 <meta property="og:image" content="https://basirahanalytics.com/assets/img/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Basirah Analytics: See what your data is telling you.">
 <meta property="og:locale" content="en_GB">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Basirah Analytics &middot; Data &amp; Business Analysis">
 <meta name="twitter:description" content="We turn messy data into decisions you can act on: dashboards, financial analysis and automation for small and mid-size businesses. Book a free call.">
 <meta name="twitter:image" content="https://basirahanalytics.com/assets/img/og-image.png">
-<meta name="twitter:image:alt" content="Basirah Analytics: See what your data is telling you.">
 
-<!-- Favicon set, drawn from the aperture mark's real geometry.
-     /favicon.ico also sits at the site root: browsers request it directly,
-     with no link tag, so it must stay there after any deploy. -->
-<!-- Google picks the search-result site icon from these. It documents the size
-     it wants as a multiple of 48px, which the original 16/32 set did not
-     offer, so 48, 96 and 192 are listed below for it to choose from. -->
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="assets/img/icon-192.png" sizes="192x192" type="image/png">
-<link rel="icon" href="assets/img/favicon-96.png" sizes="96x96" type="image/png">
-<link rel="icon" href="assets/img/favicon-48.png" sizes="48x48" type="image/png">
-<link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="assets/img/favicon-16.png" sizes="16x16" type="image/png">
-<link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/img/icon-192.png" sizes="192x192" type="image/png">
+<link rel="icon" href="/assets/img/favicon-96.png" sizes="96x96" type="image/png">
+<link rel="icon" href="/assets/img/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/img/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<!-- ?v= is cache-busting, and it is load-bearing. _headers caches
-     /assets/* for an hour and the filenames are not content-hashed, so
-     without a version here a returning visitor keeps the previous CSS and
-     JS for up to an hour after a deploy. index.html itself is served
-     must-revalidate, so bumping this number is what releases a change.
-     BUMP BOTH VALUES WHENEVER styles.css OR main.js CHANGES. -->
-<link rel="stylesheet" href="assets/css/styles.css?v=50">
-<link rel="stylesheet" href="assets/css/booking.css?v=1">
-
-<!-- Structured data. Every node below describes something a visitor can
-     actually see on this page: the three packages in the Services section, the
-     two case studies in Selected work, and the free Basira AI tool. Nothing is
-     asserted that the page does not show. The @ids are shared with both case
-     study pages so all three documents describe one entity. No rating, review
-     or price is claimed, because none can be substantiated yet. -->
+<link rel="stylesheet" href="/assets/css/styles.css?v=58">
+<!-- Structured data. Every node describes something this page actually
+     shows. The Organization, Person and WebSite @ids are shared across the
+     whole site so all pages describe one entity rather than competing copies.
+     No rating, review or price is claimed, because none can be substantiated. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -85,8 +63,12 @@
       "description": "Data and business analysis for growing businesses: sales and revenue analysis, financial analysis, customer insights, live dashboards and ongoing analytics support.",
       "slogan": "See what your data is telling you.",
       "foundingDate": "2026",
-      "founder": { "@id": "https://basirahanalytics.com/#haseeb" },
-      "logo": { "@id": "https://basirahanalytics.com/#logo" },
+      "founder": {
+        "@id": "https://basirahanalytics.com/#haseeb"
+      },
+      "logo": {
+        "@id": "https://basirahanalytics.com/#logo"
+      },
       "image": "https://basirahanalytics.com/assets/img/og-image.png",
       "email": "hello@basirahanalytics.com",
       "address": {
@@ -96,17 +78,31 @@
         "addressCountry": "IN"
       },
       "areaServed": [
-        { "@type": "Country", "name": "India" },
-        { "@type": "Country", "name": "United States" },
-        { "@type": "Country", "name": "United Kingdom" },
-        { "@type": "Country", "name": "Canada" }
+        {
+          "@type": "Country",
+          "name": "India"
+        },
+        {
+          "@type": "Country",
+          "name": "United States"
+        },
+        {
+          "@type": "Country",
+          "name": "United Kingdom"
+        },
+        {
+          "@type": "Country",
+          "name": "Canada"
+        }
       ],
       "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "sales",
         "email": "hello@basirahanalytics.com",
-        "url": "https://basirahanalytics.com/#contact",
-        "availableLanguage": ["en"]
+        "url": "https://basirahanalytics.com/contact",
+        "availableLanguage": [
+          "en"
+        ]
       },
       "sameAs": [
         "https://www.linkedin.com/company/basirah-analytics/",
@@ -114,15 +110,39 @@
         "https://github.com/basirah-analytics"
       ],
       "knowsAbout": [
-        "Business analysis", "Sales analysis", "Revenue analysis",
-        "Financial analysis", "Profitability analysis", "Customer retention analysis",
-        "Dashboard design", "Reporting automation",
-        "Power BI", "Tableau", "Looker", "SQL", "Python"
+        "Business analysis",
+        "Sales analysis",
+        "Revenue analysis",
+        "Financial analysis",
+        "Profitability analysis",
+        "Customer retention analysis",
+        "Dashboard design",
+        "Reporting automation",
+        "Power BI",
+        "Tableau",
+        "Looker",
+        "SQL",
+        "Python"
       ],
       "makesOffer": [
-        { "@type": "Offer", "itemOffered": { "@id": "https://basirahanalytics.com/#service-deep-dive" } },
-        { "@type": "Offer", "itemOffered": { "@id": "https://basirahanalytics.com/#service-live-dashboard" } },
-        { "@type": "Offer", "itemOffered": { "@id": "https://basirahanalytics.com/#service-analytics-partner" } }
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@id": "https://basirahanalytics.com/services#service-deep-dive"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@id": "https://basirahanalytics.com/services#service-live-dashboard"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@id": "https://basirahanalytics.com/services#service-analytics-partner"
+          }
+        }
       ]
     },
     {
@@ -138,15 +158,15 @@
       "@type": "Person",
       "@id": "https://basirahanalytics.com/#haseeb",
       "name": "Haseeb Ur Rahman",
-      "alternateName": ["Md Haseeb Ur Rahman", "Abdul Haseeb"],
       "jobTitle": "Founder & Data Analyst",
-      "worksFor": { "@id": "https://basirahanalytics.com/#business" },
-      "url": "https://basirahanalytics.com/#about",
+      "url": "https://basirahanalytics.com/about",
+      "worksFor": {
+        "@id": "https://basirahanalytics.com/#business"
+      },
       "sameAs": [
         "https://www.linkedin.com/in/haseeb-ur-rahman-a36503387/",
         "https://github.com/Haseeb-Ur-Rahman22"
-      ],
-      "knowsAbout": ["Data analysis", "Financial analysis", "SQL", "Python", "Power BI", "Tableau"]
+      ]
     },
     {
       "@type": "WebSite",
@@ -154,61 +174,30 @@
       "url": "https://basirahanalytics.com/",
       "name": "Basirah Analytics",
       "alternateName": "Basirah",
-      "publisher": { "@id": "https://basirahanalytics.com/#business" },
+      "publisher": {
+        "@id": "https://basirahanalytics.com/#business"
+      },
       "inLanguage": "en"
     },
     {
       "@type": "WebPage",
       "@id": "https://basirahanalytics.com/#webpage",
       "url": "https://basirahanalytics.com/",
-      "name": "Basirah Analytics \u00b7 Data & Business Analysis",
+      "name": "Basirah Analytics · Data & Business Analysis",
       "description": "We turn messy data into decisions you can act on: dashboards, financial analysis and automation for small and mid-size businesses. Book a free call.",
-      "isPartOf": { "@id": "https://basirahanalytics.com/#website" },
-      "about": { "@id": "https://basirahanalytics.com/#business" },
+      "isPartOf": {
+        "@id": "https://basirahanalytics.com/#website"
+      },
+      "inLanguage": "en",
+      "about": {
+        "@id": "https://basirahanalytics.com/#business"
+      },
       "primaryImageOfPage": {
         "@type": "ImageObject",
         "url": "https://basirahanalytics.com/assets/img/og-image.png",
         "width": 1200,
         "height": 630
-      },
-      "hasPart": { "@id": "https://basirahanalytics.com/#selected-work" },
-      "inLanguage": "en"
-    },
-    {
-      "@type": "Service",
-      "@id": "https://basirahanalytics.com/#service-deep-dive",
-      "name": "Business Deep Dive",
-      "serviceType": "Business data analysis",
-      "description": "A one-time analysis of your sales, finances and customers, delivered as a plain-English report of findings and recommended actions plus a walkthrough call.",
-      "provider": { "@id": "https://basirahanalytics.com/#business" },
-      "url": "https://basirahanalytics.com/#services"
-    },
-    {
-      "@type": "Service",
-      "@id": "https://basirahanalytics.com/#service-live-dashboard",
-      "name": "Your Live Dashboard",
-      "serviceType": "Business dashboard development",
-      "description": "A custom Power BI or Tableau dashboard of your business, built once and kept current, so you can check revenue, orders, top products and trends any time.",
-      "provider": { "@id": "https://basirahanalytics.com/#business" },
-      "url": "https://basirahanalytics.com/#services"
-    },
-    {
-      "@type": "Service",
-      "@id": "https://basirahanalytics.com/#service-analytics-partner",
-      "name": "Analytics Partner",
-      "serviceType": "Ongoing analytics and reporting",
-      "description": "Monthly analysis of what changed and why, with reports, plain-English recommendations and a regular review call.",
-      "provider": { "@id": "https://basirahanalytics.com/#business" },
-      "url": "https://basirahanalytics.com/#services"
-    },
-    {
-      "@type": "ItemList",
-      "@id": "https://basirahanalytics.com/#selected-work",
-      "name": "Selected work",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "url": "https://basirahanalytics.com/case-studies/restaurant-sales-analysis" },
-        { "@type": "ListItem", "position": 2, "url": "https://basirahanalytics.com/case-studies/profitability-analysis" }
-      ]
+      }
     },
     {
       "@type": "WebApplication",
@@ -220,8 +209,14 @@
       "browserRequirements": "Requires JavaScript",
       "description": "Upload a spreadsheet or CSV and get an instant plain-English analysis: the trends worth knowing, the numbers that look wrong, and the things to keep an eye on. No setup and no account.",
       "isAccessibleForFree": true,
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "publisher": { "@id": "https://basirahanalytics.com/#business" }
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@id": "https://basirahanalytics.com/#business"
+      }
     }
   ]
 }
@@ -231,16 +226,10 @@
 
 <a class="skip-link" href="#main">Skip to content</a>
 
-<!-- ============================ NAVBAR ============================ -->
 <header class="site-header" id="site-header">
   <div class="wrap header-inner">
 
-    <!-- The mark is inline SVG rather than the PNG lockup: at navbar size the
-         packaged lockup downscaled 7.4x and rendered "ANALYTICS" at a 3px cap
-         height. As live text the two words can be sized independently and stay
-         crisp at any zoom. Ring colour follows currentColor so the same markup
-         serves the light navbar and the dark footer. -->
-    <a class="brand" href="#home" aria-label="Basirah Analytics, home">
+    <a class="brand" href="/" aria-label="Basirah Analytics, home">
       <svg class="brand-mark" viewBox="0 0 220 220" aria-hidden="true" focusable="false">
         <rect x="8" y="8" width="204" height="204" fill="none" stroke="currentColor" stroke-width="16"/>
         <rect x="54" y="54" width="112" height="112" fill="none" stroke="currentColor" stroke-width="16"/>
@@ -254,14 +243,14 @@
 
     <nav class="nav" id="nav" aria-label="Primary">
       <ul class="nav-list">
-        <li><a href="#home" class="nav-link is-current" aria-current="page">Home</a></li>
-        <li><a href="#services" class="nav-link">Services</a></li>
-        <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
-        <li><a href="#basira-ai" class="nav-link">Basira AI</a></li>
-        <li><a href="#about" class="nav-link">About</a></li>
-        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><a href="/" class="nav-link is-current" aria-current="page">Home</a></li>
+        <li><a href="/services" class="nav-link">Services</a></li>
+        <li><a href="/portfolio" class="nav-link">Portfolio</a></li>
+        <li><a href="/basira-ai" class="nav-link">Basira AI</a></li>
+        <li><a href="/about" class="nav-link">About</a></li>
+        <li><a href="/contact" class="nav-link">Contact</a></li>
       </ul>
-      <a class="btn btn-ink nav-cta" href="#contact">Book a call</a>
+      <a class="btn btn-ink nav-cta" href="/contact">Book a call</a>
     </nav>
 
     <button class="nav-toggle" id="nav-toggle" type="button"
@@ -273,8 +262,6 @@
 </header>
 
 <main id="main">
-
-  <!-- ============================ HOME / HERO (dark) ============================ -->
   <section class="hero section-dark" id="home">
     <div class="wrap hero-inner">
 
@@ -311,7 +298,7 @@
       </h1>
 
       <div class="hero-actions">
-        <a class="btn btn-paper btn-lg" href="#contact">Book a free call</a>
+        <a class="btn btn-paper btn-lg" href="/contact">Book a free call</a>
         <!-- Opens the tool directly: the label promises a trial, so scrolling to
              the section instead would under-deliver on it. The section below
              still carries the explanation for anyone who scrolls past. -->
@@ -333,586 +320,182 @@
 
     </div>
   </section>
-
-  <!-- ============================ SOUND FAMILIAR? (light) ============================ -->
-  <section class="section section-light pains" aria-labelledby="pains-title">
+  <section class="section section-light video-section" aria-labelledby="video-title">
     <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow" id="video-title">one minute</p>
+        <h2>Who we are, in a minute.</h2>
+      </header>
 
-      <h2 class="pains-title" id="pains-title">Sound familiar?</h2>
+      <!-- ============================================================
+           VIDEO SWAP POINT
+           Replace the whole <div class="video-frame"> below with:
 
-      <ul class="pain-list">
-        <li class="pain">
-          <div class="pain-top">
-            <p class="pain-num">01</p>
-            <span class="pain-ic p-sheets" aria-hidden="true"><svg viewBox="0 0 46 46"><g fill="none" stroke-width="2"><rect class="s s1" x="6" y="6" width="24" height="30" rx="1.5"/><rect class="s s2" x="11" y="9" width="24" height="30" rx="1.5"/><rect class="s s3" x="16" y="12" width="24" height="30" rx="1.5"/></g></svg></span>
-          </div>
-          <p class="pain-text">Your numbers live in six different spreadsheets, and no two of them agree.</p>
+             <div class="video-embed">
+               <iframe
+                 src="https://www.youtube-nocookie.com/embed/VIDEO_ID?rel=0&amp;modestbranding=1&amp;playsinline=1"
+                 title="Basirah Analytics: who we are"
+                 loading="lazy"
+                 referrerpolicy="strict-origin-when-cross-origin"
+                 allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                 allowfullscreen></iframe>
+             </div>
+
+           Notes for whoever does the swap:
+           - youtube-nocookie.com, not youtube.com. It is the only host the CSP
+             frame-src allows, and it does not set tracking cookies before play.
+           - No autoplay parameter. The visitor presses play. If autoplay is
+             ever wanted it must be muted and captioned: add mute=1 and cc_load_policy=1
+             and nothing else, because sound on load drives people off the page.
+           - rel=0 keeps end-screen suggestions inside the channel,
+             modestbranding=1 drops the YouTube wordmark from the control bar.
+           - No "allow: autoplay" in the allow list, on purpose.
+           - The .video-embed wrapper already holds the 16:9 box, so the iframe
+             needs no width or height attributes.
+           ============================================================ -->
+      <div class="video-frame" role="img" aria-label="Intro video placeholder, coming soon">
+        <span class="video-play" aria-hidden="true"></span>
+        <p class="video-label">Our story, coming soon</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-light how-strip" aria-labelledby="how-title">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow" id="how-title">how it works</p>
+        <h2>Three steps, no mystery.</h2>
+      </header>
+      <ol class="how-steps">
+        <li class="how-step">
+          <p class="how-num">01</p>
+          <h3 class="how-name">Book a free video call</h3>
+          <p class="how-text">Tell us what you are trying to figure out. No charge, no obligation.</p>
         </li>
-        <li class="pain">
-          <div class="pain-top">
-            <p class="pain-num">02</p>
-            <span class="pain-ic p-q" aria-hidden="true"><svg viewBox="0 0 46 46"><g fill="currentColor"><rect x="6" y="26" width="6" height="12"/><rect x="15" y="20" width="6" height="18"/><rect x="24" y="30" width="6" height="8"/></g><line x1="4" y1="40" x2="42" y2="40" stroke-width="2" stroke-linecap="round"/><text class="mark" x="33" y="20" font-family="Archivo, sans-serif" font-size="20" font-weight="800" fill="var(--accent)">?</text></svg></span>
-          </div>
-          <p class="pain-text">Nobody can say which handful of numbers actually tell you how the business is doing.</p>
+        <li class="how-step">
+          <p class="how-num">02</p>
+          <h3 class="how-name">We study your data together</h3>
+          <p class="how-text">We look at what you have, and tell you honestly what it can and cannot answer.</p>
         </li>
-        <li class="pain">
-          <div class="pain-top">
-            <p class="pain-num">03</p>
-            <span class="pain-ic p-clock" aria-hidden="true"><svg viewBox="0 0 46 46"><circle cx="23" cy="23" r="17" fill="none" stroke-width="2"/><line class="hand" x1="23" y1="23" x2="23" y2="12" stroke-width="2.4" stroke-linecap="round"/><line x1="23" y1="23" x2="31" y2="27" stroke-width="2" stroke-linecap="round"/></svg></span>
-          </div>
-          <p class="pain-text">The decisions that matter get made on gut feel, because the answer would take a week to dig out.</p>
+        <li class="how-step">
+          <p class="how-num">03</p>
+          <h3 class="how-name">You get clear answers and a plan</h3>
+          <p class="how-text">Plain English findings and the actions to take, not a report that gets filed.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Preview strips. Each is a few lines and a link out, so Home stays an
+       invitation rather than a copy of the whole site. -->
+  <section class="section section-light preview" aria-labelledby="prev-services">
+    <div class="wrap">
+      <header class="section-head split-head">
+        <div>
+          <p class="eyebrow" id="prev-services">what we do</p>
+          <h2>From guessing to clear decisions.</h2>
+        </div>
+        <p class="section-lead">
+          We read the numbers behind a business, not just the charts drawn on top of them. Three
+          ways to work with us: a one-time deep dive, a live dashboard you check yourself, or an
+          ongoing analytics partner.
+        </p>
+      </header>
+      <a class="link-arrow" href="/services">See our services <span aria-hidden="true">&rarr;</span></a>
+    </div>
+  </section>
+
+  <section class="section section-light preview preview-work" aria-labelledby="prev-work">
+    <div class="wrap">
+      <header class="section-head split-head">
+        <div>
+          <p class="eyebrow" id="prev-work">selected work</p>
+          <h2>See the method, not just the claim.</h2>
+        </div>
+        <p class="section-lead">
+          Demonstration projects on realistic simulated data. Each one shows the question, the
+          method, and the finished dashboards.
+        </p>
+      </header>
+
+      <ul class="work-grid">
+        <li class="tile-item">
+          <a class="tile" href="/case-studies/restaurant-sales-analysis">
+            <span class="tile-thumb"><img class="tile-img" src="/assets/img/work/restaurant-1.png" alt="" loading="lazy" decoding="async"></span>
+            <span class="tile-body">
+              <span class="tile-meta"><span class="tile-cat">Analysis</span><span class="tile-demo">Demonstration project</span></span>
+              <span class="tile-title">Restaurant sales and operations analysis</span>
+              <span class="tile-insight">About 2.4 crore was lost to cancelled orders, nearly all of it on the delivery apps.</span>
+            </span>
+          </a>
+        </li>
+        <li class="tile-item">
+          <a class="tile" href="/case-studies/profitability-analysis">
+            <span class="tile-thumb"><img class="tile-img" src="/assets/img/work/rosecity-1.png" alt="" loading="lazy" decoding="async"></span>
+            <span class="tile-body">
+              <span class="tile-meta"><span class="tile-cat">Financial</span><span class="tile-demo">Demonstration project</span></span>
+              <span class="tile-title">Rose City Roasters sales and profitability analysis</span>
+              <span class="tile-insight">Revenue kept climbing, but the business was quietly sliding into a loss.</span>
+            </span>
+          </a>
         </li>
       </ul>
 
-      <p class="resolve">
-        That is the gap we close: one clear picture of your business, built from the data you
-        already have, so the next decision is an informed one.
-      </p>
-
+      <a class="link-arrow" href="/portfolio">See all our work <span aria-hidden="true">&rarr;</span></a>
     </div>
   </section>
 
-
-  <!-- ============================ PACKAGES (dark) ============================ -->
-  <section class="section section-dark packages" id="services">
+  <section class="section section-dark preview preview-team" aria-labelledby="prev-team">
     <div class="wrap">
-
-      <header class="section-head pkg-head">
-        <p class="eyebrow">how we work with you</p>
-        <h2>Start with clarity.<br class="br-lg"> Grow into a partnership.</h2>
+      <header class="section-head split-head">
+        <div>
+          <p class="eyebrow" id="prev-team">our team</p>
+          <h2>Small on purpose.</h2>
+        </div>
         <p class="section-lead">
-          Most clients start with a one-time Deep Dive, then choose how much they want us
-          involved. Tap a package to see the full process and what you get.
+          Basirah is founder-led and run by a small, dedicated team. Work with us and you work
+          with the same people each time, people who know your data and your business.
         </p>
       </header>
-
-      <div class="pkg-grid">
-
-        <!-- ---------------- 01: the entry point ---------------- -->
-        <article class="pkg-card is-start" data-pkg="Business Deep Dive">
-          <p class="pkg-badge">Start here</p>
-
-          <div class="pkg-top">
-            <span class="pkg-num">Package 1</span>
-            <span class="pkg-tag">One-time</span>
-          </div>
-
-          <h3 class="pkg-name">Business Deep Dive</h3>
-          <p class="pkg-cue">Sound familiar?</p>
-          <p class="pkg-quote">
-            &ldquo;I have all this data, but I don&rsquo;t really understand my business.&rdquo;
-          </p>
-
-          <ul class="pkg-chips">
-            <li>Sales &amp; revenue</li>
-            <li>Financial</li>
-            <li>Customers</li>
-            <li>Report</li>
-          </ul>
-
-          <a class="btn btn-accent pkg-cta" href="#contact">Book a free call</a>
-
-          <button class="pkg-toggle" type="button" id="pkg-btn-1"
-                  aria-expanded="false" aria-controls="pkg-detail-1">
-            <span class="pkg-chev" aria-hidden="true"></span>
-            See what&rsquo;s inside
-          </button>
-
-          <div class="pkg-detail" id="pkg-detail-1" role="region" aria-labelledby="pkg-btn-1">
-            <div class="pkg-detail-inner">
-              <h4 class="pkg-block">How it works</h4>
-              <p class="pkg-text">
-                Your data in, we analyse it, you get a clear report and a walkthrough call,
-                done.
-              </p>
-
-              <h4 class="pkg-block">What we look at</h4>
-              <ul class="pkg-list">
-                <li>Sales and revenue: what sells, and what actually makes money</li>
-                <li>Financial analysis: where your money goes, your margins, and where it leaks</li>
-                <li>Customer analysis: your repeat rate and who your best buyers are</li>
-                <li>Trends and problems: what is rising, what is falling, and why</li>
-              </ul>
-
-              <h4 class="pkg-block">What you get</h4>
-              <p class="pkg-text">
-                A plain-English report of findings and recommended actions. It starts and it
-                finishes.
-              </p>
-            </div>
-          </div>
-        </article>
-
-        <!-- ---------------- 02: self serve ---------------- -->
-        <article class="pkg-card" data-pkg="Your Live Dashboard">
-          <div class="pkg-top">
-            <span class="pkg-num">Package 2</span>
-            <span class="pkg-tag">Setup + monthly</span>
-          </div>
-
-          <h3 class="pkg-name">Your Live Dashboard</h3>
-          <p class="pkg-cue">Sound familiar?</p>
-          <p class="pkg-quote">
-            &ldquo;I don&rsquo;t want to ask every month. I want to see it myself.&rdquo;
-          </p>
-
-          <ul class="pkg-chips">
-            <li>Custom dashboard</li>
-            <li>Live refresh</li>
-            <li>Ongoing support</li>
-          </ul>
-
-          <a class="btn btn-paper pkg-cta" href="#contact">Book a free call</a>
-
-          <button class="pkg-toggle" type="button" id="pkg-btn-2"
-                  aria-expanded="false" aria-controls="pkg-detail-2">
-            <span class="pkg-chev" aria-hidden="true"></span>
-            See what&rsquo;s inside
-          </button>
-
-          <div class="pkg-detail" id="pkg-detail-2" role="region" aria-labelledby="pkg-btn-2">
-            <div class="pkg-detail-inner">
-              <h4 class="pkg-block">How it works</h4>
-              <p class="pkg-text">
-                We build your dashboard, your data connects, it stays refreshed, you check it
-                any time.
-              </p>
-
-              <h4 class="pkg-block">What we look at</h4>
-              <ul class="pkg-list">
-                <li>A custom Power BI or Tableau dashboard of your business</li>
-                <li>Revenue, orders, top products, repeat rate, month on month, and trends</li>
-                <li>Kept accurate and reliable each month</li>
-                <li>KPIs added or changed as your business changes</li>
-              </ul>
-
-              <h4 class="pkg-block">What you get</h4>
-              <p class="pkg-text">
-                A live dashboard you check any time, kept current and reliable. You monitor and
-                interpret it yourself, which is what keeps this tier light and affordable.
-              </p>
-            </div>
-          </div>
-        </article>
-
-        <!-- ---------------- 03: done for you ---------------- -->
-        <article class="pkg-card" data-pkg="Analytics Partner">
-          <div class="pkg-top">
-            <span class="pkg-num">Package 3</span>
-            <span class="pkg-tag">Monthly</span>
-          </div>
-
-          <h3 class="pkg-name">Analytics Partner</h3>
-          <p class="pkg-cue">Sound familiar?</p>
-          <p class="pkg-quote">
-            &ldquo;I want Basirah to handle the analytics for me.&rdquo;
-          </p>
-
-          <ul class="pkg-chips">
-            <li>Monthly analysis</li>
-            <li>Reports</li>
-            <li>Recommendations</li>
-            <li>Calls</li>
-          </ul>
-
-          <a class="btn btn-paper pkg-cta" href="#contact">Book a free call</a>
-
-          <button class="pkg-toggle" type="button" id="pkg-btn-3"
-                  aria-expanded="false" aria-controls="pkg-detail-3">
-            <span class="pkg-chev" aria-hidden="true"></span>
-            See what&rsquo;s inside
-          </button>
-
-          <div class="pkg-detail" id="pkg-detail-3" role="region" aria-labelledby="pkg-btn-3">
-            <div class="pkg-detail-inner">
-              <h4 class="pkg-block">How it works</h4>
-              <p class="pkg-text">
-                We watch your numbers, analyse them each month, send reports and clear
-                recommendations, then review it together on a call.
-              </p>
-
-              <h4 class="pkg-block">What we look at</h4>
-              <ul class="pkg-list">
-                <li>Everything in the dashboard, monitored for you</li>
-                <li>Monthly analysis of what changed and why</li>
-                <li>Automated reports and plain-English recommendations</li>
-                <li>A regular call to walk through the month</li>
-              </ul>
-
-              <h4 class="pkg-block">What you get</h4>
-              <p class="pkg-text">
-                Ongoing analytics without you lifting a finger, reviewed together every month.
-              </p>
-            </div>
-          </div>
-        </article>
-
-      </div>
-
-      <p class="pkg-upgrade">
-        <span class="pkg-dot" aria-hidden="true"></span>
-        Your Deep Dive fee counts toward your dashboard if you upgrade.
-      </p>
-
+      <a class="link-arrow" href="/about">Meet the team <span aria-hidden="true">&rarr;</span></a>
     </div>
   </section>
 
-  <!-- ============================ SELECTED WORK (light) ============================ -->
-  <!-- Grid, filters and detail panels are all rendered by main.js from the PROJECTS
-       array. Detail opens in place, never on a separate page. -->
-  <section class="section section-light" id="portfolio">
+  <section class="section section-light preview" aria-labelledby="prev-ai">
     <div class="wrap">
-
-      <header class="section-head" id="work-head">
-        <p class="eyebrow">selected work</p>
-        <h2>Selected work.</h2>
+      <header class="section-head split-head">
+        <div>
+          <p class="eyebrow" id="prev-ai">basira ai: free tool</p>
+          <h2>Try it before you talk to us.</h2>
+        </div>
         <p class="section-lead">
-          A few projects that show how we work: the question behind them, what the data
-          turned out to say, and what changed as a result.
+          Upload a spreadsheet and get an instant analysis, free. Your file is processed in
+          memory and never stored.
         </p>
       </header>
-
-      <!-- ---- filter + grid (hidden while a project detail is open) ---- -->
-      <div class="work-browse" id="work-browse">
-        <div class="work-toolbar">
-          <div class="filters" id="work-filters" role="group" aria-label="Filter work by category">
-            <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">All</button>
-            <button class="filter" type="button" data-filter="dashboards" aria-pressed="false">Dashboards</button>
-            <button class="filter" type="button" data-filter="analysis" aria-pressed="false">Analysis</button>
-            <button class="filter" type="button" data-filter="financial" aria-pressed="false">Financial</button>
-            <button class="filter" type="button" data-filter="automation" aria-pressed="false">Automation</button>
-          </div>
-          <p class="filter-count" id="work-count" role="status" aria-live="polite"></p>
-        </div>
-
-        <!-- These tiles are the real content, not a fallback. main.js rebuilds
-             this list from PROJECTS on load, so the two must be kept in step,
-             but the proof of work is never gated behind a script: with JS off,
-             slow, or broken, a visitor still sees every project and can reach
-             its case study. Markup mirrors tileMarkup() in main.js exactly. -->
-        <ul class="work-grid" id="work-grid">
-          <li class="tile-item" data-category="analysis">
-            <a class="tile" href="/case-studies/restaurant-sales-analysis" data-slug="restaurant-sales-analysis">
-              <span class="tile-thumb"><img class="tile-img" src="assets/img/work/restaurant-1.png" alt="" loading="lazy" decoding="async"></span>
-              <span class="tile-body">
-                <span class="tile-meta"><span class="tile-cat">Analysis</span></span>
-                <span class="tile-title">Restaurant sales and operations analysis</span>
-                <span class="tile-insight">About 2.4 crore was lost to cancelled orders, nearly all of it on the delivery apps.</span>
-              </span>
-            </a>
-          </li>
-          <li class="tile-item" data-category="financial">
-            <a class="tile" href="/case-studies/profitability-analysis" data-slug="rose-city-roasters-analysis">
-              <span class="tile-thumb"><img class="tile-img" src="assets/img/work/rosecity-1.png" alt="" loading="lazy" decoding="async"></span>
-              <span class="tile-body">
-                <span class="tile-meta"><span class="tile-cat">Financial</span></span>
-                <span class="tile-title">Rose City Roasters sales and profitability analysis</span>
-                <span class="tile-insight">Revenue kept climbing, but the business was quietly sliding into a loss.</span>
-              </span>
-            </a>
-          </li>
-        </ul>
-
-        <noscript>
-          <!-- The filter row and the inline detail panel are the only parts that
-               genuinely need a script. The projects themselves are above. -->
-          <p class="section-lead">Filtering needs JavaScript. Every project is listed above, and each links to its full case study.</p>
-        </noscript>
-      </div>
-
-      <!-- ---- inline detail panel ---- -->
-      <div class="work-detail" id="work-detail" hidden></div>
-
+      <a class="link-arrow" href="/basira-ai">About Basira AI <span aria-hidden="true">&rarr;</span></a>
     </div>
   </section>
 
-  <!-- ============================ TRUST / PROOF STRIP (light) ============================ -->
-  <!-- Renders from the TESTIMONIALS array in main.js. While that array is empty
-       the whole section stays hidden, so the page never shows an empty promise
-       to a visitor. Add real quotes there and it appears automatically.
-       Nothing invented goes here: a fabricated endorsement is a deception risk
-       and would also poison any Review structured data added later. -->
-  <section class="section-light proof" id="proof" aria-labelledby="proof-title" hidden>
+  <section class="section section-dark cta-strip">
     <div class="wrap">
-      <p class="eyebrow" id="proof-title">what clients say</p>
-      <ul class="proof-grid" id="proof-grid"></ul>
-    </div>
-  </section>
-
-  <!-- ============================ BASIRA AI (dark, accent-forward) ============================ -->
-  <section class="section section-dark ai" id="basira-ai">
-    <div class="wrap ai-grid">
-
-      <div class="ai-copy">
-        <p class="eyebrow">basira ai: free tool</p>
-
-        <h2 class="ai-title">
-          Upload your data, get an instant analysis. <span class="nowrap"><span class="accent-word">Free</span>.</span>
-        </h2>
-
-        <p class="ai-text">
-          Drop in a spreadsheet or CSV and Basira AI reads it for you: the trends worth knowing,
-          the numbers that look wrong, and the things to keep an eye on. No setup, no account,
-          no analyst required. Useful on its own, and a fair preview of how we look at data.
-        </p>
-
-        <div class="ai-actions">
-            <a class="btn btn-accent" href="https://ai.basirahanalytics.com"
-             target="_blank" rel="noopener">
-            Try it free <span aria-hidden="true">&rarr;</span>
-          </a>
-          <p class="ai-privacy">Your file is processed privately and never stored.</p>
-        </div>
-
-        <p class="ai-crosslink">
-          Want hands-on, done-for-you work?
-          <a href="#services"><span aria-hidden="true">&rarr;</span> See Services</a>
-        </p>
-      </div>
-
-      <!-- stylised preview of the tool's output: illustrative, not real data -->
-      <aside class="ai-card" aria-label="Example of an instant analysis">
-        <div class="ai-card-head">
-          <p class="ai-card-kicker">instant analysis</p>
-          <p class="ai-card-file">sales_q3.csv</p>
-        </div>
-
-        <ul class="findings">
-          <li class="finding finding-trend">
-            <p class="finding-kind">trend</p>
-            <p class="finding-text">Revenue is up 18% quarter on quarter, driven by two product lines.</p>
-            <svg class="spark" viewBox="0 0 96 24" role="presentation" focusable="false" aria-hidden="true">
-              <polyline points="2,20 16,18 30,15 44,15 58,10 72,7 94,3"/>
-            </svg>
-          </li>
-
-          <li class="finding finding-outlier">
-            <p class="finding-kind">outlier</p>
-            <p class="finding-text">March refunds ran 3&times; higher than any other month this year.</p>
-            <svg class="spark" viewBox="0 0 96 24" role="presentation" focusable="false" aria-hidden="true">
-              <g class="spark-bars">
-                <rect x="2" y="17" width="8" height="7"/>
-                <rect x="15" y="15" width="8" height="9"/>
-                <rect x="28" y="2" width="8" height="22" class="spark-hi"/>
-                <rect x="41" y="18" width="8" height="6"/>
-                <rect x="54" y="16" width="8" height="8"/>
-                <rect x="67" y="18" width="8" height="6"/>
-                <rect x="80" y="17" width="8" height="7"/>
-              </g>
-            </svg>
-          </li>
-
-          <li class="finding finding-watch">
-            <p class="finding-kind">watch</p>
-            <p class="finding-text">Cost per new customer has climbed six months running.</p>
-            <svg class="spark" viewBox="0 0 96 24" role="presentation" focusable="false" aria-hidden="true">
-              <polyline points="2,18 16,17 30,14 44,13 58,11 72,8 94,6"/>
-            </svg>
-          </li>
-        </ul>
-
-        <p class="ai-card-note">example output, illustrative only</p>
-      </aside>
-
-    </div>
-  </section>
-
-  <!-- ============================ ABOUT (light) ============================ -->
-  <section class="section section-light" id="about">
-    <div class="wrap">
-
-      <!-- One column for the whole section, so every block shares an edge -->
-      <div class="about-body">
-
-          <header class="section-head">
-            <p class="eyebrow">about</p>
-            <h2>Why Basirah?</h2>
-          </header>
-
-          <!-- ---------------- origin story ---------------- -->
-          <div class="origin">
-            <p class="origin-lead">
-              Most businesses are not short of data. They are short of a clear picture.
-            </p>
-            <p>
-              The numbers are already there, scattered across a till system, a spreadsheet, an
-              accounting package, someone&rsquo;s inbox. What&rsquo;s missing is someone with the
-              time to make them agree, and then say plainly what they mean.
-            </p>
-            <p>
-              That is what Basirah is for. Not a report that gets filed. An answer you can act on
-              the same day you read it.
-            </p>
-            <p>
-              <span class="origin-word" lang="ar" dir="rtl">بصيرة</span>
-              <em>Basirah</em> is Arabic for insight: the kind of seeing that means understanding,
-              not just looking. Most tools help you look. Basirah is built to help you understand.
-            </p>
-          </div>
-
-          <!-- ---------------- founder note ---------------- -->
-          <div class="statement">
-            <h3 class="statement-text">
-              Why we started Basirah Analytics
-            </h3>
-            <p class="statement-sub">
-              Basirah Analytics started for a simple reason. Our founder, Haseeb, kept meeting
-              owners who were sitting on the answer and could not read it. Good businesses, real
-              numbers, and no clear way to see what those numbers were telling them. We built
-              Basirah to close that gap, and to be straight with people while doing it. It is
-              still founder led, and the work now goes through a team.
-            </p>
-          </div>
-
-          <!-- ---------------- bio ---------------- -->
-          <div class="bio">
-            <h3 class="block-title">A bit more about how we work</h3>
-            <p>
-              We come at analysis from a finance background: our founder is completing an MBA in Finance,
-              so we read the numbers behind a business rather than just the charts drawn on top
-              of them. That means we start from the business question, not the tool. What makes
-              money. What quietly costs more than it should. What is about to become a problem
-              while everyone is looking the other way. Then we work back to the data to answer it.
-            </p>
-            <p>
-              We try to be honest about what data can and cannot tell you. If the numbers will not
-              support the question, we would rather say so on the first call than bill you for a
-              report that hedges. That honesty is the whole point of the name.
-            </p>
-          </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ============================ CONTACT (dark) ============================ -->
-  <section class="section section-dark contact" id="contact">
-    <div class="wrap">
-
-      <div class="contact-grid">
-
-        <!-- ---------------- left: the pitch, plus direct routes ---------------- -->
-        <div class="contact-intro">
-          <header class="section-head contact-head">
-            <p class="eyebrow">let&rsquo;s talk</p>
-            <h2>Request a video call.</h2>
-            <p class="contact-lead">
-              A 30-minute video call to talk through your data and your goals. We&rsquo;ll follow up
-              with a custom quote. The call itself is free.
-            </p>
-          </header>
-
-          <div class="direct">
-            <p class="sched-label">Or reach us directly</p>
-            <ul class="contact-links">
-              <li><a href="mailto:hello@basirahanalytics.com">hello@basirahanalytics.com</a></li>
-              <li><a href="https://www.linkedin.com/company/basirah-analytics/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&rarr;</span></a></li>
-              <li><a href="https://github.com/basirah-analytics" target="_blank" rel="noopener">GitHub <span aria-hidden="true">&rarr;</span></a></li>
-              <!-- WhatsApp is deliberately absent rather than placeholdered. To
-                   restore it, add a list item linking to https://wa.me/<number>
-                   with the full number, country code first, no plus sign and no
-                   spaces, for example 9198XXXXXXXX. A wa.me link with anything
-                   other than a real number resolves to an error page. -->
-            </ul>
-
-            <p class="contact-foot">
-              Prefer to talk it through? Book a free call above. Quotes are per project.
-            </p>
-          </div>
-        </div>
-
-        <!-- ---------------- right: the booking widget ---------------- -->
-        <!-- Self contained and namespaced under .bsr-book. Its CSS is in
-             assets/css/booking.css and its script in assets/js/booking.js:
-             the CSP here sets script-src and style-src to 'self' with no
-             unsafe-inline, so the inline <style> and <script> it shipped
-             with would both have been refused by the browser.
-             The widget's own lede is dropped: the left column already
-             carries the 30 minute description. -->
-        <div class="bsr-book" id="bsrBook">
-          <p class="eyebrow">
-            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
-              <rect x="0.5" y="0.5" width="13" height="13" fill="none" stroke="#9B9797"/>
-              <rect x="3.5" y="3.5" width="7" height="7" fill="none" stroke="#9B9797"/>
-              <rect x="6" y="6" width="2" height="2" fill="#EC3013"/>
-            </svg>
-            Book a call
-          </p>
-          <h2>Pick a time that works.</h2>
-
-          <div class="tzpick">
-            <label for="tzSelect">Your timezone</label>
-            <select class="tzselect" id="tzSelect" aria-label="Your timezone"></select>
-          </div>
-
-          <div id="bsrFlow">
-            <p class="steplabel">1 &middot; Choose a day</p>
-            <div class="days" id="dayRow" role="group" aria-label="Choose a day"></div>
-
-            <p class="steplabel">2 &middot; Choose a time</p>
-            <div class="periods" id="periodRow" role="group" aria-label="Time of day"></div>
-            <div class="slots" id="slotGrid" aria-live="polite"></div>
-            <p class="empty bsr-hidden" id="slotHint">Choose a part of the day above to see open times.</p>
-            <p class="empty bsr-hidden" id="slotEmpty">No open times this day. Try another.</p>
-
-            <div class="details bsr-hidden" id="detailsBlock">
-              <p class="steplabel">3 &middot; Your details</p>
-              <p class="picked" id="pickedLine"></p>
-
-              <div class="field">
-                <label for="bName">Name</label>
-                <input type="text" id="bName" autocomplete="name" placeholder="Your name">
-              </div>
-              <div class="field">
-                <label for="bEmail">Email</label>
-                <input type="email" id="bEmail" autocomplete="email" placeholder="you@company.com">
-              </div>
-              <div class="field">
-                <label for="bTopic">What do you want to figure out?</label>
-                <textarea id="bTopic" placeholder="One or two lines about the data or the decision you&rsquo;re stuck on."></textarea>
-              </div>
-
-              <div class="field bsr-hp" aria-hidden="true">
-                <label for="bWebsite">Company website</label>
-                <input type="text" id="bWebsite" name="website" tabindex="-1" autocomplete="off">
-              </div>
-
-              <button class="confirm" id="confirmBtn" disabled>Confirm booking</button>
-              <p class="err" id="errLine"></p>
-            </div>
-          </div>
-
-          <div class="done bsr-hidden" id="bsrDone">
-            <svg class="aperture" width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">
-              <rect x="1" y="1" width="50" height="50" stroke-width="1.5"/>
-              <rect x="12" y="12" width="28" height="28" stroke-width="1.5"/>
-              <rect x="23" y="23" width="6" height="6" fill="#EC3013" stroke="none"/>
-            </svg>
-            <h3>You&rsquo;re booked.</h3>
-            <p id="doneWhen"></p>
-            <p>Thanks, we&rsquo;ve got your request. We&rsquo;ll email you to confirm the time and send the meeting link shortly.</p>
-            <p class="meta" id="doneMeta"></p>
-          </div>
-        </div>
-      </div>
-
+      <h2>Book a free video call. We&rsquo;ll look at your data together.</h2>
+      <a class="btn btn-whatsapp btn-book" href="/contact">Get in touch</a>
     </div>
   </section>
 
 </main>
 
-<!-- ============================ FOOTER (dark) ============================ -->
 <footer class="site-footer section-dark">
   <div class="wrap footer-inner">
 
     <div class="footer-brand">
-      <a class="brand footer-logo" href="#home" aria-label="Basirah Analytics, back to top">
+      <a class="brand footer-logo" href="/" aria-label="Basirah Analytics, home">
         <svg class="brand-mark" viewBox="0 0 220 220" aria-hidden="true" focusable="false">
-          <rect x="8" y="8" width="204" height="204" fill="none" stroke="currentColor" stroke-width="16"/>
-          <rect x="54" y="54" width="112" height="112" fill="none" stroke="currentColor" stroke-width="16"/>
-          <rect x="88" y="88" width="44" height="44" fill="var(--accent)"/>
-        </svg>
+        <rect x="8" y="8" width="204" height="204" fill="none" stroke="currentColor" stroke-width="16"/>
+        <rect x="54" y="54" width="112" height="112" fill="none" stroke="currentColor" stroke-width="16"/>
+        <rect x="88" y="88" width="44" height="44" fill="var(--accent)"/>
+      </svg>
         <span class="brand-text">
           <span class="brand-name">Basirah</span>
           <span class="brand-sub">Analytics</span>
@@ -924,12 +507,12 @@
     <nav class="footer-nav" aria-label="Footer">
       <p class="footer-heading">Sections</p>
       <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#portfolio">Portfolio</a></li>
-        <li><a href="#basira-ai">Basira AI</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/portfolio">Portfolio</a></li>
+        <li><a href="/basira-ai">Basira AI</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
       </ul>
     </nav>
 
@@ -937,21 +520,37 @@
       <p class="footer-heading">Elsewhere</p>
       <ul>
         <li><a href="https://www.linkedin.com/company/basirah-analytics/" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://www.instagram.com/basirahanalytics" target="_blank" rel="noopener">Instagram</a></li>
         <li><a href="https://github.com/basirah-analytics" target="_blank" rel="noopener">GitHub</a></li>
         <li><a href="mailto:hello@basirahanalytics.com">hello@basirahanalytics.com</a></li>
       </ul>
     </div>
 
+    <div class="footer-contact">
+      <p class="footer-heading">Legal</p>
+      <ul>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms of Service</a></li>
+        <li><a href="/basira-ai-data">Basira AI data</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Payment methods, international and India kept visibly separate so a
+       cross-border buyer can see their own route without reading past ours. -->
+  <div class="wrap footer-pay">
+    <p><span class="pay-label">International payments</span> Wise and PayPal.</p>
+    <p><span class="pay-label">India</span> UPI, GPay, PhonePe.</p>
   </div>
 
   <div class="wrap footer-base">
     <p class="footer-copy">&copy; 2026 Basirah Analytics</p>
     <p class="footer-place">Hyderabad, India</p>
-    <p class="footer-built">Independent analysis, founder led.</p>
+    <p class="footer-built">Founder led, team run.</p>
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=49" defer></script>
-<script src="assets/js/booking.js?v=3" defer></script>
+<script src="/assets/js/main.js?v=58" defer></script>
 </body>
 </html>

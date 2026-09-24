@@ -1,25 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- The home page plus one URL per case study. In-page anchors (#services,
-     #work-<slug> and so on) are fragments of the home document, not separate
-     pages, so they still do not belong here. Each entry must match the
-     canonical tag on the page it points at, extensionless included. -->
+<!-- One entry per real page. Legal pages are reachable from the footer but
+     left out deliberately: they exist to be read, not to compete for search
+     traffic. Each loc must match the canonical tag on the page it points at,
+     extensionless included. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://basirahanalytics.com/</loc>
-    <lastmod>2026-09-05</lastmod>
+    <lastmod>2026-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://basirahanalytics.com/services</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://basirahanalytics.com/portfolio</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://basirahanalytics.com/basira-ai</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://basirahanalytics.com/about</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://basirahanalytics.com/contact</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://basirahanalytics.com/case-studies/restaurant-sales-analysis</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://basirahanalytics.com/case-studies/profitability-analysis</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 </urlset>

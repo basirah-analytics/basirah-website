@@ -53,8 +53,16 @@
   --space-10: 8rem;
 
   /* layout */
-  --wrap-max: 1200px;
-  --gutter: clamp(1.25rem, 4vw, 3rem);
+  /* The container was 1200px, which left ~200px dead on each side of a 1600px
+     screen and squeezed every grid into a middle strip. Widened so cards,
+     images and the video use the screen; prose is capped separately by
+     --measure so lines never get too long to read. */
+  --wrap-max: 1440px;
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+
+  /* Comfortable reading width for running text, roughly 70 to 80 characters.
+     Applied to paragraphs, never to grids. */
+  --measure: 68ch;
   --header-h: 68px;
 
   /* shape and motion, flat: small radii, no shadows, no gradients */
@@ -180,10 +188,10 @@ html {
   padding-inline: var(--gutter);
 }
 
-/* Was clamp(4rem, 10vw, 8rem), which put 256px between consecutive
-   sections at desktop. Tightened so sections read as one document
-   rather than isolated slides, without crowding them. */
-.section { padding-block: clamp(3rem, 6.5vw, 5.5rem); }
+/* Vertical rhythm between sections. Wider content needs more air around it
+   or the page reads as a solid block, so this is up from the previous
+   clamp(3rem, 6.5vw, 5.5rem) now that the container is 1440px. */
+.section { padding-block: clamp(3.5rem, 7vw, 7rem); }
 
 .section-dark {
   background: var(--ink);
@@ -749,6 +757,46 @@ html {
   margin-bottom: var(--space-4);
 }
 
+/* Price anchor. Reads as a fact, not a button: buyers were tapping the old
+   pricing tags expecting a checkout. The "from" is deliberately quiet so the
+   number carries, and the whole thing sits above the outcome line so a
+   visitor can self-qualify before reading the detail. */
+.pkg-price {
+  margin-top: var(--space-5);
+  font-size: 1.75rem;
+  font-weight: var(--fw-head);
+  letter-spacing: -0.02em;
+  color: var(--text-light);
+  line-height: 1.1;
+}
+.pkg-price-from {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  font-weight: 400;
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--space-2);
+}
+.pkg-price-unit { font-size: 1rem; font-weight: var(--fw-label); color: #C9C7C1; }
+.pkg-price-then {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: 0.9375rem;
+  font-weight: var(--fw-label);
+  letter-spacing: -0.01em;
+  color: #C9C7C1;
+}
+
+/* What the client gets, stated before what we do. */
+.pkg-outcome {
+  margin-top: var(--space-4);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #C9C7C1;
+}
+
 .pkg-chips {
   display: flex;
   flex-wrap: wrap;
@@ -879,6 +927,38 @@ html {
 }
 
 /* ---- upgrade note ---- */
+/* Single price anchor for the whole ladder, under the three cards. */
+.pkg-anchor {
+  margin-top: var(--space-4);
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+/* The promise. Bordered and set apart so it reads as a commitment rather
+   than another line of body copy. */
+.guarantee {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  padding: var(--space-6);
+  border: var(--hairline) solid var(--border-dark);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-lg);
+  max-width: 62ch;
+}
+.guarantee-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--space-3);
+}
+.guarantee-text {
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--text-light);
+}
+
 .pkg-upgrade {
   display: flex;
   align-items: baseline;
@@ -1000,8 +1080,19 @@ html {
   padding: var(--space-5);
 }
 
-.tile-meta { display: flex; align-items: center; gap: var(--space-3); }
+/* wraps because the category now sits beside the demonstration badge */
+.tile-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
 
+/* Honesty badge on every work tile. Muted, not shouted: it is a fact the
+   visitor needs before reading the headline figure, not a disclaimer to
+   hide. Kept in step with tileMarkup() in main.js. */
+.tile-demo {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--muted-ink);
+}
 .tile-cat,
 .tile-ph,
 .detail-cat {
@@ -1615,59 +1706,67 @@ html {
 .bio .block-title { margin-bottom: var(--space-4); }
 
 /* ------------------------------ 14. CONTACT ------------------------------ */
-/* left column of the contact grid: the pitch plus the direct routes */
-.contact-intro { display: grid; align-content: start; gap: clamp(2rem, 4vw, 2.75rem); }
-.contact-head { max-width: 44ch; }
+/* One column, one action. The section used to be a two column grid with a
+   custom booking widget; it is now a headline, a single button, and a fallback
+   line, so the whole thing centres on its own axis. */
+/* No justify-items: center here. That sizes every grid item to max-content,
+   which squeezed the headline into one word per line. The block is centred by
+   its own max-width instead, and only the button is centred as an item. */
+.contact-simple {
+  display: grid;
+  text-align: center;
+  gap: var(--space-6);
+  max-width: 44rem;
+  margin-inline: auto;
+}
+.contact-head { max-width: none; }
+/* The section heading became this page's h1 in the split, which pulled in
+   --fs-display (up to 96px) and wrapped it onto five lines. Section headings
+   read at h2 size regardless of their tag. */
+.contact-head h1,
+.section-head h1 { font-size: var(--fs-h2); font-weight: var(--fw-head); }
+.contact-simple { max-width: 52rem; }
 .contact-head .eyebrow { display: block; margin-bottom: var(--space-5); }
 
-.contact-lead {
-  max-width: 56ch;
-  margin-top: var(--space-5);
-  font-size: var(--fs-lead);
-  line-height: 1.5;
-  color: #C9C7C1;
+/* WhatsApp brand green. Held to this one button: it is the only element on the
+   site allowed to use it, so it reads as "this is WhatsApp" rather than as a
+   second site accent competing with Signal Red. #128C7E on white text is
+   4.9:1, which clears AA for the 18px+ bold type used here. */
+.btn-whatsapp {
+  background: #128C7E;
+  border-color: #128C7E;
+  color: #FFFFFF;
 }
+.btn-whatsapp:hover { background: #0E7367; border-color: #0E7367; }
+.btn-whatsapp .wa-mark { flex: none; }
 
-.contact-grid {
-  display: grid;
-  gap: clamp(2rem, 5vw, 3.5rem);
-  grid-template-columns: 1fr;
-  align-items: start;
-}
-
-/* ---- the form panel ---- */
-/* the mono label above the direct contact links */
-.sched-label {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: var(--space-5);
-}
-
-/* ---- direct contact + form ---- */
-
-.contact-links { display: grid; gap: var(--space-3); }
-.contact-links li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
-.contact-links a {
+/* The single biggest thing in the section. Full width on a phone so it is
+   unmissable and comfortably past the 44px tap minimum, capped on wider
+   screens so it does not stretch into a banner. */
+.btn-book {
+  justify-self: center;
   display: inline-flex;
   align-items: center;
-  gap: 0.4em;
+  justify-content: center;
+  gap: 0.6em;
+  width: 100%;
+  max-width: 24rem;
+  min-height: 3.5rem;
+  padding: 1.05rem 1.75rem;
   font-size: 1.0625rem;
-  font-weight: var(--fw-label);
-  letter-spacing: -0.01em;
+}
+
+.contact-alt {
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+.contact-alt a {
   color: var(--text-light);
   border-bottom: var(--hairline) solid rgba(245, 244, 241, 0.28);
   padding-bottom: 2px;
   transition: border-color var(--dur) var(--ease);
 }
-.contact-links a:hover { border-bottom-color: var(--text-light); }
-.contact-links span[aria-hidden] { transition: transform var(--dur) var(--ease); }
-.contact-links a:hover span[aria-hidden] { transform: translateX(3px); }
-
-
+.contact-alt a:hover { border-bottom-color: var(--text-light); }
 
 /* ---- mode toggle ---- */
 /* Deliberately NOT Signal Red: the checked chip below already carries this
@@ -1680,19 +1779,255 @@ html {
 }
 .btn-outline:hover { border-color: var(--text-light); }
 
-/* Closing line of the left column, under the direct links. It used to run
-   the full width at the foot of the section, which is why the sizes here
-   are small: at lead size in a 445px column it would outweigh the links
-   it is meant to sit beneath. */
-.contact-foot {
-  margin-top: var(--space-5);
-  padding-top: var(--space-4);
-  border-top: var(--hairline) solid var(--border-dark);
+/* ---- team ---- */
+/* Cards rather than a plain list: each person is three separate facts, and a
+   bordered block keeps name, role and link reading as one unit. No photos, so
+   the card carries its weight through type and spacing alone. */
+.team-list {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  grid-template-columns: 1fr;
+}
+.team-card {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+  padding: var(--space-5);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-lg);
+  background: #FFFFFF;
+}
+.team-name {
+  font-size: 1.0625rem;
+  font-weight: var(--fw-head);
+  letter-spacing: -0.01em;
+  color: var(--text-dark);
+}
+.team-role {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--muted-ink);
+  line-height: 1.5;
+}
+.team-link {
+  margin-top: var(--space-2);
   font-size: var(--fs-small);
-  line-height: 1.6;
+  font-weight: var(--fw-label);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.team-link span { display: inline-block; transition: transform var(--dur) var(--ease); }
+.team-link:hover span { transform: translateX(3px); }
+
+@media (min-width: 640px) {
+  .team-list { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .team-list { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ---- legal documents ---- */
+/* Privacy, Terms and the Basira AI data statement reuse the case-study shell,
+   but they are read rather than skimmed, so the prose keeps a normal measure
+   instead of running the full container width. Links inside them are
+   underlined: in a legal document a link that only changes colour is too easy
+   to miss. */
+.legal-doc .origin,
+.legal-doc .detail-head { max-width: 68ch; }
+.legal-doc .origin a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  color: var(--text-dark);
+}
+.legal-doc .origin a:hover { color: var(--accent); }
+.legal-doc .origin p strong { color: var(--text-dark); font-weight: var(--fw-label); }
+
+
+/* ==================== MULTI-PAGE COMPONENTS ==================== */
+
+/* ---- intro video ---- */
+/* The frame holds a real 16:9 box now so the page does not jump when the
+   embed replaces the placeholder: both use the same wrapper dimensions. */
+.video-frame,
+.video-embed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-width: 68rem;
+  margin-inline: auto;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.video-frame {
+  display: grid;
+  place-content: center;
+  gap: var(--space-4);
+  justify-items: center;
+  background: var(--ink);
+  border: var(--hairline) solid var(--border-dark);
+}
+/* A play triangle drawn in CSS rather than shipped as an asset. */
+.video-play {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 1.1rem 0 1.1rem 1.9rem;
+  border-color: transparent transparent transparent var(--paper);
+  opacity: 0.55;
+}
+.video-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
   color: var(--muted);
-  max-width: 40ch;
-  text-wrap: pretty;
+}
+
+/* ---- how it works ---- */
+.how-steps {
+  display: grid;
+  gap: var(--space-6);
+  margin-top: clamp(2rem, 4vw, 3rem);
+  counter-reset: step;
+}
+.how-step {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  padding-top: var(--space-5);
+  border-top: 2px solid var(--ink);
+}
+.how-num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--accent);
+}
+.how-name { font-size: var(--fs-h3); font-weight: var(--fw-head); letter-spacing: -0.02em; }
+.how-text { color: var(--muted-ink); max-width: 34ch; }
+.section-dark .how-step { border-top-color: var(--text-light); }
+.section-dark .how-text { color: #C9C7C1; }
+
+/* ---- preview strips on Home ---- */
+/* Two columns so the heading and its explanation sit side by side and use the
+   width, rather than stacking into a narrow centred ribbon. */
+.split-head { display: grid; gap: var(--space-5); align-items: end; }
+.split-head .section-lead { max-width: var(--measure); margin: 0; }
+.preview .link-arrow { display: inline-block; margin-top: clamp(1.5rem, 3vw, 2.25rem); }
+.preview-work .work-grid { margin-top: clamp(2rem, 4vw, 3rem); }
+
+/* ---- shared closing CTA ---- */
+.cta-strip .wrap {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--space-6);
+}
+.cta-strip h2 { max-width: 24ch; }
+
+/* ---- team photo placeholder ---- */
+.team-photo { margin: clamp(2rem, 4vw, 3rem) 0 0; }
+.team-photo img { width: 100%; height: auto; border-radius: var(--radius-lg); }
+.photo-frame {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--space-4);
+  aspect-ratio: 16 / 9;
+  background: var(--ink);
+  border-radius: var(--radius-lg);
+  color: var(--paper);
+}
+.photo-mark { width: 52px; height: 52px; opacity: 0.5; }
+.photo-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.team-intro { max-width: var(--measure); font-size: var(--fs-lead); line-height: 1.55; }
+
+/* ---- contact hours + social ---- */
+.hours {
+  padding-top: var(--space-5);
+  border-top: var(--hairline) solid var(--border-dark);
+  max-width: var(--measure);
+}
+.hours-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--space-3);
+}
+.hours-text { color: #C9C7C1; line-height: 1.6; }
+.contact-social {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3) var(--space-6);
+}
+.contact-social a {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-label);
+  color: var(--text-light);
+  border-bottom: var(--hairline) solid rgba(245, 244, 241, 0.28);
+  padding-bottom: 2px;
+}
+.contact-social a:hover { border-bottom-color: var(--text-light); }
+.contact-social span { display: inline-block; transition: transform var(--dur) var(--ease); }
+.contact-social a:hover span { transform: translateX(3px); }
+
+/* ---- FAQ ---- */
+.faq-list { display: grid; gap: var(--space-6); margin-top: clamp(2rem, 4vw, 3rem); }
+.faq-item {
+  padding-top: var(--space-5);
+  border-top: var(--hairline) solid var(--border);
+}
+.faq-item dt {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-head);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-3);
+}
+.faq-item dd { margin: 0; color: var(--muted-ink); line-height: 1.65; max-width: var(--measure); }
+.faq-item dd a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--text-dark);
+}
+.faq-item dd a:hover { color: var(--accent); }
+
+/* The quote CTA that replaced the price on each package card. */
+.pkg-quote-cta {
+  margin-top: var(--space-5);
+  font-size: 0.9375rem;
+  font-weight: var(--fw-label);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--text-light);
+}
+
+@media (min-width: 640px) {
+  .how-steps { grid-template-columns: repeat(3, 1fr); }
+  .faq-list { gap: var(--space-7); }
+}
+@media (min-width: 900px) {
+  .split-head { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-8); }
 }
 
 /* ------------------------------- 15. FOOTER ------------------------------- */
@@ -1739,6 +2074,25 @@ html {
 }
 .footer-nav a:hover,
 .footer-contact a:hover { color: var(--text-light); }
+
+/* Payment methods. Two short lines rather than one run-on, so the
+   international and India routes stay visually separate. */
+.footer-pay {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+  padding-bottom: var(--space-5);
+  font-size: var(--fs-small);
+  color: #C9C7C1;
+}
+.pay-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-right: var(--space-3);
+}
 
 .footer-base {
   display: flex;
@@ -1826,9 +2180,6 @@ html {
   .cards, .work-grid { gap: var(--space-3); }
   .steps { gap: var(--space-5); }
   .how { margin-top: var(--space-7); padding-top: var(--space-6); }
-  /* .contact-foot dropped from this: it is a small line inside the left
-     column now, so the section sized spacing here made it bigger on a
-     phone than on a desktop */
   .tile-thumb { aspect-ratio: 16 / 8; }
   .tile-body { padding: var(--space-4); }
   .ph { gap: var(--space-2); padding: var(--space-4); }
@@ -1837,7 +2188,8 @@ html {
   .insights, .case, .visuals, .detail-cta { margin-top: var(--space-6); }
 
   /* comfortable touch targets throughout */
-  .nav-link, .footer-nav a, .footer-contact a, .contact-links a,
+  .nav-link, .footer-nav a, .footer-contact a,
+  .team-link, .contact-alt a,
   .ai-crosslink a {
     min-height: 44px;
     display: inline-flex;
@@ -1904,10 +2256,13 @@ html {
 
   .steps { grid-template-columns: repeat(2, 1fr); }
 
-  .work-grid { grid-template-columns: repeat(2, 1fr); }
+  /* auto-fit, not a fixed count: with two projects a repeat(3) grid left the
+     last third of a wide screen empty. auto-fit collapses the unused track so
+     the tiles share the full width, and a third project still fits a row. */
+  .work-grid { grid-template-columns: repeat(auto-fit, minmax(min(26rem, 100%), 1fr)); }
   .proof-grid { grid-template-columns: repeat(3, 1fr); }
   .pain-list { grid-template-columns: repeat(3, 1fr); }
-  .footer-inner { grid-template-columns: 2fr 1fr 1fr; }
+  .footer-inner { grid-template-columns: 2fr 1fr 1fr 1fr; }
   .snapshot { grid-template-columns: repeat(3, 1fr); }
   .visuals { grid-template-columns: repeat(2, 1fr); }
   .case-steps { grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
@@ -1918,7 +2273,6 @@ html {
    catches iPad portrait while leaving landscape phones single column. */
 @media (min-width: 800px) {
   .ai-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
-  .contact-grid { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); }
 }
 
 @media (min-width: 1024px) {
@@ -1927,5 +2281,5 @@ html {
 
   .steps { grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
 
-  .work-grid { grid-template-columns: repeat(3, 1fr); }
+  .work-grid { grid-template-columns: repeat(auto-fit, minmax(min(28rem, 100%), 1fr)); }
 }
