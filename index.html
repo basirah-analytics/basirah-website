@@ -63,91 +63,165 @@
      JS for up to an hour after a deploy. index.html itself is served
      must-revalidate, so bumping this number is what releases a change.
      BUMP BOTH VALUES WHENEVER styles.css OR main.js CHANGES. -->
-<link rel="stylesheet" href="assets/css/styles.css?v=49">
+<link rel="stylesheet" href="assets/css/styles.css?v=50">
 <link rel="stylesheet" href="assets/css/booking.css?v=1">
 
-<!-- Structured data. Everything below is asserted to search engines as fact,
-     so it carries only what the site can back up: no aggregateRating, no
-     review, no address and no price. Those are the properties that earn a
-     manual penalty when they cannot be substantiated. sameAs lists only
-     profiles genuinely owned by the business; it is what tells Google that
-     those accounts and this brand are one entity. Add openingHours or an
-     address only if you genuinely operate to them. -->
+<!-- Structured data. Every node below describes something a visitor can
+     actually see on this page: the three packages in the Services section, the
+     two case studies in Selected work, and the free Basira AI tool. Nothing is
+     asserted that the page does not show. The @ids are shared with both case
+     study pages so all three documents describe one entity. No rating, review
+     or price is claimed, because none can be substantiated yet. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "ProfessionalService",
+      "@type": "Organization",
       "@id": "https://basirahanalytics.com/#business",
       "name": "Basirah Analytics",
       "alternateName": "Basirah",
       "url": "https://basirahanalytics.com/",
-      "description": "Data and business analysis for small and mid-size businesses: dashboards, financial analysis and automation.",
+      "description": "Data and business analysis for growing businesses: sales and revenue analysis, financial analysis, customer insights, live dashboards and ongoing analytics support.",
       "slogan": "See what your data is telling you.",
+      "foundingDate": "2026",
+      "founder": { "@id": "https://basirahanalytics.com/#haseeb" },
+      "logo": { "@id": "https://basirahanalytics.com/#logo" },
+      "image": "https://basirahanalytics.com/assets/img/og-image.png",
       "email": "hello@basirahanalytics.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Hyderabad",
+        "addressRegion": "Telangana",
+        "addressCountry": "IN"
+      },
+      "areaServed": [
+        { "@type": "Country", "name": "India" },
+        { "@type": "Country", "name": "United States" },
+        { "@type": "Country", "name": "United Kingdom" },
+        { "@type": "Country", "name": "Canada" }
+      ],
       "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "sales",
         "email": "hello@basirahanalytics.com",
-        "availableLanguage": "en"
+        "url": "https://basirahanalytics.com/#contact",
+        "availableLanguage": ["en"]
       },
-      "image": "https://basirahanalytics.com/assets/img/og-image.png",
-      "logo": "https://basirahanalytics.com/assets/img/icon-512.png",
-      "areaServed": { "@type": "Place", "name": "Worldwide" },
-      "availableLanguage": "en",
       "sameAs": [
         "https://www.linkedin.com/company/basirah-analytics/",
+        "https://www.instagram.com/basirahanalytics/",
         "https://github.com/basirah-analytics"
       ],
-      "founder": { "@id": "https://basirahanalytics.com/#haseeb" },
       "knowsAbout": [
-        "Sales analysis", "Revenue analysis", "Business analysis",
-        "Financial analysis", "Customer retention analysis", "Dashboard design",
-        "Reporting automation", "Power BI", "Tableau", "Looker", "SQL", "Python"
+        "Business analysis", "Sales analysis", "Revenue analysis",
+        "Financial analysis", "Profitability analysis", "Customer retention analysis",
+        "Dashboard design", "Reporting automation",
+        "Power BI", "Tableau", "Looker", "SQL", "Python"
       ],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Services",
-        "itemListElement": [
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sales & Revenue Analysis",
-            "description": "Every sale looks fine on its own. The full picture is harder to see: which products, days, and places actually make you money, and which quietly waste your effort. We put it all in one view so you can push what works and drop what does not." } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Business & Financial Analysis",
-            "description": "You feel whether a month was good or bad. What you cannot always see is why. We show you what earns, what quietly costs you, and whether your prices are set right, so your next money decision is one you can stand behind." } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Customer Insights & Retention",
-            "description": "It costs far more to win a new customer than to keep one you already have. We show you who your best customers are, who is slipping away, and where a little effort would keep them, so your marketing goes where it counts." } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dashboards & Live Reporting",
-            "description": "Most owners wait on a person or a spreadsheet to know how things are going. We build you one clear screen that shows the health of the business at a glance, kept up to date, that anyone on your team can read without us." } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automation",
-            "description": "If a report takes the same steps every time, a person should not be doing it. We set your reporting up to build and update itself, so the numbers are ready before you ask and nobody loses a day to copy-paste." } }
-        ]
-      }
+      "makesOffer": [
+        { "@type": "Offer", "itemOffered": { "@id": "https://basirahanalytics.com/#service-deep-dive" } },
+        { "@type": "Offer", "itemOffered": { "@id": "https://basirahanalytics.com/#service-live-dashboard" } },
+        { "@type": "Offer", "itemOffered": { "@id": "https://basirahanalytics.com/#service-analytics-partner" } }
+      ]
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://basirahanalytics.com/#logo",
+      "url": "https://basirahanalytics.com/assets/img/icon-512.png",
+      "contentUrl": "https://basirahanalytics.com/assets/img/icon-512.png",
+      "width": 512,
+      "height": 512,
+      "caption": "Basirah Analytics"
     },
     {
       "@type": "Person",
       "@id": "https://basirahanalytics.com/#haseeb",
       "name": "Haseeb Ur Rahman",
-      "jobTitle": "Founder",
+      "alternateName": ["Md Haseeb Ur Rahman", "Abdul Haseeb"],
+      "jobTitle": "Founder & Data Analyst",
       "worksFor": { "@id": "https://basirahanalytics.com/#business" },
-      "url": "https://basirahanalytics.com/#about"
+      "url": "https://basirahanalytics.com/#about",
+      "sameAs": [
+        "https://www.linkedin.com/in/haseeb-ur-rahman-a36503387/",
+        "https://github.com/Haseeb-Ur-Rahman22"
+      ],
+      "knowsAbout": ["Data analysis", "Financial analysis", "SQL", "Python", "Power BI", "Tableau"]
     },
     {
       "@type": "WebSite",
       "@id": "https://basirahanalytics.com/#website",
       "url": "https://basirahanalytics.com/",
       "name": "Basirah Analytics",
+      "alternateName": "Basirah",
       "publisher": { "@id": "https://basirahanalytics.com/#business" },
       "inLanguage": "en"
     },
     {
-      "@type": "SoftwareApplication",
+      "@type": "WebPage",
+      "@id": "https://basirahanalytics.com/#webpage",
+      "url": "https://basirahanalytics.com/",
+      "name": "Basirah Analytics \u00b7 Data & Business Analysis",
+      "description": "We turn messy data into decisions you can act on: dashboards, financial analysis and automation for small and mid-size businesses. Book a free call.",
+      "isPartOf": { "@id": "https://basirahanalytics.com/#website" },
+      "about": { "@id": "https://basirahanalytics.com/#business" },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://basirahanalytics.com/assets/img/og-image.png",
+        "width": 1200,
+        "height": 630
+      },
+      "hasPart": { "@id": "https://basirahanalytics.com/#selected-work" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Service",
+      "@id": "https://basirahanalytics.com/#service-deep-dive",
+      "name": "Business Deep Dive",
+      "serviceType": "Business data analysis",
+      "description": "A one-time analysis of your sales, finances and customers, delivered as a plain-English report of findings and recommended actions plus a walkthrough call.",
+      "provider": { "@id": "https://basirahanalytics.com/#business" },
+      "url": "https://basirahanalytics.com/#services"
+    },
+    {
+      "@type": "Service",
+      "@id": "https://basirahanalytics.com/#service-live-dashboard",
+      "name": "Your Live Dashboard",
+      "serviceType": "Business dashboard development",
+      "description": "A custom Power BI or Tableau dashboard of your business, built once and kept current, so you can check revenue, orders, top products and trends any time.",
+      "provider": { "@id": "https://basirahanalytics.com/#business" },
+      "url": "https://basirahanalytics.com/#services"
+    },
+    {
+      "@type": "Service",
+      "@id": "https://basirahanalytics.com/#service-analytics-partner",
+      "name": "Analytics Partner",
+      "serviceType": "Ongoing analytics and reporting",
+      "description": "Monthly analysis of what changed and why, with reports, plain-English recommendations and a regular review call.",
+      "provider": { "@id": "https://basirahanalytics.com/#business" },
+      "url": "https://basirahanalytics.com/#services"
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://basirahanalytics.com/#selected-work",
+      "name": "Selected work",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "url": "https://basirahanalytics.com/case-studies/restaurant-sales-analysis" },
+        { "@type": "ListItem", "position": 2, "url": "https://basirahanalytics.com/case-studies/profitability-analysis" }
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://ai.basirahanalytics.com/#app",
       "name": "Basira AI",
       "url": "https://ai.basirahanalytics.com/",
       "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Web browser",
-      "description": "Upload a spreadsheet and get an instant plain-English analysis with charts. Free to use.",
-      "publisher": { "@id": "https://basirahanalytics.com/#business" },
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      "operatingSystem": "Any (web browser)",
+      "browserRequirements": "Requires JavaScript",
+      "description": "Upload a spreadsheet or CSV and get an instant plain-English analysis: the trends worth knowing, the numbers that look wrong, and the things to keep an eye on. No setup and no account.",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "publisher": { "@id": "https://basirahanalytics.com/#business" }
     }
   ]
 }
@@ -694,7 +768,7 @@
           <div class="bio">
             <h3 class="block-title">A bit more about how we work</h3>
             <p>
-              We come at analysis from a finance background: our founder holds an MBA in Finance,
+              We come at analysis from a finance background: our founder is completing an MBA in Finance,
               so we read the numbers behind a business rather than just the charts drawn on top
               of them. That means we start from the business question, not the tool. What makes
               money. What quietly costs more than it should. What is about to become a problem
@@ -872,6 +946,7 @@
 
   <div class="wrap footer-base">
     <p class="footer-copy">&copy; 2026 Basirah Analytics</p>
+    <p class="footer-place">Hyderabad, India</p>
     <p class="footer-built">Independent analysis, founder led.</p>
   </div>
 </footer>
