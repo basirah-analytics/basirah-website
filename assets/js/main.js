@@ -145,6 +145,35 @@
      ------------------------------------------------------------------- */
   var PROJECTS = [
     {
+      title: 'Rose City Roasters sales and profitability analysis',
+      slug: 'rose-city-roasters-analysis',
+      category: 'financial',
+      headline: 'Revenue kept climbing, but the business was quietly sliding into a loss.',
+      summary: 'A specialty coffee business that kept growing sales while profit slipped year after year. We cleaned four years of messy transaction data, modelled it in SQL, and built a three page Power BI dashboard that shows exactly where the money was leaking: sales below cost, heavy discounting, and slow paying wholesale accounts.',
+      context: 'Documented demonstration dataset, specialty coffee business',
+      tools: 'SQL Server (T-SQL) · Data modeling · Power BI · DAX',
+      scope: 'Four years of transactions, over 1 million in total',
+      page: '/case-studies/profitability-analysis',
+      repo: 'https://github.com/basirah-analytics/rose-city-roasters-analysis',
+      thumb: '/assets/img/work/rosecity-1.png',
+      images: [
+        '/assets/img/work/rosecity-1.png',
+        '/assets/img/work/rosecity-2.png'
+      ],
+      insights: [
+        'Revenue reached $31.4M across four years, yet operating profit came out at minus $760.76K.',
+        'About 22,000 order lines sold below cost, losing $228.15K on $1.38M of revenue, 4.39% of the total.',
+        'Margin fell from 43% on undiscounted orders to 13% at the steepest discount tier.',
+        'Around 80% of wholesale invoices were paid late, which is where the cash was tied up.'
+      ],
+      caseStudy: {
+        problem: 'Sales were growing every year and the owner could see that much, but profit was going the other way and nobody could say why. Four years of transaction data existed and none of it had been made to agree.',
+        approach: 'We cleaned four years of messy transaction data and modelled it in SQL Server, so every later figure traces back to one trusted table. A three page Power BI report was built on top of it, with the measures written in DAX.',
+        results: 'The report showed $31.4M of revenue and a 35% gross margin sitting alongside an operating profit of minus $760.76K, with the cost of goods climbing from $3.3M in 2022 to $7.1M in 2025 while sales were still rising. It then split that gap into the three things causing it: about 22,000 order lines sold below cost, losing $228.15K, margin falling from 43% to 13% as discounts deepened, and roughly 80% of wholesale invoices paid late. Naming them separately is what lets the owner see which to fix first instead of guessing at the whole.'
+      }
+    },
+
+    {
       title: 'Restaurant sales and operations analysis',
       slug: 'restaurant-sales-analysis',
       category: 'analysis',
@@ -173,35 +202,6 @@
         problem: 'Two years of order data had piled up across five outlets and three sales channels, and nobody had turned it into answers. The owner needed to know what was making money and where it was leaking.',
         approach: 'We checked the data in SQL Server first: row counts, types, value ranges, missing values, duplicates and hidden characters. Then we built one view joining orders to the menu with the sale amount calculated per line, so every later number came from a single trusted table. Each question was answered in SQL and brought together in a three page Power BI report.',
         results: 'The cancellation leak was traced to the delivery channels rather than any branch or time of day, which pointed the fix at the aggregators first. The menu work separated the dishes that carry revenue from the ones that only carry volume, and the seasonal read gave a clear window for promotions. The write up is explicit about what the data cannot show: it holds no cost, customer or table information, so it makes no claim about profit, retention or table turnover.'
-      }
-    },
-
-    {
-      title: 'Rose City Roasters sales and profitability analysis',
-      slug: 'rose-city-roasters-analysis',
-      category: 'financial',
-      headline: 'Revenue kept climbing, but the business was quietly sliding into a loss.',
-      summary: 'A specialty coffee business that kept growing sales while profit slipped year after year. We cleaned four years of messy transaction data, modelled it in SQL, and built a three page Power BI dashboard that shows exactly where the money was leaking: sales below cost, heavy discounting, and slow paying wholesale accounts.',
-      context: 'Documented demonstration dataset, specialty coffee business',
-      tools: 'SQL Server (T-SQL) · Data modeling · Power BI · DAX',
-      scope: 'Four years of transactions, over 1 million in total',
-      page: '/case-studies/profitability-analysis',
-      repo: 'https://github.com/basirah-analytics/rose-city-roasters-analysis',
-      thumb: '/assets/img/work/rosecity-1.png',
-      images: [
-        '/assets/img/work/rosecity-1.png',
-        '/assets/img/work/rosecity-2.png'
-      ],
-      insights: [
-        'Revenue reached $31.4M across four years, yet operating profit came out at minus $760.76K.',
-        'About 22,000 order lines sold below cost, losing $228.15K on $1.38M of revenue, 4.39% of the total.',
-        'Margin fell from 43% on undiscounted orders to 13% at the steepest discount tier.',
-        'Around 80% of wholesale invoices were paid late, which is where the cash was tied up.'
-      ],
-      caseStudy: {
-        problem: 'Sales were growing every year and the owner could see that much, but profit was going the other way and nobody could say why. Four years of transaction data existed and none of it had been made to agree.',
-        approach: 'We cleaned four years of messy transaction data and modelled it in SQL Server, so every later figure traces back to one trusted table. A three page Power BI report was built on top of it, with the measures written in DAX.',
-        results: 'The report showed $31.4M of revenue and a 35% gross margin sitting alongside an operating profit of minus $760.76K, with the cost of goods climbing from $3.3M in 2022 to $7.1M in 2025 while sales were still rising. It then split that gap into the three things causing it: about 22,000 order lines sold below cost, losing $228.15K, margin falling from 43% to 13% as discounts deepened, and roughly 80% of wholesale invoices paid late. Naming them separately is what lets the owner see which to fix first instead of guessing at the whole.'
       }
     }
 

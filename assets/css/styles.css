@@ -11,7 +11,8 @@
   --paper:          #FBFBFA;   /* light section background */
   --text-light:     #F5F4F1;   /* text on dark */
   --text-dark:      #201E1D;   /* text on light */
-  --muted:          #8A8A85;   /* secondary text on dark (5.4:1 on --ink) */
+  --muted-dark:     #8A8A85;   /* secondary text on dark (5.3:1 on --ink) */
+  --muted:          var(--muted-dark);   /* light sections remap this to --muted-ink */
   --muted-ink:      #6E6E69;   /* secondary text on light (5.0:1 on --paper) */
   --border:         #ECECE8;   /* hairline on light */
   --border-dark:    #2A2A26;   /* hairline on dark */
@@ -688,14 +689,16 @@ html {
   left: clamp(1.5rem, 2.5vw, 1.9rem);
   transform: translateY(-50%);
   padding: 0.25rem 0.6rem;
-  background: var(--accent);
+  /* Paper chip with Ink text (16.8:1). Light text on Signal Red was 3.82:1 at
+     this 12px size, and the card's red border is already the focal point. */
+  background: var(--text-light);
   border-radius: 3px;
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
   font-weight: 500;
   letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
-  color: var(--text-light);
+  color: var(--ink);
 }
 
 .pkg-top {
@@ -1007,6 +1010,9 @@ html {
 .pain:hover .p-clock .hand { transform: rotate(300deg); }
 
 /* ---------------------------- 10. PORTFOLIO ---------------------------- */
+/* The intro ran the full 1440px container, about 166 characters a line. */
+#work-head .section-lead { max-width: 58ch; }
+
 .work-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -1262,6 +1268,9 @@ html {
   letter-spacing: -0.02em;
   margin-bottom: var(--space-5);
 }
+/* About's block title became an h2 to fix the heading skip; keep the h3
+   line height it rendered with. */
+h2.block-title { line-height: 1.2; }
 /* the section's single accent, marks the findings, the point of the page */
 .block-title.has-mark::before {
   content: "";
@@ -1543,13 +1552,12 @@ html {
 .btn-accent span { transition: transform var(--dur) var(--ease); }
 .btn-accent:hover span { transform: translateX(3px); }
 
+/* A full sentence, so plain body text: mono is for short labels only. */
 .ai-privacy {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: 0.06em;
+  font-size: var(--fs-small);
   line-height: 1.5;
-  color: var(--muted);
-  max-width: 34ch;
+  color: #C9C7C1;
+  max-width: 44ch;
 }
 
 .ai-crosslink {
@@ -1728,16 +1736,17 @@ html {
 .contact-simple { max-width: 52rem; }
 .contact-head .eyebrow { display: block; margin-bottom: var(--space-5); }
 
-/* WhatsApp brand green. Held to this one button: it is the only element on the
-   site allowed to use it, so it reads as "this is WhatsApp" rather than as a
-   second site accent competing with Signal Red. #128C7E on white text is
-   4.9:1, which clears AA for the 18px+ bold type used here. */
+/* WhatsApp brand green, for buttons that actually open WhatsApp and nothing
+   else, so it reads as "this is WhatsApp" rather than as a second site accent
+   competing with Signal Red. The lighter #128C7E was 4.14:1 against white,
+   which fails AA at this 17px label (it is not large text), so the base is
+   the darker #0E7367 at 5.73:1 and hover deepens to #0B6157 at 7.34:1. */
 .btn-whatsapp {
-  background: #128C7E;
-  border-color: #128C7E;
+  background: #0E7367;
+  border-color: #0E7367;
   color: #FFFFFF;
 }
-.btn-whatsapp:hover { background: #0E7367; border-color: #0E7367; }
+.btn-whatsapp:hover { background: #0B6157; border-color: #0B6157; }
 .btn-whatsapp .wa-mark { flex: none; }
 
 /* The single biggest thing in the section. Full width on a phone so it is
@@ -1850,51 +1859,6 @@ html {
 
 /* ==================== MULTI-PAGE COMPONENTS ==================== */
 
-/* ---- intro video ---- */
-/* The frame holds a real 16:9 box now so the page does not jump when the
-   embed replaces the placeholder: both use the same wrapper dimensions. */
-.video-frame,
-.video-embed {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  width: 100%;
-  max-width: 68rem;
-  margin-inline: auto;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-.video-embed iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-.video-frame {
-  display: grid;
-  place-content: center;
-  gap: var(--space-4);
-  justify-items: center;
-  background: var(--ink);
-  border: var(--hairline) solid var(--border-dark);
-}
-/* A play triangle drawn in CSS rather than shipped as an asset. */
-.video-play {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 1.1rem 0 1.1rem 1.9rem;
-  border-color: transparent transparent transparent var(--paper);
-  opacity: 0.55;
-}
-.video-label {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
 /* ---- how it works ---- */
 .how-steps {
   display: grid;
@@ -1909,12 +1873,15 @@ html {
   padding-top: var(--space-5);
   border-top: 2px solid var(--ink);
 }
+/* Ink, not Signal Red: 12px red text on Paper is 4.06:1, and the step
+   number is not this view's focal point. */
 .how-num {
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
   letter-spacing: var(--tracking-mono);
-  color: var(--accent);
+  color: var(--text-dark);
 }
+.section-dark .how-num { color: var(--text-light); }
 .how-name { font-size: var(--fs-h3); font-weight: var(--fw-head); letter-spacing: -0.02em; }
 .how-text { color: var(--muted-ink); max-width: 34ch; }
 .section-dark .how-step { border-top-color: var(--text-light); }
@@ -1956,7 +1923,9 @@ html {
   font-size: var(--fs-mono);
   letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
-  color: var(--muted);
+  /* The frame is Ink inside a light section, which remaps --muted to the
+     light-background grey (3.6:1 here). Use the dark-surface grey instead. */
+  color: var(--muted-dark);
 }
 .team-intro { max-width: var(--measure); font-size: var(--fs-lead); line-height: 1.55; }
 
