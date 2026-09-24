@@ -1072,6 +1072,37 @@ html {
 }
 .back:hover { border-color: var(--text-dark); }
 
+/* Breadcrumb above the case-study title. Mono, muted and small, so it reads
+   as navigation rather than as part of the heading. The separator is drawn in
+   CSS so the slash is never announced by a screen reader. No new colors: this
+   reuses --muted and --muted-ink, and Signal Red stays reserved for the key
+   action. */
+.breadcrumb { margin-bottom: var(--space-4); }
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.breadcrumb li { display: flex; align-items: center; gap: var(--space-2); }
+.breadcrumb li + li::before {
+  content: "/";
+  color: var(--muted);
+  speak: never;
+}
+.breadcrumb a {
+  color: var(--muted-ink);
+  border-bottom: var(--hairline) solid transparent;
+  transition: border-color var(--dur) var(--ease);
+}
+.breadcrumb a:hover { border-bottom-color: var(--muted-ink); }
+.breadcrumb [aria-current="page"] { color: var(--muted); }
+
 .detail-head { max-width: 62ch; }
 .detail-cat { margin-bottom: var(--space-3); }
 .detail-title { font-size: var(--fs-h2); margin-bottom: var(--space-4); }
@@ -1720,6 +1751,7 @@ html {
 }
 
 .footer-copy,
+.footer-place,
 .footer-built {
   font-family: var(--font-mono);
   font-size: var(--fs-mono);

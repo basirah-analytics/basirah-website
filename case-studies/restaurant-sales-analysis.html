@@ -49,50 +49,84 @@
 <!-- Root relative, so the same tags work from any folder depth. The ?v= must
      stay in step with index.html: both pages share one stylesheet, and a
      mismatch would have one page on a stale copy for up to an hour. -->
-<link rel="stylesheet" href="/assets/css/styles.css?v=49">
+<link rel="stylesheet" href="/assets/css/styles.css?v=50">
 
-<!-- The Article describes this page. The ProfessionalService below it repeats
-     the @id from the home page rather than inventing a second organisation,
-     so the two documents describe one entity instead of competing. Only the
-     identifying fields are carried; the full offer catalogue stays on the
-     home page where it belongs. -->
+<!-- Structured data for this case study. The Organization, Person and
+     WebSite nodes repeat the @ids used on the home page so all three
+     documents describe one entity rather than competing copies. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "WebPage",
+      "@id": "https://basirahanalytics.com/case-studies/restaurant-sales-analysis#webpage",
+      "url": "https://basirahanalytics.com/case-studies/restaurant-sales-analysis",
+      "name": "Restaurant Sales Analysis Case Study",
+      "description": "A restaurant sales analysis across five branches that shows where revenue was lost, which branches earned most, and how delivery apps compared to dine-in.",
+      "isPartOf": { "@id": "https://basirahanalytics.com/#website" },
+      "breadcrumb": { "@id": "https://basirahanalytics.com/case-studies/restaurant-sales-analysis#breadcrumb" },
+      "primaryImageOfPage": { "@id": "https://basirahanalytics.com/case-studies/restaurant-sales-analysis#primaryimage" },
+      "mainEntity": { "@id": "https://basirahanalytics.com/case-studies/restaurant-sales-analysis#article" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://basirahanalytics.com/case-studies/restaurant-sales-analysis#primaryimage",
+      "url": "https://basirahanalytics.com/assets/img/work/restaurant-1.png",
+      "contentUrl": "https://basirahanalytics.com/assets/img/work/restaurant-1.png",
+      "width": 1400,
+      "height": 810
+    },
+    {
       "@type": "Article",
       "@id": "https://basirahanalytics.com/case-studies/restaurant-sales-analysis#article",
       "headline": "Restaurant Sales Analysis: Finding Where the Money Goes Across Five Branches",
       "description": "A restaurant sales analysis across five branches that shows where revenue was lost, which branches earned most, and how delivery apps compared to dine-in.",
-      "image": "https://basirahanalytics.com/assets/img/work/restaurant-1.png",
-      "inLanguage": "en",
-      "isAccessibleForFree": true,
+      "image": [
+        "https://basirahanalytics.com/assets/img/work/restaurant-1.png",
+        "https://basirahanalytics.com/assets/img/work/restaurant-2.png",
+        "https://basirahanalytics.com/assets/img/work/restaurant-3.png"
+      ],
       "datePublished": "2026-09-05",
       "dateModified": "2026-09-05",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://basirahanalytics.com/case-studies/restaurant-sales-analysis"
-      },
       "author": { "@id": "https://basirahanalytics.com/#haseeb" },
       "publisher": { "@id": "https://basirahanalytics.com/#business" },
-      "about": [
-        "Restaurant analytics",
-        "Sales analysis",
-        "Revenue analysis",
-        "Power BI dashboard"
+      "mainEntityOfPage": { "@id": "https://basirahanalytics.com/case-studies/restaurant-sales-analysis#webpage" },
+      "isPartOf": { "@id": "https://basirahanalytics.com/#website" },
+      "articleSection": "Case studies",
+      "keywords": ["restaurant sales analysis", "restaurant analytics", "revenue analysis", "order cancellations", "Swiggy", "Zomato", "Power BI dashboard"],
+      "isBasedOn": {
+        "@type": "SoftwareSourceCode",
+        "name": "Restaurant sales analysis: SQL and dataset generator",
+        "codeRepository": "https://github.com/basirah-analytics/restaurant-sales-analysis",
+        "programmingLanguage": ["SQL", "Python"]
+      },
+      "isAccessibleForFree": true,
+      "inLanguage": "en"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://basirahanalytics.com/case-studies/restaurant-sales-analysis#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://basirahanalytics.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Restaurant Sales Analysis Case Study" }
       ]
     },
     {
-      "@type": "ProfessionalService",
+      "@type": "Organization",
       "@id": "https://basirahanalytics.com/#business",
       "name": "Basirah Analytics",
-      "alternateName": "Basirah",
       "url": "https://basirahanalytics.com/",
-      "email": "hello@basirahanalytics.com",
-      "logo": "https://basirahanalytics.com/assets/img/icon-512.png",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://basirahanalytics.com/assets/img/icon-512.png",
+        "width": 512,
+        "height": 512
+      },
       "sameAs": [
         "https://www.linkedin.com/company/basirah-analytics/",
+        "https://www.instagram.com/basirahanalytics/",
         "https://github.com/basirah-analytics"
       ]
     },
@@ -100,8 +134,19 @@
       "@type": "Person",
       "@id": "https://basirahanalytics.com/#haseeb",
       "name": "Haseeb Ur Rahman",
-      "jobTitle": "Founder",
-      "worksFor": { "@id": "https://basirahanalytics.com/#business" }
+      "jobTitle": "Founder & Data Analyst",
+      "url": "https://basirahanalytics.com/#about",
+      "worksFor": { "@id": "https://basirahanalytics.com/#business" },
+      "sameAs": [
+        "https://www.linkedin.com/in/haseeb-ur-rahman-a36503387/",
+        "https://github.com/Haseeb-Ur-Rahman22"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://basirahanalytics.com/#website",
+      "url": "https://basirahanalytics.com/",
+      "name": "Basirah Analytics"
     }
   ]
 }
@@ -156,6 +201,14 @@
       <article class="detail case-study">
 
         <header class="detail-head">
+          <!-- Mirrors the BreadcrumbList in the JSON-LD above. The text of the
+               current item must stay identical to position 2 there. -->
+          <nav aria-label="Breadcrumb" class="breadcrumb">
+            <ol>
+              <li><a href="/">Home</a></li>
+              <li aria-current="page">Restaurant Sales Analysis Case Study</li>
+            </ol>
+          </nav>
           <p class="eyebrow detail-cat">case study</p>
           <h1 class="detail-title">Restaurant Sales Analysis: Finding Where the Money Goes Across Five Branches</h1>
           <p class="detail-summary">
@@ -360,6 +413,7 @@
 
   <div class="wrap footer-base">
     <p class="footer-copy">&copy; 2026 Basirah Analytics</p>
+    <p class="footer-place">Hyderabad, India</p>
     <p class="footer-built">Independent analysis, founder led.</p>
   </div>
 </footer>

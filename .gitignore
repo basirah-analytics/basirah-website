@@ -11,3 +11,6 @@ desktop.ini
 .vscode/
 .idea/
 *.swp
+
+# Working brief, must never be served publicly by the Worker.
+SCHEMA-FIXES.md
