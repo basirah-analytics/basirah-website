@@ -8,8 +8,9 @@
 .gitignore
 .git
 
-# deploy config and local tooling
+# deploy config, Wrangler's scratch folder and local tooling
 wrangler.jsonc
+.wrangler/
 devserver.py
 .claude/
 .agents/
