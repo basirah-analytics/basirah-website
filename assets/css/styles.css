@@ -1714,29 +1714,6 @@ h2.block-title { line-height: 1.2; }
 }
 .cta-strip h2 { max-width: 24ch; }
 
-/* ---- team photo placeholder ---- */
-.team-photo { margin: clamp(2rem, 4vw, 3rem) 0 0; }
-.team-photo img { width: 100%; height: auto; border-radius: var(--radius-lg); }
-.photo-frame {
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: var(--space-4);
-  aspect-ratio: 16 / 9;
-  background: var(--ink);
-  border-radius: var(--radius-lg);
-  color: var(--paper);
-}
-.photo-mark { width: 52px; height: 52px; opacity: 0.5; }
-.photo-label {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  /* The frame is Ink inside a light section, which remaps --muted to the
-     light-background grey (3.6:1 here). Use the dark-surface grey instead. */
-  color: var(--muted-dark);
-}
 .team-intro { max-width: var(--measure); font-size: var(--fs-lead); line-height: 1.55; }
 
 /* ---- contact hours + social ---- */
