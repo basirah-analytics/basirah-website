@@ -41,7 +41,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="/assets/css/styles.css?v=69">
+<link rel="stylesheet" href="/assets/css/styles.css?v=70">
 <!-- Structured data. Every node describes something this page actually
      shows. The Organization, Person and WebSite @ids are shared across the
      whole site so all pages describe one entity rather than competing copies.
@@ -152,7 +152,7 @@
         <section class="case">
           <h2 class="block-title">What is sent to Google Gemini</h2>
           <div class="origin">
-            <p>This is the part worth reading. To write the plain-English insight bullets, we send a compact statistical summary of your data to the Google Gemini API. Your file itself is never sent, and neither are your rows.</p>
+            <p>This is the part worth reading. To write the short insight bullets in your analysis, we send a compact statistical summary of your data to the Google Gemini API. Your file itself is never sent, and neither are your rows.</p>
             <p>The summary does include your column names, row and column counts, aggregate figures such as totals, averages, minimums and maximums, and the three most frequent values in each text column. If a column holds customer names or product names, those top values are real values from your file. If that matters for your data, this is the thing to know before you upload.</p>
             <p>Google processes that summary under its own API terms. If no Gemini key is configured, or the call fails, Basira AI falls back to insights computed on our own server and nothing leaves it.</p>
           </div>
@@ -250,6 +250,6 @@
   </div>
 </footer>
 
-<script src="/assets/js/main.js?v=65" defer></script>
+<script src="/assets/js/main.js?v=66" defer></script>
 </body>
 </html>
