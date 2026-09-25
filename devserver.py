@@ -78,6 +78,21 @@ class PagesHandler(SimpleHTTPRequestHandler):
             self.path = path + '.html' + (('?' + query) if query else '')
         return False
 
+    def send_error(self, code, message=None, explain=None):
+        """Serve 404.html for unknown paths, the way the Worker does with
+        not_found_handling = "404-page". Other errors keep the stdlib page."""
+        page = os.path.join(ROOT, '404.html')
+        if code != 404 or not os.path.isfile(page):
+            return super().send_error(code, message, explain)
+        with open(page, 'rb') as handle:
+            body = handle.read()
+        self.send_response(404)
+        self.send_header('Content-Type', 'text/html; charset=utf-8')
+        self.send_header('Content-Length', str(len(body)))
+        self.end_headers()
+        if self.command != 'HEAD':
+            self.wfile.write(body)
+
     def log_message(self, fmt, *args):
         sys.stderr.write('%s %s\n' % (self.address_string(), fmt % args))
 

@@ -1,0 +1,22 @@
+# Files in the repo that are not part of the website. Wrangler reads this
+# (same syntax as .gitignore) and never uploads matching files, so the Worker
+# cannot serve them. _headers and _redirects are NOT listed: the Worker needs
+# them uploaded to apply headers and redirects, and never serves them itself.
+
+# this file and git's
+.assetsignore
+.gitignore
+.git
+
+# local tooling
+devserver.py
+.claude/
+.agents/
+.impeccable/
+skills-lock.json
+
+# notes and briefs, including the gitignored ones, in case of a local deploy
+*.md
+
+# GitHub Pages setting, not a page
+CNAME

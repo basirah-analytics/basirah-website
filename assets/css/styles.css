@@ -1861,6 +1861,12 @@ h2.block-title { line-height: 1.2; }
 /* A sentence, so body type: mono is for labels only. */
 .footer-built { font-size: var(--fs-small); color: var(--muted); }
 
+/* ---- 404 ---- */
+/* One screen, one message, the one action and a way home. */
+.notfound { min-height: calc(100svh - var(--header-h) - 12rem); display: flex; align-items: center; }
+.notfound .section-lead { max-width: 52ch; margin-top: var(--space-5); }
+.notfound-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4) var(--space-6); margin-top: var(--space-6); }
+
 /* ---- tap areas ----
    Arrow links, breadcrumb links and the footer logo render at 20 to 38px
    tall. On touch screens an invisible pseudo-element extends each one to a
