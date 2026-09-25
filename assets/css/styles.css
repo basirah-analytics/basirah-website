@@ -650,313 +650,53 @@ html {
   color: #C9C7C1;
 }
 
-/* -------------------------- 8. SOUND FAMILIAR? -------------------------- */
-.pains-title { margin-bottom: clamp(2rem, 5vw, 3rem); }
+/* ------------------------------ 8. SERVICES ------------------------------ */
+/* Opening: the offer and the one action. Kept compact so "Book a free call"
+   sits inside the first screen on a 375px phone. */
+.svc-open { padding-bottom: clamp(2.5rem, 5vw, 4rem); }
+.svc-open-head { max-width: 50rem; margin-bottom: var(--space-6); }
+.svc-open-head .section-lead { max-width: 58ch; margin-top: var(--space-5); }
 
-.pain-list {
+/* A group: "01 Understand your business", "02 Deliver it and keep it
+   running". The number is a real sequence (understand first, then deliver),
+   so it earns its place. */
+.svc-group { padding-top: clamp(2.5rem, 5vw, 4rem); }
+/* Stepped down from the h2 default so the page h1 leads: these name groups,
+   they are not a second headline. */
+.svc-group-title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  font-size: clamp(1.625rem, 1.3rem + 1.4vw, 2.5rem);
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+.svc-group-num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  font-weight: 500;
+  letter-spacing: var(--tracking-mono);
+  color: var(--muted);
+  flex: none;
+}
+
+/* One service per row, hairline above: name and one line on the left, the
+   list and any demonstration link on the right. Text-led on purpose, no
+   icons and no cards. */
+.svc {
   display: grid;
   gap: var(--space-5);
-  grid-template-columns: 1fr;
-}
-
-.pain { padding-top: var(--space-4); border-top: var(--hairline) solid var(--border); }
-
-.pain-num {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  color: var(--muted);
-  margin-bottom: var(--space-3);
-}
-
-.pain-text {
-  font-size: var(--fs-lead);
-  line-height: 1.45;
-  letter-spacing: -0.01em;
-}
-
-/* the answer to the three pains, carries this band's single accent */
-.resolve {
-  display: flex;
-  gap: var(--space-4);
-  max-width: 58ch;
-  margin-top: clamp(2.5rem, 6vw, 4rem);
-  padding-top: clamp(1.75rem, 4vw, 2.5rem);
+  padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
   border-top: var(--hairline) solid var(--border);
+}
+.svc-name { margin-bottom: var(--space-3); }
+.svc-line {
+  max-width: 44ch;
   font-size: var(--fs-lead);
-  font-weight: var(--fw-label);
   line-height: 1.5;
   letter-spacing: -0.01em;
 }
-.resolve::before {
-  content: "";
-  flex: none;
-  width: 10px;
-  height: 10px;
-  margin-top: 0.55em;
-  border-radius: 1px;
-  background: var(--accent);
-}
-
-/* ----------------------------- 9. PACKAGES ----------------------------- */
-/* Three tiers on a dark band. Collapsed they are scannable in a couple of
-   seconds; the depth lives behind the expander. */
-.pkg-head { max-width: 46ch; margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
-/* Lifted from --muted (#8A8A85, 5.4:1 on Ink) to the tone the body copy in
-   this section already uses (10.98:1). Same font, size, weight, tracking and
-   "//" prefix, so it is still the same eyebrow, just legible. The other
-   option was a red "//", but this section already carries six Signal Red
-   elements and a seventh above the heading would pull against the Start
-   here badge. Scoped to .pkg-head so the other eyebrows are untouched. */
-.pkg-head .eyebrow {
-  display: block;
-  margin-bottom: var(--space-4);
-  color: #C9C7C1;
-}
-.pkg-head h2 { margin-bottom: var(--space-5); }
-.pkg-head .section-lead { max-width: 58ch; color: #C9C7C1; }
-
-/* Desktop only, and additive: the base rules above are what mobile keeps.
-   Neither max-width even binds below 768px, where the wrap is narrower than
-   both, so widening here cannot reach the mobile layout.
-
-   46ch on the container was squeezing a 44 character heading into three
-   lines inside a 1104px column. The br above is what fixes the split at the
-   sentence: width alone cannot, because the balancer prefers breaking after
-   "Grow" (549px longest line) over breaking after "clarity." (585px). */
-@media (min-width: 768px) {
-  .pkg-head { max-width: none; }
-  .pkg-head h2 { max-width: none; }
-  .pkg-head .section-lead { max-width: 72ch; }
-}
-
-.pkg-grid {
-  display: grid;
-  gap: clamp(1rem, 2vw, 1.4rem);
-  grid-template-columns: 1fr;
-  /* start, not stretch: an open card must be free to grow past its
-     neighbours instead of dragging the whole row taller with it */
-  align-items: start;
-}
-
-.pkg-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background: #1B1B18;
-  border: var(--hairline) solid var(--border-dark);
-  border-radius: var(--radius-lg);
-  padding: clamp(1.5rem, 2.5vw, 1.9rem);
-  transition: border-color var(--dur) var(--ease);
-}
-.pkg-card:hover { border-color: #46463F; }
-
-/* the one focal point in this section */
-.pkg-card.is-start {
-  border: 2px solid var(--accent);
-  padding: calc(clamp(1.5rem, 2.5vw, 1.9rem) - 1px);
-}
-.pkg-card.is-start:hover { border-color: var(--accent); }
-
-.pkg-badge {
-  position: absolute;
-  top: 0;
-  left: clamp(1.5rem, 2.5vw, 1.9rem);
-  transform: translateY(-50%);
-  padding: 0.25rem 0.6rem;
-  /* Paper chip with Ink text (16.8:1). Light text on Signal Red was 3.82:1 at
-     this 12px size, and the card's red border is already the focal point. */
-  background: var(--text-light);
-  border-radius: 3px;
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  font-weight: 500;
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
-.pkg-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  margin-bottom: var(--space-4);
-}
-
-/* A quiet index, deliberately plainer than the tag beside it: no border,
-   no box, and it keeps the muted tone while the tag carries the hairline. */
-.pkg-num {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  font-weight: 500;
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--muted);
-  white-space: nowrap;
-}
-
-/* A plain label, not a chip. The outlined box read as something you could
-   press, which put a fake control next to the real one on every card. */
-.pkg-tag {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  white-space: nowrap;
-}
-
-.pkg-name {
-  font-size: 1.22rem;
-  font-weight: var(--fw-head);
-  letter-spacing: -0.01em;
+.svc-label {
   margin-bottom: var(--space-3);
-}
-
-/* Marks the line below as the reader's own thought rather than ours. No
-   "//" prefix: that belongs to section eyebrows, and three of them inside
-   one row of cards would read as three new sections. */
-.pkg-cue {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  font-weight: 500;
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: var(--space-2);
-}
-
-.pkg-quote {
-  font-style: italic;
-  font-size: 0.98rem;
-  line-height: 1.5;
-  color: #C9C7C1;
-  margin-bottom: var(--space-4);
-}
-
-/* Price anchor. Reads as a fact, not a button: buyers were tapping the old
-   pricing tags expecting a checkout. The "from" is deliberately quiet so the
-   number carries, and the whole thing sits above the outcome line so a
-   visitor can self-qualify before reading the detail. */
-.pkg-price {
-  margin-top: var(--space-5);
-  font-size: 1.75rem;
-  font-weight: var(--fw-head);
-  letter-spacing: -0.02em;
-  color: var(--text-light);
-  line-height: 1.1;
-}
-.pkg-price-from {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  font-weight: 400;
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: var(--space-2);
-}
-.pkg-price-unit { font-size: 1rem; font-weight: var(--fw-label); color: #C9C7C1; }
-.pkg-price-then {
-  display: block;
-  margin-top: var(--space-2);
-  font-size: 0.9375rem;
-  font-weight: var(--fw-label);
-  letter-spacing: -0.01em;
-  color: #C9C7C1;
-}
-
-/* What the client gets, stated before what we do. */
-.pkg-outcome {
-  margin-top: var(--space-4);
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  color: #C9C7C1;
-}
-
-.pkg-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: var(--space-5);
-}
-.pkg-chips li {
-  padding: 0.25rem 0.6rem;
-  background: #232320;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  color: #C9C7C1;
-}
-
-/* ---- expander, the secondary control ---- */
-/* Text and a chevron, no fill and no border, so it reads as quieter than
-   the solid button above it. The chevron is muted rather than red: with a
-   real call to action on the card now, spending the accent on the control
-   that only reveals copy would point the eye at the wrong thing. */
-.pkg-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  /* shrink to the label: as a flex item it would otherwise stretch the full
-     card width, giving the quiet control a hit box the size of the button */
-  align-self: flex-start;
-  margin-top: var(--space-3);
-  padding: 0.4rem 0;
-  min-height: 44px;
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  font-weight: 500;
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--text-light);
-  text-align: left;
-  transition: color var(--dur) var(--ease);
-}
-.pkg-toggle:hover { color: #FFFFFF; }
-
-.pkg-chev {
-  width: 9px;
-  height: 9px;
-  border-right: 2px solid var(--muted);
-  border-bottom: 2px solid var(--muted);
-  transform: rotate(45deg) translate(-1px, -1px);
-  transition: transform var(--dur) var(--ease);
-}
-.pkg-card.is-open .pkg-chev { transform: rotate(-135deg) translate(-2px, -2px); }
-
-/* ---- the detail ---- */
-/* 0fr to 1fr animates to the content's real height, which max-height cannot
-   do without a magic number that is wrong for at least one card. */
-.pkg-detail {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 250ms var(--ease);
-}
-.pkg-card.is-open .pkg-detail { grid-template-rows: 1fr; }
-
-.pkg-detail-inner {
-  overflow: hidden;
-  /* Collapsed content is still in the accessibility tree and still tabbable
-     when it is only clipped, so the panel is genuinely hidden once the
-     collapse has finished. The delay is what keeps it on screen for the
-     duration of that animation. */
-  visibility: hidden;
-  transition: visibility 0s 250ms;
-}
-.pkg-card.is-open .pkg-detail-inner {
-  visibility: visible;
-  transition: visibility 0s 0s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pkg-detail,
-  .pkg-detail-inner,
-  .pkg-chev { transition: none !important; }
-}
-
-.pkg-block {
-  margin-top: var(--space-5);
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
   font-weight: 500;
@@ -964,116 +704,72 @@ html {
   text-transform: uppercase;
   color: var(--muted);
 }
-
-.pkg-text {
-  margin-top: var(--space-3);
-  font-size: 0.92rem;
-  line-height: 1.55;
-  color: #C9C7C1;
-}
-
-.pkg-list {
-  margin-top: var(--space-3);
-  display: grid;
-  gap: 0.5rem;
-}
-.pkg-list li {
+.svc-list { display: grid; gap: var(--space-2); max-width: 60ch; }
+.svc-list li {
   position: relative;
-  padding-left: 1.15rem;
-  font-size: 0.9rem;
-  line-height: 1.45;
-  color: #C9C7C1;
+  padding-left: 1.25rem;
+  line-height: 1.55;
 }
-.pkg-list li::before {
+/* a small muted square, the aperture shape without the red */
+.svc-list li::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 0.5em;
-  width: 7px;
-  height: 7px;
-  border: 1.5px solid var(--muted);
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
   border-radius: 1px;
+  background: var(--muted);
+}
+.svc-case { display: inline-block; margin-top: var(--space-5); }
+
+.section-dark .svc-line,
+.section-dark .svc-list li { color: #C9C7C1; }
+
+@media (min-width: 900px) {
+  .svc {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--space-7);
+  }
 }
 
-/* Always visible, and the dominant thing on the card. Card 1 fills it with
-   Signal Red as the recommended route in; the other two take .btn-paper,
-   the solid the hero already uses on dark. Not .btn-ink, which the header
-   uses: that is a near black fill and would vanish against this card. */
-.pkg-cta {
-  margin-top: var(--space-5);
-  width: 100%;
+/* Ways to work together: the packages as a slim strip, no prices, no
+   buttons. The page has one action, and it lives in the opening and the
+   closing strip. */
+.ways { padding-block: clamp(2.5rem, 5vw, 4rem); }
+.ways-title { font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.02em; margin-bottom: var(--space-5); }
+.ways-list { display: grid; gap: 0; }
+.ways-item {
+  padding-block: var(--space-5);
+  border-top: var(--hairline) solid var(--border);
 }
-
-/* ---- upgrade note ---- */
-/* Single price anchor for the whole ladder, under the three cards. */
-.pkg-anchor {
-  margin-top: var(--space-4);
-  font-size: var(--fs-small);
-  color: var(--muted);
-}
-
-/* The promise. Bordered and set apart so it reads as a commitment rather
-   than another line of body copy. */
-.guarantee {
-  margin-top: clamp(2.5rem, 5vw, 3.5rem);
-  padding: var(--space-6);
-  border: var(--hairline) solid var(--border-dark);
-  border-left: 3px solid var(--accent);
-  border-radius: var(--radius-lg);
-  max-width: 62ch;
-}
-.guarantee-label {
+.ways-tag,
+.ways-note {
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
+  font-weight: 500;
   letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: var(--space-3);
 }
-.guarantee-text {
-  font-size: var(--fs-lead);
-  line-height: 1.5;
-  letter-spacing: -0.01em;
-  color: var(--text-light);
-}
-
-.pkg-upgrade {
-  display: flex;
-  align-items: baseline;
-  gap: 0.6em;
-  margin-top: clamp(1.75rem, 4vw, 2.5rem);
+.ways-tag { margin-bottom: var(--space-2); }
+.ways-note { margin-top: var(--space-3); color: var(--text-dark); }
+.ways-name { font-size: 1.125rem; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: var(--space-2); }
+.ways-line { font-size: var(--fs-small); line-height: 1.5; color: var(--muted); max-width: 40ch; }
+.ways-upgrade,
+.ways-promise {
+  max-width: var(--measure);
+  padding-top: var(--space-5);
+  border-top: var(--hairline) solid var(--border);
   font-size: var(--fs-small);
   line-height: 1.6;
-  color: #C9C7C1;
 }
-.pkg-dot {
-  flex: none;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-  transform: translateY(-1px);
+.ways-promise { padding-top: var(--space-4); border-top: 0; color: var(--muted); }
+.ways-promise strong { color: var(--text-dark); font-weight: var(--fw-label); }
+
+@media (min-width: 768px) {
+  .ways-list { grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
 }
-
-@media (min-width: 860px) {
-  .pkg-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-
-/* --------------------------- PAINS ICONOGRAPHY --------------------------- */
-.pain-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  padding-bottom: var(--space-3);
-  margin-bottom: var(--space-3);
-  border-bottom: 1px solid var(--border);
-}
-
-.pain-ic { width: 46px; height: 46px; color: var(--text-dark); flex: none; }
-.pain-ic svg { width: 100%; height: 100%; display: block; overflow: visible; }
-.pain-ic [stroke] { stroke: currentColor; }
-
 
 /* ---------------------------- 10. PORTFOLIO ---------------------------- */
 /* The intro ran the full 1440px container, about 166 characters a line. */
@@ -2061,16 +1757,6 @@ h2.block-title { line-height: 1.2; }
 }
 .faq-item dd a:hover { color: var(--accent); }
 
-/* The quote CTA that replaced the price on each package card. */
-.pkg-quote-cta {
-  margin-top: var(--space-5);
-  font-size: 0.9375rem;
-  font-weight: var(--fw-label);
-  line-height: 1.5;
-  letter-spacing: -0.01em;
-  color: var(--text-light);
-}
-
 @media (min-width: 640px) {
   .how-steps { grid-template-columns: repeat(3, 1fr); }
   .faq-list { gap: var(--space-7); }
@@ -2251,7 +1937,7 @@ h2.block-title { line-height: 1.2; }
   /* Phones stack every grid, so the page ran to roughly 16 screens. These
      tighten vertical rhythm and trim the tallest blocks without removing
      any content; the long lists collapse behind a toggle instead. */
-  .section, .pains, .proof { padding-block: clamp(2.5rem, 8vw, 3.25rem); }
+  .section, .proof { padding-block: clamp(2.5rem, 8vw, 3.25rem); }
   .hero { padding-top: clamp(2.5rem, 9vw, 4rem); }
   .hero-rail { margin-top: var(--space-6); padding-block: var(--space-4) var(--space-5); }
   .section-head { margin-bottom: var(--space-6); }
@@ -2340,7 +2026,6 @@ h2.block-title { line-height: 1.2; }
      the tiles share the full width, and a third project still fits a row. */
   .work-grid { grid-template-columns: repeat(auto-fit, minmax(min(26rem, 100%), 1fr)); }
   .proof-grid { grid-template-columns: repeat(3, 1fr); }
-  .pain-list { grid-template-columns: repeat(3, 1fr); }
   .footer-inner { grid-template-columns: 2fr 1fr 1fr 1fr; }
   .snapshot { grid-template-columns: repeat(3, 1fr); }
   .visuals { grid-template-columns: repeat(2, 1fr); }
