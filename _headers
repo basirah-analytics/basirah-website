@@ -31,7 +31,7 @@
   # ignored when delivered via meta and only works as a header. Keep the two in
   # step: when both are present a browser enforces both, so a rule added here
   # and not there silently does nothing.
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; connect-src 'self'; form-action 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; connect-src 'self' https://cloudflareinsights.com; form-action 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'
 
 # Fingerprinted assets could be cached far longer, but nothing here is
 # content-hashed yet, so a conservative hour avoids serving stale CSS or JS.

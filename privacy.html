@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#141412">
 
 <!-- Same policy as every other page on the site. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; connect-src 'self'; form-action 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; connect-src 'self' https://cloudflareinsights.com; form-action 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
 <link rel="canonical" href="https://basirahanalytics.com/privacy">
@@ -41,7 +41,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="/assets/css/styles.css?v=68">
+<link rel="stylesheet" href="/assets/css/styles.css?v=69">
 <!-- Structured data. Every node describes something this page actually
      shows. The Organization, Person and WebSite @ids are shared across the
      whole site so all pages describe one entity rather than competing copies.
@@ -139,7 +139,7 @@
         <header class="detail-head">
           <p class="eyebrow detail-cat">legal</p>
           <h1 class="detail-title">Privacy Policy</h1>
-          <p class="detail-summary">Last updated: 9 September 2026. What we collect, why, and what you can ask us to do about it.</p>
+          <p class="detail-summary">Last updated: 25 September 2026. What we collect, why, and what you can ask us to do about it.</p>
         </header>
 
         <section class="case">
@@ -154,7 +154,7 @@
           <div class="origin">
             <p><strong>Contact details you give us.</strong> Your name, email address, your phone number if you message us on WhatsApp, and anything you choose to include when you contact us or book a call.</p>
             <p><strong>Files you upload to Basira AI.</strong> Covered in full in our <a href="/basira-ai-data">Basira AI data handling statement</a>, and summarised below.</p>
-            <p><strong>Technical data.</strong> We do not use tracking cookies, and we do not run Google Analytics, Plausible, or any similar third-party analytics on this website. This site stores nothing in your browser. Our hosting providers process standard server request data, including IP addresses, as part of delivering and protecting the service. Basira AI also holds your IP address in memory for a short period to enforce its usage limits. It is never written to disk and is discarded automatically.</p>
+            <p><strong>Technical data.</strong> We use Cloudflare Web Analytics to count visits and see which pages are read. It is cookieless, it does not track you across other websites, and it does not identify individual visitors. We do not use tracking cookies or any other analytics, and this site stores nothing in your browser. Our hosting providers process standard server request data, including IP addresses, as part of delivering and protecting the service. Basira AI also holds your IP address in memory for a short period to enforce its usage limits. It is never written to disk and is discarded automatically.</p>
           </div>
         </section>
 
@@ -175,7 +175,7 @@
         <section class="case">
           <h2 class="block-title">Service providers</h2>
           <div class="origin">
-            <p><strong>Cloudflare</strong> hosts and delivers this website. <strong>Render</strong> hosts the Basira AI application. <strong>Google</strong> processes the statistical summary described above through its Gemini API to generate written insights.</p>
+            <p><strong>Cloudflare</strong> hosts and delivers this website, and provides the visit counts described above. <strong>Render</strong> hosts the Basira AI application. <strong>Google</strong> processes the statistical summary described above through its Gemini API to generate written insights.</p>
             <p>If you contact us by email or on WhatsApp, that message is handled by the provider of that service under its own terms.</p>
           </div>
         </section>
@@ -285,6 +285,6 @@
   </div>
 </footer>
 
-<script src="/assets/js/main.js?v=64" defer></script>
+<script src="/assets/js/main.js?v=65" defer></script>
 </body>
 </html>

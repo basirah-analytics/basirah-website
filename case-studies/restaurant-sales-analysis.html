@@ -10,7 +10,7 @@
 
 <!-- Same policy as the home page. Kept alongside the headers in _headers so
      it still applies if a response ever reaches a visitor without them. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; connect-src 'self'; form-action 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; connect-src 'self' https://cloudflareinsights.com; form-action 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
 <!-- Extensionless, matching the URL Cloudflare serves this file at. -->
@@ -49,7 +49,7 @@
 <!-- Root relative, so the same tags work from any folder depth. The ?v= must
      stay in step with index.html: both pages share one stylesheet, and a
      mismatch would have one page on a stale copy for up to an hour. -->
-<link rel="stylesheet" href="/assets/css/styles.css?v=68">
+<link rel="stylesheet" href="/assets/css/styles.css?v=69">
 
 <!-- The Article describes this page. The ProfessionalService below it repeats
      the @id from the home page rather than inventing a second organisation,
@@ -484,6 +484,6 @@
   </div>
 </footer>
 
-<script src="/assets/js/main.js?v=64" defer></script>
+<script src="/assets/js/main.js?v=65" defer></script>
 </body>
 </html>
