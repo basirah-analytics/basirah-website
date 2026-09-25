@@ -44,7 +44,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/styles.css?v=65">
+<link rel="stylesheet" href="/assets/css/styles.css?v=66">
 <!-- Structured data. Every node describes something this page actually
      shows. The Organization, Person and WebSite @ids are shared across the
      whole site so all pages describe one entity rather than competing copies.
@@ -343,8 +343,7 @@
   <section class="section section-light how-strip" aria-labelledby="how-title">
     <div class="wrap">
       <header class="section-head">
-        <p class="eyebrow" id="how-title">how it works</p>
-        <h2>Three steps, no mystery.</h2>
+        <h2 id="how-title">What happens after you book a call.</h2>
       </header>
       <ol class="how-steps">
         <li class="how-step">
@@ -366,36 +365,63 @@
     </div>
   </section>
 
-  <!-- Preview strips. Each is a few lines and a link out, so Home stays an
-       invitation rather than a copy of the whole site. -->
-  <section class="section section-light preview" aria-labelledby="prev-services">
+  <!-- Four sections, four shapes: a services index, the work with its link
+       in the header row, the team itself, and a one-line strip for the free
+       tool. The service names and one-liners are copied word for word from
+       services.html and link to their anchors there. -->
+  <section class="section section-light home-services" aria-labelledby="prev-services">
     <div class="wrap">
-      <header class="section-head split-head">
-        <div>
-          <p class="eyebrow" id="prev-services">what we do</p>
-          <h2>From guessing to clear decisions.</h2>
+      <h2 id="prev-services">Understand your business, then keep it running.</h2>
+      <div class="home-groups">
+        <div class="home-group">
+          <h3 class="home-group-title"><span class="svc-group-num">01</span> Understand your business</h3>
+          <ul class="home-svc-list">
+            <li>
+              <a class="home-svc" href="/services#sales-revenue-analysis">
+                <span class="home-svc-name">Sales &amp; Revenue Analysis <span aria-hidden="true">&rarr;</span></span>
+                <span class="home-svc-line">Find out what really sells, what actually makes money, and why sales are rising or falling.</span>
+              </a>
+            </li>
+            <li>
+              <a class="home-svc" href="/services#business-financial-analysis">
+                <span class="home-svc-name">Business &amp; Financial Analysis <span aria-hidden="true">&rarr;</span></span>
+                <span class="home-svc-line">See where your money goes, how healthy your margins are, and where profit is quietly leaking.</span>
+              </a>
+            </li>
+            <li>
+              <a class="home-svc" href="/services#customer-insights-retention">
+                <span class="home-svc-name">Customer Insights &amp; Retention <span aria-hidden="true">&rarr;</span></span>
+                <span class="home-svc-line">Learn who your best customers are, how often they come back, and who has stopped buying.</span>
+              </a>
+            </li>
+          </ul>
         </div>
-        <p class="section-lead">
-          We read the numbers behind a business, not just the charts drawn on top of them. Three
-          ways to work with us: a one-time deep dive, a live dashboard you check yourself, or an
-          ongoing analytics partner.
-        </p>
-      </header>
-      <a class="link-arrow" href="/services">See our services <span aria-hidden="true">&rarr;</span></a>
+        <div class="home-group">
+          <h3 class="home-group-title"><span class="svc-group-num">02</span> Deliver it and keep it running</h3>
+          <ul class="home-svc-list">
+            <li>
+              <a class="home-svc" href="/services#dashboards-live-reporting">
+                <span class="home-svc-name">Dashboards &amp; Live Reporting <span aria-hidden="true">&rarr;</span></span>
+                <span class="home-svc-line">A dashboard of your business that you can check any time, kept accurate as new data comes in.</span>
+              </a>
+            </li>
+            <li>
+              <a class="home-svc" href="/services#automation">
+                <span class="home-svc-name">Automation <span aria-hidden="true">&rarr;</span></span>
+                <span class="home-svc-line">Stop rebuilding the same spreadsheet every week. We automate the reports and data clean-up you keep repeating.</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="section section-light preview preview-work" aria-labelledby="prev-work">
+  <section class="section section-light preview-work" aria-labelledby="prev-work">
     <div class="wrap">
-      <header class="section-head split-head">
-        <div>
-          <p class="eyebrow" id="prev-work">selected work</p>
-          <h2>See the method, not just the claim.</h2>
-        </div>
-        <p class="section-lead">
-          Demonstration projects on realistic simulated data. Each one shows the question, the
-          method, and the finished dashboards.
-        </p>
+      <header class="home-work-head">
+        <h2 id="prev-work">Two demonstration projects, start to finish.</h2>
+        <a class="link-arrow" href="/portfolio">See all our work <span aria-hidden="true">&rarr;</span></a>
       </header>
 
       <ul class="work-grid">
@@ -420,40 +446,43 @@
           </a>
         </li>
       </ul>
-
-      <a class="link-arrow" href="/portfolio">See all our work <span aria-hidden="true">&rarr;</span></a>
     </div>
   </section>
 
-  <section class="section section-dark preview preview-team" aria-labelledby="prev-team">
+  <section class="section section-dark home-team" aria-labelledby="prev-team">
     <div class="wrap">
-      <header class="section-head split-head">
-        <div>
-          <p class="eyebrow" id="prev-team">our team</p>
-          <h2>Small on purpose.</h2>
-        </div>
-        <p class="section-lead">
-          Basirah is founder-led and run by a small, dedicated team. Work with us and you work
-          with the same people each time, people who know your data and your business.
-        </p>
-      </header>
-      <a class="link-arrow" href="/about">Meet the team <span aria-hidden="true">&rarr;</span></a>
+      <h2 id="prev-team">Small on purpose.</h2>
+      <div class="home-team-row">
+        <ul class="home-team-list">
+        <li class="home-team-person">
+          <span class="home-team-name">Haseeb Ur Rahman</span>
+          <span class="home-team-role">Founder &amp; Data Analyst</span>
+        </li>
+        <li class="home-team-person">
+          <span class="home-team-name">Mohd Sohail</span>
+          <span class="home-team-role">Associate Founder, Client Partnerships</span>
+        </li>
+        <li class="home-team-person">
+          <span class="home-team-name">Md Fasiuddin</span>
+          <span class="home-team-role">Associate Founder, Business Development</span>
+        </li>
+        <li class="home-team-person">
+          <span class="home-team-name">Mohammed Ibrahim</span>
+          <span class="home-team-role">Associate Founder, Growth and Content</span>
+        </li>
+        </ul>
+        <a class="link-arrow" href="/about">Meet the team <span aria-hidden="true">&rarr;</span></a>
+      </div>
     </div>
   </section>
 
-  <section class="section section-light preview" aria-labelledby="prev-ai">
+  <section class="section section-light home-ai" aria-labelledby="prev-ai">
     <div class="wrap">
-      <header class="section-head split-head">
-        <div>
-          <p class="eyebrow" id="prev-ai">basira ai: free tool</p>
-          <h2>Try it before you talk to us.</h2>
-        </div>
-        <p class="section-lead">
-          Upload a spreadsheet and get an instant analysis, free. Your file is processed in
-          memory and never stored.
-        </p>
-      </header>
-      <a class="link-arrow" href="/basira-ai">About Basira AI <span aria-hidden="true">&rarr;</span></a>
+      <div class="home-ai-strip">
+        <h2 class="home-ai-title" id="prev-ai">Try it before you talk to us.</h2>
+        <p class="home-ai-line">Upload a spreadsheet and get an instant analysis, free. Your file is processed in memory and never stored.</p>
+        <a class="link-arrow" href="/basira-ai">About Basira AI <span aria-hidden="true">&rarr;</span></a>
+      </div>
     </div>
   </section>
 

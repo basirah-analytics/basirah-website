@@ -1464,7 +1464,7 @@ h2.block-title { line-height: 1.2; }
 .contact-head h1,
 .section-head h1 { font-size: var(--fs-h2); font-weight: var(--fw-head); }
 .contact-simple { max-width: 52rem; }
-.contact-head .eyebrow { display: block; margin-bottom: var(--space-5); }
+.contact-head .section-lead { margin-top: var(--space-4); color: #C9C7C1; }
 
 /* WhatsApp brand green, for buttons that actually open WhatsApp and nothing
    else, so it reads as "this is WhatsApp" rather than as a second site accent
@@ -1619,13 +1619,91 @@ h2.block-title { line-height: 1.2; }
 .section-dark .how-step { border-top-color: var(--text-light); }
 .section-dark .how-text { color: #C9C7C1; }
 
-/* ---- preview strips on Home ---- */
-/* Two columns so the heading and its explanation sit side by side and use the
-   width, rather than stacking into a narrow centred ribbon. */
-.split-head { display: grid; gap: var(--space-5); align-items: end; }
-.split-head .section-lead { max-width: var(--measure); margin: 0; }
-.preview .link-arrow { display: inline-block; margin-top: clamp(1.5rem, 3vw, 2.25rem); }
+/* ---- Home sections: four shapes, not one repeated pattern ---- */
+
+/* Services index: the five services in their two groups, each name linking
+   to its anchor on /services with its one-liner underneath. */
+.home-services h2 { max-width: 24ch; margin-bottom: clamp(2rem, 4vw, 3rem); }
+.home-groups { display: grid; gap: var(--space-7); }
+.home-group-title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+  border-bottom: var(--hairline) solid var(--border);
+  font-size: var(--fs-h3);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.home-svc-list { display: grid; }
+.home-svc {
+  display: grid;
+  gap: var(--space-1);
+  padding-block: var(--space-4);
+  border-bottom: var(--hairline) solid var(--border);
+}
+.home-svc-name {
+  font-weight: var(--fw-head);
+  letter-spacing: -0.01em;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color var(--dur) var(--ease);
+}
+.home-svc:hover .home-svc-name { text-decoration-color: currentColor; }
+.home-svc-line { font-size: var(--fs-small); line-height: 1.5; color: var(--muted); max-width: 52ch; }
+
+/* The work: heading and its link share one header row. */
+.home-work-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4) var(--space-6);
+}
+.home-work-head h2 { max-width: 22ch; }
 .preview-work .work-grid { margin-top: clamp(2rem, 4vw, 3rem); }
+
+/* The team itself: four names and roles, with the link closing the row. */
+.home-team h2 { margin-bottom: clamp(1.5rem, 3vw, 2.25rem); }
+.home-team-row { display: grid; gap: var(--space-6); align-items: end; }
+.home-team-list { display: grid; gap: var(--space-5) var(--space-6); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.home-team-person {
+  display: grid;
+  gap: var(--space-1);
+  padding-top: var(--space-4);
+  border-top: var(--hairline) solid var(--border);
+}
+.home-team-name { font-weight: var(--fw-head); letter-spacing: -0.01em; }
+.home-team-role {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* The free tool: one bordered line, not a full section. */
+.home-ai { padding-block: clamp(2rem, 4vw, 3rem); }
+.home-ai-strip {
+  display: grid;
+  gap: var(--space-3);
+  align-items: center;
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  border: var(--hairline) solid var(--border-2);
+  border-radius: var(--radius-lg);
+}
+.home-ai-title { font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.02em; }
+.home-ai-line { font-size: var(--fs-small); line-height: 1.5; color: var(--muted); max-width: 60ch; }
+
+@media (min-width: 900px) {
+  .home-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-8); }
+  .home-team-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .home-team-list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .home-ai-strip { grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--space-6); }
+}
 
 /* ---- shared closing CTA ---- */
 .cta-strip .wrap {
@@ -1720,7 +1798,6 @@ h2.block-title { line-height: 1.2; }
   .faq-list { gap: var(--space-7); }
 }
 @media (min-width: 900px) {
-  .split-head { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-8); }
 }
 
 /* ------------------------------- 15. FOOTER ------------------------------- */
@@ -1798,12 +1875,36 @@ h2.block-title { line-height: 1.2; }
 }
 
 .footer-copy,
-.footer-place,
-.footer-built {
+.footer-place {
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
   letter-spacing: 0.06em;
   color: var(--muted);
+}
+/* A sentence, so body type: mono is for labels only. */
+.footer-built { font-size: var(--fs-small); color: var(--muted); }
+
+/* ---- tap areas ----
+   Arrow links, breadcrumb links and the footer logo render at 20 to 38px
+   tall. On touch screens an invisible pseudo-element extends each one to a
+   tap area of at least 44px, centred on the link. The element itself does not change
+   size, so nothing moves and the underline stays where it is. Each of these
+   links has at least 11px of clear space above and below, so the extended
+   areas never overlap a neighbour. */
+@media (pointer: coarse) {
+  .link-arrow, .breadcrumb a, .footer-logo { position: relative; }
+  .link-arrow::after,
+  .breadcrumb a::after,
+  .footer-logo::after {
+    content: "";
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    /* at least 11px past each edge, and at least 44px in total: a 20px
+       link grows to 44, a two-line link keeps its full height plus 22 */
+    top: min(-11px, calc(50% - 22px));
+    bottom: min(-11px, calc(50% - 22px));
+  }
 }
 
 /* ---------------------------- 16. MOTION ---------------------------- */
