@@ -8,7 +8,8 @@
 .gitignore
 .git
 
-# local tooling
+# deploy config and local tooling
+wrangler.jsonc
 devserver.py
 .claude/
 .agents/
