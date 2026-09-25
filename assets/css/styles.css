@@ -233,8 +233,9 @@ html {
   border-radius: var(--radius);
   font-weight: var(--fw-label);
   transform: translateY(-200%);
-  transition: transform var(--dur) var(--ease);
 }
+/* Instant, no slide: it is reached by keyboard, and keyboard-initiated UI
+   should never make the user wait. */
 .skip-link:focus-visible { transform: translateY(0); }
 
 :focus-visible {
@@ -428,6 +429,55 @@ html {
 }
 
 .hero .eyebrow { color: var(--muted); margin-bottom: var(--space-5); }
+
+/* Eyebrow row, with the rotator's pause control at its far end. */
+.hero-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-5);
+}
+.hero-top .eyebrow { margin-bottom: 0; }
+
+/* Pause / play for the rotating questions (WCAG 2.2.2). Ink and Paper only,
+   no Signal Red, including its focus ring: this is a utility control, not a
+   focal point. The glyph is drawn in CSS: two bars to pause, a triangle to
+   play. */
+.hero-pause {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  min-height: 36px;
+  padding: 0.4rem 0.8rem;
+  border: var(--hairline) solid #46463F;   /* the outline-button border on Ink */
+  border-radius: var(--radius);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-label);
+  color: var(--text-light);
+  transition: border-color var(--dur) var(--ease);
+}
+.hero-pause[hidden] { display: none; }
+@media (max-width: 767px) { .hero-pause { min-height: 44px; } }
+.hero-pause:hover { border-color: var(--text-light); }
+.hero-pause:focus-visible { outline-color: var(--text-light); }
+.hero-pause::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 10px;
+  border-left: 3px solid currentColor;
+  border-right: 3px solid currentColor;
+}
+.hero-pause.is-paused::before {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 0 5px 8px;
+  border-color: transparent transparent transparent currentColor;
+}
+.hero-rotator.is-paused .hero-q { animation-play-state: paused; }
 
 /* ---- rotating questions ---- */
 /* Every question sits in the same grid cell, so the container is always as
@@ -2133,7 +2183,7 @@ h2.block-title { line-height: 1.2; }
   .ai-card.is-armed .finding-outlier .finding-kind::before,
   .ai-card.is-armed .spark-hi {
     opacity: 0;
-    transform: scale(0.5);
+    transform: scale(0.9);
   }
   .ai-card.is-armed .spark-hi { transform-box: fill-box; transform-origin: center bottom; }
 

@@ -44,7 +44,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/styles.css?v=61">
+<link rel="stylesheet" href="/assets/css/styles.css?v=62">
 <!-- Structured data. Every node describes something this page actually
      shows. The Organization, Person and WebSite @ids are shared across the
      whole site so all pages describe one entity rather than competing copies.
@@ -264,7 +264,15 @@
   <section class="hero section-dark" id="home">
     <div class="wrap hero-inner">
 
-      <p class="eyebrow">data + business analysis</p>
+      <div class="hero-top">
+        <p class="eyebrow">data + business analysis</p>
+        <!-- Pause control for the rotating questions (WCAG 2.2.2). main.js
+             reveals it only when the rotator is actually moving: never with
+             reduced motion, and it goes away once the single cycle ends. -->
+        <button class="hero-pause" id="hero-pause" type="button" hidden>
+          <span class="hero-pause-verb">Pause</span><span class="sr-only"> the rotating questions</span>
+        </button>
+      </div>
 
       <!-- Decorative for assistive tech. A node whose text swaps every few
            seconds is hostile to a screen reader, and the list below carries
@@ -511,6 +519,6 @@
   </div>
 </footer>
 
-<script src="/assets/js/main.js?v=61" defer></script>
+<script src="/assets/js/main.js?v=62" defer></script>
 </body>
 </html>
