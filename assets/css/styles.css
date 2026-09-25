@@ -1224,48 +1224,6 @@ h2.block-title { line-height: 1.2; }
   letter-spacing: -0.01em;
 }
 
-/* --------------------------- 11. TRUST / PROOF --------------------------- */
-/* Understated strip, up to three quotes. The section carries [hidden] until
-   main.js finds real testimonials, so an empty array renders nothing at all. */
-.proof {
-  padding-block: clamp(2.5rem, 6vw, 3.5rem);
-  border-top: var(--hairline) solid var(--border);
-}
-.proof[hidden] { display: none; }
-
-.proof .eyebrow { display: block; margin-bottom: var(--space-5); }
-
-.proof-grid {
-  display: grid;
-  gap: var(--space-5);
-  grid-template-columns: 1fr;
-}
-
-.proof-item {
-  padding-top: var(--space-4);
-  border-top: var(--hairline) solid var(--border);
-}
-
-.proof-quote { margin: 0; }
-.proof-quote p {
-  font-size: var(--fs-lead);
-  line-height: 1.5;
-  letter-spacing: -0.01em;
-  text-wrap: pretty;
-}
-.proof-quote p::before { content: "“"; }
-.proof-quote p::after  { content: "”"; }
-
-.proof-attr {
-  margin-top: var(--space-3);
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.proof-org::before { content: " · "; }
-
 /* ----------------------------- 12. BASIRA AI ----------------------------- */
 /* The one section CLAUDE.md marks accent-forward. Red now appears twice and
    only where it carries meaning: the word "free" and the CTA. The outlier
@@ -1937,7 +1895,7 @@ h2.block-title { line-height: 1.2; }
   /* Phones stack every grid, so the page ran to roughly 16 screens. These
      tighten vertical rhythm and trim the tallest blocks without removing
      any content; the long lists collapse behind a toggle instead. */
-  .section, .proof { padding-block: clamp(2.5rem, 8vw, 3.25rem); }
+  .section { padding-block: clamp(2.5rem, 8vw, 3.25rem); }
   .hero { padding-top: clamp(2.5rem, 9vw, 4rem); }
   .hero-rail { margin-top: var(--space-6); padding-block: var(--space-4) var(--space-5); }
   .section-head { margin-bottom: var(--space-6); }
@@ -2025,7 +1983,6 @@ h2.block-title { line-height: 1.2; }
      last third of a wide screen empty. auto-fit collapses the unused track so
      the tiles share the full width, and a third project still fits a row. */
   .work-grid { grid-template-columns: repeat(auto-fit, minmax(min(26rem, 100%), 1fr)); }
-  .proof-grid { grid-template-columns: repeat(3, 1fr); }
   .footer-inner { grid-template-columns: 2fr 1fr 1fr 1fr; }
   .snapshot { grid-template-columns: repeat(3, 1fr); }
   .visuals { grid-template-columns: repeat(2, 1fr); }
