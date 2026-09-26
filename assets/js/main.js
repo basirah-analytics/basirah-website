@@ -552,6 +552,43 @@
     io.observe(card);
   }
 
+  /* ------------------- Services: enlarge an example dashboard ------------------- */
+  /* One <dialog> serves all five. showModal() makes the rest of the page inert
+     and puts focus on Close; Esc, Close or a click on the backdrop shut it, and
+     focus goes back to the thumbnail that opened it. */
+  function setupDashDialog() {
+    var dialog = document.getElementById('dash-dialog');
+    if (!dialog || typeof dialog.showModal !== 'function') return;
+    var body = dialog.querySelector('.dash-dialog-body');
+    var title = dialog.querySelector('.dash-dialog-title');
+    var opener = null;
+
+    Array.prototype.forEach.call(document.querySelectorAll('.dash-open'), function (btn) {
+      btn.addEventListener('click', function () {
+        opener = btn;
+        body.replaceChildren(btn.querySelector('svg.dash').cloneNode(true));
+        var sum = document.getElementById(btn.getAttribute('aria-describedby'));
+        if (sum) {
+          var p = document.createElement('p');
+          p.className = 'sr-only';
+          p.textContent = sum.textContent;
+          body.appendChild(p);
+        }
+        title.textContent = btn.getAttribute('data-title');
+        dialog.showModal();
+        body.scrollLeft = 0;
+      });
+    });
+
+    dialog.querySelector('.dash-close').addEventListener('click', function () { dialog.close(); });
+    // a click on the dimmed backdrop lands on the dialog element itself
+    dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', function () {
+      body.replaceChildren();
+      if (opener) opener.focus();
+    });
+  }
+
   /* --------------------- collapse long lists on phones --------------------- */
   var mobile = window.matchMedia('(max-width: 767px)');
   var collapsibles = [];
@@ -626,6 +663,7 @@
   }
 
   setupFindings();
+  setupDashDialog();
   applyCollapse(mobile.matches);
   mobile.addEventListener('change', function (e) { applyCollapse(e.matches); });
 })();

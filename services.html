@@ -40,7 +40,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/styles.css?v=72">
+<link rel="stylesheet" href="/assets/css/styles.css?v=73">
 <!-- Structured data. Every node describes something this page actually
      shows. The Organization, Person and WebSite @ids are shared across the
      whole site so all pages describe one entity rather than competing copies.
@@ -313,10 +313,121 @@
         <div class="svc-main">
           <h3 class="svc-name" id="sales-revenue-analysis-title">Sales &amp; Revenue Analysis</h3>
           <p class="svc-line">Find out what really sells, what actually makes money, and why sales are rising or falling.</p>
-          <a class="svc-thumb" href="/case-studies/restaurant-sales-analysis">
-            <img src="/assets/img/work/restaurant-1.png" width="1400" height="810" loading="lazy" alt="Restaurant sales dashboard: earned revenue, lost revenue and revenue by channel">
-            <span>From the demonstration project</span>
-          </a>
+          <!-- Example dashboard, drawn as SVG for sight only; the summary below
+               carries its numbers for screen readers. -->
+          <figure class="dash-fig">
+            <button class="dash-open" type="button" data-title="Sales &amp; Revenue Analysis: example dashboard" aria-describedby="dash-sales-sum">
+              <svg class="dash" viewBox="0 0 960 600" aria-hidden="true" focusable="false" data-name="Sales overview"><rect class="d-bg" x="0" y="0" width="960" height="600" rx="8"/><text class="d-h1" x="24" y="42">Sales overview</text>
+<rect class="d-chip" x="816.6" y="20" width="119.4" height="30" rx="4"/>
+<text class="d-chiptxt" x="828.6" y="40">All regions</text>
+<path class="d-caret" d="M916 32l4 4 4-4"/>
+<rect class="d-chip" x="741" y="20" width="67.6" height="30" rx="4"/>
+<text class="d-chiptxt" x="753" y="40">2025</text>
+<path class="d-caret" d="M788.6 32l4 4 4-4"/>
+<line class="d-grid" x1="24" y1="66" x2="936" y2="66"/>
+<rect class="d-panel" x="24" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="40" y="106">REVENUE</text>
+<text class="d-kpi" x="40" y="144">$930K</text>
+<text class="d-sub" x="40" y="166">vs $814K in 2024</text>
+<rect class="d-panel" x="256" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="272" y="106">ORDERS</text>
+<text class="d-kpi" x="272" y="144">11,625</text>
+<text class="d-sub" x="272" y="166">969 a month on average</text>
+<rect class="d-panel" x="488" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="504" y="106">AVERAGE ORDER VALUE</text>
+<text class="d-kpi" x="504" y="144">$80.00</text>
+<text class="d-sub" x="504" y="166">per order</text>
+<rect class="d-panel" x="720" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="736" y="106">GROWTH</text>
+<text class="d-kpi" x="736" y="144">+14.3%</text>
+<text class="d-sub" x="736" y="166">on 2024 revenue</text>
+<rect class="d-panel" x="24" y="194" width="560" height="186" rx="6"/>
+<text class="d-h2" x="40" y="222">Monthly revenue</text>
+<line class="d-grid" x1="84" y1="328.571" x2="560" y2="328.571"/>
+<text class="d-axis" x="76" y="332.571" text-anchor="end">$60K</text>
+<line class="d-grid" x1="84" y1="297.714" x2="560" y2="297.714"/>
+<text class="d-axis" x="76" y="301.714" text-anchor="end">$80K</text>
+<line class="d-grid" x1="84" y1="266.857" x2="560" y2="266.857"/>
+<text class="d-axis" x="76" y="270.857" text-anchor="end">$100K</text>
+<line class="d-grid" x1="84" y1="236" x2="560" y2="236"/>
+<text class="d-axis" x="76" y="240" text-anchor="end">$120K</text>
+<text class="d-axis" x="84" y="366" text-anchor="middle">J</text>
+<text class="d-axis" x="127.273" y="366" text-anchor="middle">F</text>
+<text class="d-axis" x="170.545" y="366" text-anchor="middle">M</text>
+<text class="d-axis" x="213.818" y="366" text-anchor="middle">A</text>
+<text class="d-axis" x="257.091" y="366" text-anchor="middle">M</text>
+<text class="d-axis" x="300.364" y="366" text-anchor="middle">J</text>
+<text class="d-axis" x="343.636" y="366" text-anchor="middle">J</text>
+<text class="d-axis" x="386.909" y="366" text-anchor="middle">A</text>
+<text class="d-axis" x="430.182" y="366" text-anchor="middle">S</text>
+<text class="d-axis" x="473.455" y="366" text-anchor="middle">O</text>
+<text class="d-axis" x="516.727" y="366" text-anchor="middle">N</text>
+<text class="d-axis" x="560" y="366" text-anchor="middle">D</text>
+<polyline class="d-line" points="84.0,325.5 127.3,331.7 170.5,319.3 213.8,311.6 257.1,314.7 300.4,307.0 343.6,300.8 386.9,303.9 430.2,294.6 473.5,285.4 516.7,274.6 560.0,249.9"/>
+<circle class="d-pt" cx="84.0" cy="325.5" r="3"/>
+<circle class="d-pt" cx="127.3" cy="331.7" r="3"/>
+<circle class="d-pt" cx="170.5" cy="319.3" r="3"/>
+<circle class="d-pt" cx="213.8" cy="311.6" r="3"/>
+<circle class="d-pt" cx="257.1" cy="314.7" r="3"/>
+<circle class="d-pt" cx="300.4" cy="307.0" r="3"/>
+<circle class="d-pt" cx="343.6" cy="300.8" r="3"/>
+<circle class="d-pt" cx="386.9" cy="303.9" r="3"/>
+<circle class="d-pt" cx="430.2" cy="294.6" r="3"/>
+<circle class="d-pt" cx="473.5" cy="285.4" r="3"/>
+<circle class="d-pt" cx="516.7" cy="274.6" r="3"/>
+<circle class="d-pt" cx="560.0" cy="249.9" r="3"/>
+<rect class="d-panel" x="600" y="194" width="336" height="186" rx="6"/>
+<text class="d-h2" x="616" y="222">Revenue by channel</text>
+<text class="d-txt" x="616" y="261">Online</text>
+<rect class="d-track" x="700" y="249" width="156" height="14" rx="2"/>
+<rect class="d-bar" x="700" y="249" width="156" height="14" rx="2"/>
+<text class="d-num" x="920" y="261" text-anchor="end">$418K</text>
+<text class="d-txt" x="616" y="301">In-store</text>
+<rect class="d-track" x="700" y="289" width="156" height="14" rx="2"/>
+<rect class="d-bar" x="700" y="289" width="121.665" height="14" rx="2"/>
+<text class="d-num" x="920" y="301" text-anchor="end">$326K</text>
+<text class="d-txt" x="616" y="341">Wholesale</text>
+<rect class="d-track" x="700" y="329" width="156" height="14" rx="2"/>
+<rect class="d-bar" x="700" y="329" width="69.4163" height="14" rx="2"/>
+<text class="d-num" x="920" y="341" text-anchor="end">$186K</text>
+<rect class="d-panel" x="24" y="396" width="912" height="180" rx="6"/>
+<text class="d-h2" x="40" y="424">Best and worst products</text>
+<text class="d-lab" x="40" y="448">PRODUCT</text>
+<text class="d-lab" x="297.6" y="448">GROUP</text>
+<text class="d-lab" x="617.92" y="448" text-anchor="end">REVENUE</text>
+<text class="d-lab" x="782.08" y="448" text-anchor="end">SHARE OF REVENUE</text>
+<text class="d-lab" x="928" y="448" text-anchor="end">MARGIN</text>
+<line class="d-grid" x1="24" y1="458" x2="936" y2="458"/>
+<text class="d-txt" x="40" y="476">Premium pack</text>
+<text class="d-num" x="297.6" y="476">Best seller</text>
+<text class="d-num" x="617.92" y="476" text-anchor="end">$142K</text>
+<text class="d-num" x="782.08" y="476" text-anchor="end">15.3%</text>
+<text class="d-num" x="928" y="476" text-anchor="end">38%</text>
+<line class="d-grid-soft" x1="24" y1="486" x2="936" y2="486"/>
+<text class="d-txt" x="40" y="504">Starter kit</text>
+<text class="d-num" x="297.6" y="504">Best seller</text>
+<text class="d-num" x="617.92" y="504" text-anchor="end">$118K</text>
+<text class="d-num" x="782.08" y="504" text-anchor="end">12.7%</text>
+<text class="d-num" x="928" y="504" text-anchor="end">34%</text>
+<line class="d-grid-soft" x1="24" y1="514" x2="936" y2="514"/>
+<text class="d-txt" x="40" y="532">Gift box</text>
+<text class="d-num" x="297.6" y="532">Best seller</text>
+<text class="d-num" x="617.92" y="532" text-anchor="end">$97K</text>
+<text class="d-num" x="782.08" y="532" text-anchor="end">10.4%</text>
+<text class="d-num" x="928" y="532" text-anchor="end">31%</text>
+<line class="d-grid-soft" x1="24" y1="542" x2="936" y2="542"/>
+<rect class="d-amber" x="24" y="542" width="4" height="24" rx="1"/>
+<text class="d-txt-hi" x="40" y="560">Refill pouch</text>
+<text class="d-txt-hi" x="297.6" y="560">Sells a lot, earns little</text>
+<text class="d-num-amber" x="617.92" y="560" text-anchor="end">$64K</text>
+<text class="d-num-amber" x="782.08" y="560" text-anchor="end">6.9%</text>
+<text class="d-num-amber" x="928" y="560" text-anchor="end">6%</text></svg>
+              <span class="sr-only">Enlarge the example dashboard</span>
+              <span class="dash-hint" aria-hidden="true">Enlarge</span>
+            </button>
+            <p class="sr-only" id="dash-sales-sum">Example sales dashboard for 2025, illustrative data. Revenue $930K, up 14.3% on 2024, from 11,625 orders at an average of $80.00. By channel: online $418K, in-store $326K, wholesale $186K. Best sellers: Premium pack $142K, Starter kit $118K, Gift box $97K. Key finding: Refill pouch brings in $64K but earns only a 6% margin.</p>
+            <figcaption>Example dashboard &middot; illustrative data</figcaption>
+          </figure>
         </div>
         <div class="svc-detail">
           <p class="svc-label">What we look at</p>
@@ -335,10 +446,101 @@
         <div class="svc-main">
           <h3 class="svc-name" id="business-financial-analysis-title">Business &amp; Financial Analysis</h3>
           <p class="svc-line">See where your money goes, how healthy your margins are, and where profit is quietly leaking.</p>
-          <a class="svc-thumb" href="/case-studies/profitability-analysis">
-            <img src="/assets/img/work/rosecity-2.png" width="1400" height="810" loading="lazy" alt="Profit leak dashboard: loss-making revenue, loss amount and margin by discount level">
-            <span>From the demonstration project</span>
-          </a>
+          <!-- Example dashboard, drawn as SVG for sight only; the summary below
+               carries its numbers for screen readers. -->
+          <figure class="dash-fig">
+            <button class="dash-open" type="button" data-title="Business &amp; Financial Analysis: example dashboard" aria-describedby="dash-finance-sum">
+              <svg class="dash" viewBox="0 0 960 600" aria-hidden="true" focusable="false" data-name="Financial health"><rect class="d-bg" x="0" y="0" width="960" height="600" rx="8"/><text class="d-h1" x="24" y="42">Financial health</text>
+<rect class="d-chip" x="809.2" y="20" width="126.8" height="30" rx="4"/>
+<text class="d-chiptxt" x="821.2" y="40">All branches</text>
+<path class="d-caret" d="M916 32l4 4 4-4"/>
+<rect class="d-chip" x="711.4" y="20" width="89.8" height="30" rx="4"/>
+<text class="d-chiptxt" x="723.4" y="40">FY 2025</text>
+<path class="d-caret" d="M781.2 32l4 4 4-4"/>
+<line class="d-grid" x1="24" y1="66" x2="936" y2="66"/>
+<rect class="d-panel" x="24" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="40" y="106">REVENUE</text>
+<text class="d-kpi" x="40" y="144">$1.24M</text>
+<text class="d-sub" x="40" y="166">for the year</text>
+<rect class="d-panel" x="256" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="272" y="106">GROSS MARGIN</text>
+<text class="d-kpi" x="272" y="144">45.0%</text>
+<text class="d-sub" x="272" y="166">$558K gross profit</text>
+<rect class="d-panel" x="488" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="504" y="106">NET PROFIT</text>
+<text class="d-kpi" x="504" y="144">$156K</text>
+<text class="d-sub" x="504" y="166">12.6% of revenue</text>
+<rect class="d-panel" x="720" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="736" y="106">UNPAID INVOICES</text>
+<text class="d-kpi" x="736" y="144">$87.4K</text>
+<text class="d-sub" x="736" y="166">23 invoices</text>
+<rect class="d-panel" x="24" y="194" width="452" height="382" rx="6"/>
+<text class="d-h2" x="40" y="222">Revenue to net profit</text>
+<line class="d-grid" x1="48" y1="540" x2="452" y2="540"/>
+<rect class="d-bar-hi" x="62.544" y="278" width="51.712" height="262" rx="2"/>
+<text class="d-num" x="88.4" y="270" text-anchor="middle">$1.24M</text>
+<text class="d-axis" x="88.4" y="558" text-anchor="middle">Revenue</text>
+<line class="d-conn" x1="114.256" y1="278" x2="143.344" y2="278"/>
+<rect class="d-bar" x="143.344" y="278" width="51.712" height="144.1" rx="2"/>
+<text class="d-num" x="169.2" y="270" text-anchor="middle">−$682K</text>
+<text class="d-axis" x="169.2" y="558" text-anchor="middle">Cost</text>
+<text class="d-axis" x="169.2" y="574" text-anchor="middle">of sales</text>
+<line class="d-conn" x1="195.056" y1="422.1" x2="224.144" y2="422.1"/>
+<rect class="d-bar" x="224.144" y="422.1" width="51.712" height="75.2194" rx="2"/>
+<text class="d-num" x="250" y="414.1" text-anchor="middle">−$356K</text>
+<text class="d-axis" x="250" y="558" text-anchor="middle">Operating</text>
+<text class="d-axis" x="250" y="574" text-anchor="middle">costs</text>
+<line class="d-conn" x1="275.856" y1="497.319" x2="304.944" y2="497.319"/>
+<rect class="d-bar" x="304.944" y="497.319" width="51.712" height="9.71935" rx="2"/>
+<text class="d-num" x="330.8" y="489.319" text-anchor="middle">−$46K</text>
+<text class="d-axis" x="330.8" y="558" text-anchor="middle">Discounts</text>
+<line class="d-conn" x1="356.656" y1="507.039" x2="385.744" y2="507.039"/>
+<rect class="d-bar-hi" x="385.744" y="507.039" width="51.712" height="32.9613" rx="2"/>
+<text class="d-num" x="411.6" y="499.039" text-anchor="middle">$156K</text>
+<text class="d-axis" x="411.6" y="558" text-anchor="middle">Net</text>
+<text class="d-axis" x="411.6" y="574" text-anchor="middle">profit</text>
+<rect class="d-panel" x="492" y="194" width="444" height="184" rx="6"/>
+<text class="d-h2" x="508" y="222">Gross margin by product line</text>
+<text class="d-txt" x="508" y="255">Services</text>
+<rect class="d-track" x="616" y="243" width="256" height="14" rx="2"/>
+<rect class="d-bar" x="616" y="243" width="158.72" height="14" rx="2"/>
+<text class="d-num" x="920" y="255" text-anchor="end">62%</text>
+<text class="d-txt" x="508" y="287">Subscriptions</text>
+<rect class="d-track" x="616" y="275" width="256" height="14" rx="2"/>
+<rect class="d-bar" x="616" y="275" width="140.8" height="14" rx="2"/>
+<text class="d-num" x="920" y="287" text-anchor="end">55%</text>
+<text class="d-txt" x="508" y="319">Accessories</text>
+<rect class="d-track" x="616" y="307" width="256" height="14" rx="2"/>
+<rect class="d-bar" x="616" y="307" width="104.96" height="14" rx="2"/>
+<text class="d-num" x="920" y="319" text-anchor="end">41%</text>
+<text class="d-txt" x="508" y="351">Hardware</text>
+<rect class="d-track" x="616" y="339" width="256" height="14" rx="2"/>
+<rect class="d-bar" x="616" y="339" width="74.24" height="14" rx="2"/>
+<text class="d-num" x="920" y="351" text-anchor="end">29%</text>
+<rect class="d-panel" x="492" y="392" width="444" height="184" rx="6"/>
+<text class="d-h2" x="508" y="420">Unpaid invoices by age</text>
+<line class="d-grid" x1="516" y1="546" x2="912" y2="546"/>
+<rect class="d-bar" x="533.424" y="467.228" width="44.352" height="78.7718" rx="2"/>
+<text class="d-num" x="555.6" y="460.228" text-anchor="middle">$22.6K</text>
+<text class="d-axis" x="555.6" y="563" text-anchor="middle">Not due</text>
+<rect class="d-bar" x="612.624" y="462" width="44.352" height="84" rx="2"/>
+<text class="d-num" x="634.8" y="455" text-anchor="middle">$24.1K</text>
+<text class="d-axis" x="634.8" y="563" text-anchor="middle">1-30 days</text>
+<rect class="d-bar" x="691.824" y="502.78" width="44.352" height="43.2199" rx="2"/>
+<text class="d-num" x="714" y="495.78" text-anchor="middle">$12.4K</text>
+<text class="d-axis" x="714" y="563" text-anchor="middle">31-60</text>
+<rect class="d-bar" x="771.024" y="522.647" width="44.352" height="23.3527" rx="2"/>
+<text class="d-num" x="793.2" y="515.647" text-anchor="middle">$6.7K</text>
+<text class="d-axis" x="793.2" y="563" text-anchor="middle">61-90</text>
+<rect class="d-amber" x="850.224" y="470.714" width="44.352" height="75.2863" rx="2"/>
+<text class="d-num-amber" x="872.4" y="463.714" text-anchor="middle">$21.6K</text>
+<text class="d-axis" x="872.4" y="563" text-anchor="middle">90+ days</text></svg>
+              <span class="sr-only">Enlarge the example dashboard</span>
+              <span class="dash-hint" aria-hidden="true">Enlarge</span>
+            </button>
+            <p class="sr-only" id="dash-finance-sum">Example financial dashboard for FY 2025, illustrative data. Revenue $1.24M, minus $682K cost of sales, $356K operating costs and $46K of discounts, leaves $156K net profit, 12.6% of revenue. Gross margin 45.0%. Margin by product line: services 62%, subscriptions 55%, accessories 41%, hardware 29%. Unpaid invoices $87.4K. Key finding: $21.6K has been unpaid for more than 90 days.</p>
+            <figcaption>Example dashboard &middot; illustrative data</figcaption>
+          </figure>
         </div>
         <div class="svc-detail">
           <p class="svc-label">What we look at</p>
@@ -357,6 +559,143 @@
         <div class="svc-main">
           <h3 class="svc-name" id="customer-insights-retention-title">Customer Insights &amp; Retention</h3>
           <p class="svc-line">Learn who your best customers are, how often they come back, and who has stopped buying.</p>
+          <!-- Example dashboard, drawn as SVG for sight only; the summary below
+               carries its numbers for screen readers. -->
+          <figure class="dash-fig">
+            <button class="dash-open" type="button" data-title="Customer Insights &amp; Retention: example dashboard" aria-describedby="dash-customers-sum">
+              <svg class="dash" viewBox="0 0 960 600" aria-hidden="true" focusable="false" data-name="Customer insights"><rect class="d-bg" x="0" y="0" width="960" height="600" rx="8"/><text class="d-h1" x="24" y="42">Customer insights</text>
+<rect class="d-chip" x="809.2" y="20" width="126.8" height="30" rx="4"/>
+<text class="d-chiptxt" x="821.2" y="40">All channels</text>
+<path class="d-caret" d="M916 32l4 4 4-4"/>
+<rect class="d-chip" x="652.2" y="20" width="149" height="30" rx="4"/>
+<text class="d-chiptxt" x="664.2" y="40">Mar to Aug 2026</text>
+<path class="d-caret" d="M781.2 32l4 4 4-4"/>
+<line class="d-grid" x1="24" y1="66" x2="936" y2="66"/>
+<rect class="d-panel" x="24" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="40" y="106">ACTIVE CUSTOMERS</text>
+<text class="d-kpi" x="40" y="144">2,480</text>
+<text class="d-sub" x="40" y="166">bought in the last 90 days</text>
+<rect class="d-panel" x="256" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="272" y="106">REPEAT RATE</text>
+<text class="d-kpi" x="272" y="144">41%</text>
+<text class="d-sub" x="272" y="166">bought more than once</text>
+<rect class="d-panel" x="488" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="504" y="106">CUSTOMERS LOST</text>
+<text class="d-kpi" x="504" y="144">312</text>
+<text class="d-sub" x="504" y="166">no order in 90 days</text>
+<rect class="d-panel" x="720" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="736" y="106">AVG CUSTOMER VALUE</text>
+<text class="d-kpi" x="736" y="144">$286</text>
+<text class="d-sub" x="736" y="166">revenue per active customer</text>
+<rect class="d-panel" x="24" y="194" width="452" height="184" rx="6"/>
+<text class="d-h2" x="40" y="222">New and returning customers</text>
+<rect class="d-bar-hi" x="330" y="212" width="10" height="10" rx="1"/>
+<text class="d-axis" x="346" y="221">New</text>
+<rect class="d-bar" x="388" y="212" width="10" height="10" rx="1"/>
+<text class="d-axis" x="404" y="221">Returning</text>
+<line class="d-grid" x1="44" y1="356" x2="456" y2="356"/>
+<rect class="d-bar" x="59.1067" y="288.568" width="38.4533" height="67.4323"/>
+<rect class="d-bar-hi" x="59.1067" y="251.342" width="38.4533" height="35.2258"/>
+<text class="d-num" x="78.3333" y="245.342" text-anchor="middle">612</text>
+<text class="d-axis" x="78.3333" y="372" text-anchor="middle">Mar</text>
+<rect class="d-bar" x="127.773" y="289.574" width="38.4533" height="66.4258"/>
+<rect class="d-bar-hi" x="127.773" y="254.865" width="38.4533" height="32.7097"/>
+<text class="d-num" x="147" y="248.865" text-anchor="middle">591</text>
+<text class="d-axis" x="147" y="372" text-anchor="middle">Apr</text>
+<rect class="d-bar" x="196.44" y="292.09" width="38.4533" height="63.9097"/>
+<rect class="d-bar-hi" x="196.44" y="258.555" width="38.4533" height="31.5355"/>
+<text class="d-num" x="215.667" y="252.555" text-anchor="middle">569</text>
+<text class="d-axis" x="215.667" y="372" text-anchor="middle">May</text>
+<rect class="d-bar" x="265.107" y="293.265" width="38.4533" height="62.7355"/>
+<rect class="d-bar-hi" x="265.107" y="261.742" width="38.4533" height="29.5226"/>
+<text class="d-num" x="284.333" y="255.742" text-anchor="middle">550</text>
+<text class="d-axis" x="284.333" y="372" text-anchor="middle">Jun</text>
+<rect class="d-bar" x="333.773" y="295.613" width="38.4533" height="60.3871"/>
+<rect class="d-bar-hi" x="333.773" y="265.265" width="38.4533" height="28.3484"/>
+<text class="d-num" x="353" y="259.265" text-anchor="middle">529</text>
+<text class="d-axis" x="353" y="372" text-anchor="middle">Jul</text>
+<rect class="d-bar" x="402.44" y="296.955" width="38.4533" height="59.0452"/>
+<rect class="d-bar-hi" x="402.44" y="268.452" width="38.4533" height="26.5032"/>
+<text class="d-num" x="421.667" y="262.452" text-anchor="middle">510</text>
+<text class="d-axis" x="421.667" y="372" text-anchor="middle">Aug</text>
+<rect class="d-panel" x="24" y="392" width="452" height="184" rx="6"/>
+<text class="d-h2" x="40" y="420">Still buying, by month joined</text>
+<text class="d-axis" x="157" y="438" text-anchor="middle">Month 1</text>
+<text class="d-axis" x="223" y="438" text-anchor="middle">Month 2</text>
+<text class="d-axis" x="289" y="438" text-anchor="middle">Month 3</text>
+<text class="d-axis" x="355" y="438" text-anchor="middle">Month 4</text>
+<text class="d-axis" x="421" y="438" text-anchor="middle">Month 5</text>
+<text class="d-axis" x="44" y="464">Mar</text>
+<rect class="d-heat3" x="128" y="448" width="58" height="20" rx="2"/>
+<text class="d-heatnum-dark" x="157" y="463" text-anchor="middle">48%</text>
+<rect class="d-heat2" x="194" y="448" width="58" height="20" rx="2"/>
+<text class="d-heatnum-dark" x="223" y="463" text-anchor="middle">39%</text>
+<rect class="d-heat1" x="260" y="448" width="58" height="20" rx="2"/>
+<text class="d-heatnum" x="289" y="463" text-anchor="middle">34%</text>
+<rect class="d-heat1" x="326" y="448" width="58" height="20" rx="2"/>
+<text class="d-heatnum" x="355" y="463" text-anchor="middle">31%</text>
+<rect class="d-heat1" x="392" y="448" width="58" height="20" rx="2"/>
+<text class="d-heatnum" x="421" y="463" text-anchor="middle">29%</text>
+<text class="d-axis" x="44" y="488">Apr</text>
+<rect class="d-heat3" x="128" y="472" width="58" height="20" rx="2"/>
+<text class="d-heatnum-dark" x="157" y="487" text-anchor="middle">46%</text>
+<rect class="d-heat2" x="194" y="472" width="58" height="20" rx="2"/>
+<text class="d-heatnum-dark" x="223" y="487" text-anchor="middle">37%</text>
+<rect class="d-heat1" x="260" y="472" width="58" height="20" rx="2"/>
+<text class="d-heatnum" x="289" y="487" text-anchor="middle">33%</text>
+<rect class="d-heat1" x="326" y="472" width="58" height="20" rx="2"/>
+<text class="d-heatnum" x="355" y="487" text-anchor="middle">30%</text>
+<text class="d-axis" x="44" y="512">May</text>
+<rect class="d-heat3" x="128" y="496" width="58" height="20" rx="2"/>
+<text class="d-heatnum-dark" x="157" y="511" text-anchor="middle">44%</text>
+<rect class="d-heat2" x="194" y="496" width="58" height="20" rx="2"/>
+<text class="d-heatnum-dark" x="223" y="511" text-anchor="middle">35%</text>
+<rect class="d-heat1" x="260" y="496" width="58" height="20" rx="2"/>
+<text class="d-heatnum" x="289" y="511" text-anchor="middle">31%</text>
+<text class="d-axis" x="44" y="536">Jun</text>
+<rect class="d-heat2" x="128" y="520" width="58" height="20" rx="2"/>
+<text class="d-heatnum-dark" x="157" y="535" text-anchor="middle">41%</text>
+<rect class="d-heat1" x="194" y="520" width="58" height="20" rx="2"/>
+<text class="d-heatnum" x="223" y="535" text-anchor="middle">33%</text>
+<text class="d-axis" x="44" y="560">Jul</text>
+<rect class="d-heat2" x="128" y="544" width="58" height="20" rx="2"/>
+<text class="d-heatnum-dark" x="157" y="559" text-anchor="middle">38%</text>
+<rect class="d-panel" x="492" y="194" width="444" height="382" rx="6"/>
+<text class="d-h2" x="508" y="222">Customer segments</text>
+<text class="d-lab" x="508" y="262">SEGMENT</text>
+<text class="d-lab" x="706" y="262" text-anchor="end">CUSTOMERS</text>
+<text class="d-lab" x="830.32" y="262" text-anchor="end">% OF REVENUE</text>
+<text class="d-lab" x="928" y="262" text-anchor="end">AVG VALUE</text>
+<line class="d-grid" x1="492" y1="272" x2="936" y2="272"/>
+<text class="d-txt" x="508" y="302">Best</text>
+<text class="d-num" x="706" y="302" text-anchor="end">372</text>
+<text class="d-num" x="830.32" y="302" text-anchor="end">41%</text>
+<text class="d-num" x="928" y="302" text-anchor="end">$780</text>
+<line class="d-grid-soft" x1="492" y1="312" x2="936" y2="312"/>
+<text class="d-txt" x="508" y="342">Regular</text>
+<text class="d-num" x="706" y="342" text-anchor="end">1,488</text>
+<text class="d-num" x="830.32" y="342" text-anchor="end">38%</text>
+<text class="d-num" x="928" y="342" text-anchor="end">$182</text>
+<line class="d-grid-soft" x1="492" y1="352" x2="936" y2="352"/>
+<rect class="d-amber" x="492" y="364" width="4" height="24" rx="1"/>
+<text class="d-txt-hi" x="508" y="382">At risk</text>
+<text class="d-num-amber" x="706" y="382" text-anchor="end">620</text>
+<text class="d-num-amber" x="830.32" y="382" text-anchor="end">21%</text>
+<text class="d-num-amber" x="928" y="382" text-anchor="end">$240</text>
+<line class="d-grid-soft" x1="492" y1="392" x2="936" y2="392"/>
+<text class="d-txt" x="508" y="422">Lost</text>
+<text class="d-num" x="706" y="422" text-anchor="end">312</text>
+<text class="d-num" x="830.32" y="422" text-anchor="end">0%</text>
+<text class="d-num" x="928" y="422" text-anchor="end">$0</text>
+<text class="d-sub" x="508" y="470">At risk: no order in 45 to 90 days.</text>
+<text class="d-sub" x="508" y="494">Lost: no order in over 90 days.</text>
+<text class="d-sub" x="508" y="540">Active customers: 372 + 1,488 + 620 = 2,480</text></svg>
+              <span class="sr-only">Enlarge the example dashboard</span>
+              <span class="dash-hint" aria-hidden="true">Enlarge</span>
+            </button>
+            <p class="sr-only" id="dash-customers-sum">Example customer dashboard, March to August 2026, illustrative data. 2,480 active customers, a 41% repeat rate, 312 customers lost and $286 average value per customer. New customers fell from 210 to 158 a month. Of those who joined in March, 48% bought again in their first month and 29% by month five. Segments: 372 best customers bring 41% of revenue, 1,488 regular 38%. Key finding: 620 customers, 21% of revenue, are at risk.</p>
+            <figcaption>Example dashboard &middot; illustrative data</figcaption>
+          </figure>
         </div>
         <div class="svc-detail">
           <p class="svc-label">What we look at</p>
@@ -382,6 +721,92 @@
         <div class="svc-main">
           <h3 class="svc-name" id="dashboards-live-reporting-title">Dashboards &amp; Live Reporting</h3>
           <p class="svc-line">A dashboard of your business that you can check any time, kept accurate as new data comes in.</p>
+          <!-- Example dashboard, drawn as SVG for sight only; the summary below
+               carries its numbers for screen readers. -->
+          <figure class="dash-fig">
+            <button class="dash-open" type="button" data-title="Dashboards &amp; Live Reporting: example dashboard" aria-describedby="dash-exec-sum">
+              <svg class="dash" viewBox="0 0 960 600" aria-hidden="true" focusable="false" data-name="Executive overview"><rect class="d-bg" x="0" y="0" width="960" height="600" rx="8"/><text class="d-h1" x="24" y="42">Executive overview</text>
+<rect class="d-chip" x="801.8" y="20" width="134.2" height="30" rx="4"/>
+<text class="d-chiptxt" x="813.8" y="40">All locations</text>
+<path class="d-caret" d="M916 32l4 4 4-4"/>
+<rect class="d-chip" x="674.4" y="20" width="119.4" height="30" rx="4"/>
+<text class="d-chiptxt" x="686.4" y="40">August 2026</text>
+<path class="d-caret" d="M773.8 32l4 4 4-4"/>
+<text class="d-stamp" x="658.4" y="40" text-anchor="end">Last refreshed: today, 06:00</text>
+<line class="d-grid" x1="24" y1="66" x2="936" y2="66"/>
+<rect class="d-panel" x="24" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="40" y="106">REVENUE</text>
+<text class="d-kpi" x="40" y="144">$412K</text>
+<text class="d-up" x="40" y="166">+6.2% vs last month</text>
+<rect class="d-panel" x="256" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="272" y="106">GROSS MARGIN</text>
+<text class="d-kpi" x="272" y="144">47.8%</text>
+<text class="d-up" x="272" y="166">+1.1 pts vs last month</text>
+<rect class="d-panel" x="488" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="504" y="106">ORDERS</text>
+<text class="d-kpi" x="504" y="144">5,240</text>
+<text class="d-up" x="504" y="166">+3.4% vs last month</text>
+<rect class="d-panel" x="720" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="736" y="106">NEW CUSTOMERS</text>
+<text class="d-kpi" x="736" y="144">684</text>
+<text class="d-down" x="736" y="166">−2.1% vs last month</text>
+<rect class="d-panel" x="24" y="194" width="560" height="382" rx="6"/>
+<text class="d-h2" x="40" y="222">Monthly revenue vs target</text>
+<line class="d-target" x1="372" y1="214" x2="392" y2="214"/>
+<text class="d-axis" x="398" y="218">Target</text>
+<line class="d-line" x1="456" y1="214" x2="476" y2="214"/>
+<text class="d-axis" x="482" y="218">Actual</text>
+<line class="d-grid" x1="84" y1="534" x2="560" y2="534"/>
+<text class="d-axis" x="76" y="538" text-anchor="end">$300K</text>
+<line class="d-grid" x1="84" y1="438" x2="560" y2="438"/>
+<text class="d-axis" x="76" y="442" text-anchor="end">$340K</text>
+<line class="d-grid" x1="84" y1="342" x2="560" y2="342"/>
+<text class="d-axis" x="76" y="346" text-anchor="end">$380K</text>
+<line class="d-grid" x1="84" y1="246" x2="560" y2="246"/>
+<text class="d-axis" x="76" y="250" text-anchor="end">$420K</text>
+<text class="d-axis" x="84" y="556" text-anchor="middle">Jan</text>
+<text class="d-axis" x="152" y="556" text-anchor="middle">Feb</text>
+<text class="d-axis" x="220" y="556" text-anchor="middle">Mar</text>
+<text class="d-axis" x="288" y="556" text-anchor="middle">Apr</text>
+<text class="d-axis" x="356" y="556" text-anchor="middle">May</text>
+<text class="d-axis" x="424" y="556" text-anchor="middle">Jun</text>
+<text class="d-axis" x="492" y="556" text-anchor="middle">Jul</text>
+<text class="d-axis" x="560" y="556" text-anchor="middle">Aug</text>
+<polyline class="d-target" points="84.0,438.0 152.0,414.0 220.0,390.0 288.0,366.0 356.0,342.0 424.0,318.0 492.0,294.0 560.0,270.0"/>
+<polyline class="d-line" points="84.0,490.8 152.0,471.6 220.0,435.6 288.0,409.2 356.0,390.0 424.0,363.6 492.0,322.8 560.0,265.2"/>
+<circle class="d-pt" cx="84.0" cy="490.8" r="3"/>
+<circle class="d-pt" cx="152.0" cy="471.6" r="3"/>
+<circle class="d-pt" cx="220.0" cy="435.6" r="3"/>
+<circle class="d-pt" cx="288.0" cy="409.2" r="3"/>
+<circle class="d-pt" cx="356.0" cy="390.0" r="3"/>
+<circle class="d-pt" cx="424.0" cy="363.6" r="3"/>
+<circle class="d-pt" cx="492.0" cy="322.8" r="3"/>
+<circle class="d-pt" cx="560.0" cy="265.2" r="3"/>
+<rect class="d-panel" x="600" y="194" width="336" height="382" rx="6"/>
+<text class="d-h2" x="616" y="222">Year to date vs annual target</text>
+<text class="d-txt-hi" x="616" y="252">Revenue</text>
+<text class="d-num" x="920" y="252" text-anchor="end">61%</text>
+<rect class="d-track" x="616" y="266" width="304" height="12" rx="2"/>
+<rect class="d-bar-hi" x="616" y="266" width="183.92" height="12" rx="2"/>
+<text class="d-sub" x="616" y="298">$2.87M of $4.74M</text>
+<text class="d-txt-hi" x="616" y="336">Orders</text>
+<text class="d-num" x="920" y="336" text-anchor="end">64%</text>
+<rect class="d-track" x="616" y="350" width="304" height="12" rx="2"/>
+<rect class="d-bar-hi" x="616" y="350" width="193.344" height="12" rx="2"/>
+<text class="d-sub" x="616" y="382">36.9K of 58K</text>
+<text class="d-txt-hi" x="616" y="420">New customers</text>
+<text class="d-num-amber" x="920" y="420" text-anchor="end">46%</text>
+<rect class="d-track" x="616" y="434" width="304" height="12" rx="2"/>
+<rect class="d-amber" x="616" y="434" width="139.232" height="12" rx="2"/>
+<text class="d-sub" x="616" y="466">4,120 of 9,000</text>
+<line class="d-mark" x1="818.667" y1="250" x2="818.667" y2="500"/>
+<text class="d-axis" x="818.667" y="522" text-anchor="middle">Where the year is: 67%</text></svg>
+              <span class="sr-only">Enlarge the example dashboard</span>
+              <span class="dash-hint" aria-hidden="true">Enlarge</span>
+            </button>
+            <p class="sr-only" id="dash-exec-sum">Example executive dashboard for August 2026, illustrative data, last refreshed today at 06:00. Revenue $412K, up 6.2% on last month; gross margin 47.8%, up 1.1 points; 5,240 orders, up 3.4%; 684 new customers, down 2.1%. Revenue was below target until August, when it reached $412K against a $410K target. Year to date: revenue $2.87M of a $4.74M target, orders 36.9K of 58K. Key finding: new customers are at 4,120 of 9,000, 46% of target with 67% of the year gone.</p>
+            <figcaption>Example dashboard &middot; illustrative data</figcaption>
+          </figure>
         </div>
         <div class="svc-detail">
           <p class="svc-label">What you get</p>
@@ -398,6 +823,113 @@
         <div class="svc-main">
           <h3 class="svc-name" id="automation-title">Automation</h3>
           <p class="svc-line">Stop rebuilding the same spreadsheet every week. We automate the reports and data clean-up you keep repeating.</p>
+          <!-- Example dashboard, drawn as SVG for sight only; the summary below
+               carries its numbers for screen readers. -->
+          <figure class="dash-fig">
+            <button class="dash-open" type="button" data-title="Automation: example report" aria-describedby="dash-auto-sum">
+              <svg class="dash" viewBox="0 0 960 600" aria-hidden="true" focusable="false" data-name="Weekly sales report"><rect class="d-bg" x="0" y="0" width="960" height="600" rx="8"/><text class="d-h1" x="24" y="42">Weekly sales report</text>
+<rect class="d-chip" x="764.8" y="20" width="171.2" height="30" rx="4"/>
+<text class="d-chiptxt" x="776.8" y="40">Every Monday, 9:00</text>
+<path class="d-caret" d="M916 32l4 4 4-4"/>
+<rect class="d-chip" x="652.2" y="20" width="104.6" height="30" rx="4"/>
+<text class="d-chiptxt" x="664.2" y="40">Automated</text>
+<path class="d-caret" d="M736.8 32l4 4 4-4"/>
+<line class="d-grid" x1="24" y1="66" x2="936" y2="66"/>
+<rect class="d-panel" x="24" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="40" y="106">DATA SOURCES</text>
+<text class="d-kpi" x="40" y="144">3 of 3</text>
+<text class="d-sub" x="40" y="166">connected</text>
+<rect class="d-panel" x="256" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="272" y="106">ROWS PROCESSED</text>
+<text class="d-kpi" x="272" y="144">48,216</text>
+<text class="d-sub" x="272" y="166">in the latest run</text>
+<rect class="d-panel" x="488" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="504" y="106">LAST RUN</text>
+<text class="d-kpi" x="504" y="144">Mon 21 Sep</text>
+<text class="d-sub" x="504" y="166">09:00, took 2 min 14 s</text>
+<rect class="d-panel" x="720" y="82" width="216" height="96" rx="6"/>
+<text class="d-lab" x="736" y="106">DELIVERY</text>
+<text class="d-kpi" x="736" y="144">Sent</text>
+<text class="d-sub" x="736" y="166">to 4 people by email</text>
+<rect class="d-panel" x="24" y="194" width="452" height="382" rx="6"/>
+<text class="d-h2" x="40" y="222">Run history</text>
+<text class="d-lab" x="40" y="256">RUN</text>
+<text class="d-lab" x="314.32" y="256" text-anchor="end">ROWS</text>
+<text class="d-lab" x="468" y="256" text-anchor="end">RESULT</text>
+<line class="d-grid" x1="24" y1="266" x2="476" y2="266"/>
+<rect class="d-amber" x="24" y="286" width="4" height="24" rx="1"/>
+<text class="d-txt-hi" x="40" y="304">Mon 21 Sep, 09:00</text>
+<text class="d-num-amber" x="314.32" y="304" text-anchor="end">48,216</text>
+<text class="d-num-amber" x="468" y="304" text-anchor="end">Successful</text>
+<line class="d-grid-soft" x1="24" y1="314" x2="476" y2="314"/>
+<text class="d-txt" x="40" y="352">Mon 14 Sep, 09:00</text>
+<text class="d-num" x="314.32" y="352" text-anchor="end">47,902</text>
+<text class="d-num" x="468" y="352" text-anchor="end">Successful</text>
+<line class="d-grid-soft" x1="24" y1="362" x2="476" y2="362"/>
+<text class="d-txt" x="40" y="400">Mon 7 Sep, 09:00</text>
+<text class="d-num" x="314.32" y="400" text-anchor="end">46,881</text>
+<text class="d-num" x="468" y="400" text-anchor="end">Successful</text>
+<line class="d-grid-soft" x1="24" y1="410" x2="476" y2="410"/>
+<text class="d-txt" x="40" y="448">Mon 31 Aug, 09:00</text>
+<text class="d-num" x="314.32" y="448" text-anchor="end">47,355</text>
+<text class="d-num" x="468" y="448" text-anchor="end">Successful</text>
+<line class="d-grid-soft" x1="24" y1="458" x2="476" y2="458"/>
+<text class="d-txt" x="40" y="496">Mon 24 Aug, 09:00</text>
+<text class="d-num" x="314.32" y="496" text-anchor="end">45,990</text>
+<text class="d-num" x="468" y="496" text-anchor="end">Successful</text>
+<line class="d-grid-soft" x1="24" y1="506" x2="476" y2="506"/>
+<text class="d-txt" x="40" y="544">Mon 17 Aug, 09:00</text>
+<text class="d-num" x="314.32" y="544" text-anchor="end">46,508</text>
+<text class="d-num" x="468" y="544" text-anchor="end">Successful</text>
+<rect class="d-panel" x="492" y="194" width="444" height="176" rx="6"/>
+<text class="d-h2" x="508" y="222">Data sources</text>
+<text class="d-lab" x="508" y="254">SOURCE</text>
+<text class="d-lab" x="830.32" y="254" text-anchor="end">STATUS</text>
+<text class="d-lab" x="928" y="254" text-anchor="end">ROWS</text>
+<line class="d-grid" x1="492" y1="264" x2="936" y2="264"/>
+<text class="d-txt" x="508" y="284">Online orders (CSV)</text>
+<text class="d-num" x="830.32" y="284" text-anchor="end">Connected</text>
+<text class="d-num" x="928" y="284" text-anchor="end">31,480</text>
+<line class="d-grid-soft" x1="492" y1="294" x2="936" y2="294"/>
+<text class="d-txt" x="508" y="314">Shop tills (Excel)</text>
+<text class="d-num" x="830.32" y="314" text-anchor="end">Connected</text>
+<text class="d-num" x="928" y="314" text-anchor="end">12,904</text>
+<line class="d-grid-soft" x1="492" y1="324" x2="936" y2="324"/>
+<text class="d-txt" x="508" y="344">Stock sheet</text>
+<text class="d-num" x="830.32" y="344" text-anchor="end">Connected</text>
+<text class="d-num" x="928" y="344" text-anchor="end">3,832</text>
+<rect class="d-panel" x="492" y="384" width="444" height="192" rx="6"/>
+<text class="d-h2" x="508" y="412">This week in the report, 14 to 20 Sep</text>
+<text class="d-lab" x="508" y="438">METRIC</text>
+<text class="d-lab" x="732.64" y="438" text-anchor="end">THIS WEEK</text>
+<text class="d-lab" x="830.32" y="438" text-anchor="end">LAST WEEK</text>
+<text class="d-lab" x="928" y="438" text-anchor="end">CHANGE</text>
+<line class="d-grid" x1="492" y1="448" x2="936" y2="448"/>
+<text class="d-txt" x="508" y="468">Revenue</text>
+<text class="d-num" x="732.64" y="468" text-anchor="end">$38,640</text>
+<text class="d-num" x="830.32" y="468" text-anchor="end">$36,910</text>
+<text class="d-num" x="928" y="468" text-anchor="end">+4.7%</text>
+<line class="d-grid-soft" x1="492" y1="478" x2="936" y2="478"/>
+<text class="d-txt" x="508" y="498">Orders</text>
+<text class="d-num" x="732.64" y="498" text-anchor="end">482</text>
+<text class="d-num" x="830.32" y="498" text-anchor="end">468</text>
+<text class="d-num" x="928" y="498" text-anchor="end">+3.0%</text>
+<line class="d-grid-soft" x1="492" y1="508" x2="936" y2="508"/>
+<text class="d-txt" x="508" y="528">Avg order</text>
+<text class="d-num" x="732.64" y="528" text-anchor="end">$80.17</text>
+<text class="d-num" x="830.32" y="528" text-anchor="end">$78.87</text>
+<text class="d-num" x="928" y="528" text-anchor="end">+1.6%</text>
+<line class="d-grid-soft" x1="492" y1="538" x2="936" y2="538"/>
+<text class="d-txt" x="508" y="558">Returns</text>
+<text class="d-num" x="732.64" y="558" text-anchor="end">11</text>
+<text class="d-num" x="830.32" y="558" text-anchor="end">14</text>
+<text class="d-num" x="928" y="558" text-anchor="end">−21.4%</text></svg>
+              <span class="sr-only">Enlarge the example dashboard</span>
+              <span class="dash-hint" aria-hidden="true">Enlarge</span>
+            </button>
+            <p class="sr-only" id="dash-auto-sum">Example automated weekly sales report, illustrative data. It runs every Monday at 9:00 and every run has succeeded. The latest run, Monday 21 September, combined 3 of 3 connected sources, 48,216 rows, and sent the report to 4 people. That week revenue was $38,640 from 482 orders, up 4.7%.</p>
+            <figcaption>Example dashboard &middot; illustrative data</figcaption>
+          </figure>
         </div>
         <div class="svc-detail">
           <p class="svc-label">What you get</p>
@@ -514,6 +1046,18 @@
   </div>
 </footer>
 
-<script src="/assets/js/main.js?v=68" defer></script>
+<!-- One dialog for every example dashboard. main.js copies the chosen
+     dashboard in and opens it with showModal(), which keeps focus inside it;
+     Esc and the Close button shut it and focus returns to the thumbnail. -->
+<dialog class="dash-dialog" id="dash-dialog" aria-labelledby="dash-dialog-title">
+  <div class="dash-dialog-bar">
+    <h2 class="dash-dialog-title" id="dash-dialog-title">Example dashboard</h2>
+    <button class="dash-close" type="button">Close</button>
+  </div>
+  <div class="dash-dialog-body"></div>
+  <p class="dash-dialog-cap">Example dashboard &middot; illustrative data<span class="dash-pan"> &middot; scroll sideways to see all of it</span></p>
+</dialog>
+
+<script src="/assets/js/main.js?v=69" defer></script>
 </body>
 </html>

@@ -1854,17 +1854,117 @@ h2.block-title { line-height: 1.2; }
   .includes-panel { margin-top: 2.75rem; }
 }
 
-/* ---- Services: case-study thumbnails beside two services ---- */
-.svc-thumb { display: block; margin-top: var(--space-5); max-width: 340px; }
-.svc-thumb img { width: 100%; height: auto; border-radius: var(--radius); border: var(--hairline) solid var(--border-2); }
-.svc-thumb span {
+/* ---- Services: one example dashboard per service, drawn as SVG. The same
+   SVG is the thumbnail and, copied into the dialog, the enlarged view.
+   Illustrative data only; one amber key finding each and no Signal Red. ---- */
+/* ---- the dashboards themselves: one 960 x 600 SVG each ---- */
+.dash { display: block; width: 100%; height: auto; font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
+.d-bg { fill: #1B1B18; }
+.d-panel { fill: #20201D; stroke: #2A2A26; stroke-width: 1; }
+.d-chip { fill: #141412; stroke: #2A2A26; stroke-width: 1; }
+.d-chiptxt { font-size: 13px; fill: #C9C7C1; }
+.d-caret { fill: none; stroke: #8A8A85; stroke-width: 1.5; }
+.d-stamp { font-size: 13px; fill: #C9C7C1; }
+.d-h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; fill: #F5F4F1; }
+.d-h2 { font-size: 14px; font-weight: 600; fill: #F5F4F1; }
+.d-lab { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; fill: #8A8A85; }
+.d-kpi { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; fill: #F5F4F1; }
+.d-sub, .d-up, .d-down { font-size: 13px; fill: #A9A7A1; }
+.d-txt { font-size: 13px; fill: #C9C7C1; }
+.d-txt-hi { font-size: 13px; font-weight: 600; fill: #F5F4F1; }
+.d-num { font-size: 13px; font-weight: 600; fill: #F5F4F1; }
+.d-num-amber { font-size: 13px; font-weight: 700; fill: #EF9F27; }
+.d-axis { font-size: 12px; fill: #8A8A85; }
+.d-grid { stroke: #2A2A26; stroke-width: 1; }
+.d-grid-soft { stroke: #292926; stroke-width: 1; }
+.d-conn { stroke: #5A5A54; stroke-width: 1; stroke-dasharray: 3 3; }
+.d-mark { stroke: #5A5A54; stroke-width: 1; stroke-dasharray: 4 4; }
+.d-track { fill: #2A2A26; }
+.d-bar { fill: #8A8A85; }
+.d-bar-hi { fill: #C9C7C1; }
+.d-amber { fill: #EF9F27; }
+.d-line { fill: none; stroke: #C9C7C1; stroke-width: 2.5; stroke-linejoin: round; }
+.d-target { fill: none; stroke: #8A8A85; stroke-width: 1.5; stroke-dasharray: 6 5; }
+.d-pt { fill: #C9C7C1; }
+.d-heat3 { fill: #C9C7C1; }
+.d-heat2 { fill: #8A8A85; }
+.d-heat1 { fill: #3A3A35; }
+.d-heatnum { font-size: 12px; font-weight: 600; fill: #F5F4F1; }
+.d-heatnum-dark { font-size: 12px; font-weight: 600; fill: #141412; }
+
+/* ---- the thumbnail, where the case-study screenshots were ---- */
+.dash-fig { margin: var(--space-5) 0 0; max-width: 340px; }
+.dash-open {
+  position: relative;
   display: block;
-  margin-top: var(--space-2);
+  width: 100%;
+  padding: 0;
+  border: var(--hairline) solid var(--border-2);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #1B1B18;
+  cursor: zoom-in;
+  transition: border-color var(--dur) var(--ease);
+}
+.dash-open:hover { border-color: var(--text-dark); }
+.dash-open:focus-visible { outline: 2px solid var(--text-dark); outline-offset: 3px; }
+.dash-hint {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #141412;
+  border: var(--hairline) solid #46463F;
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
   letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--text-light);
+}
+.dash-fig figcaption { margin-top: var(--space-2); font-size: var(--fs-ui); color: var(--muted); }
+
+/* ---- the dialog ---- */
+html:has(.dash-dialog[open]) { overflow: hidden; }
+.dash-dialog {
+  width: min(1240px, 94vw);
+  max-width: none;
+  max-height: 94vh;
+  padding: 1rem 1.25rem 1rem;
+  border: var(--hairline) solid var(--border-dark);
+  border-radius: 10px;
+  background: #141412;
+  color: var(--text-light);
+}
+.dash-dialog[open] { display: flex; flex-direction: column; gap: var(--space-3); }
+.dash-dialog::backdrop { background: rgb(20 20 18 / 0.82); }
+.dash-dialog-bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+.dash-dialog-title { font-size: var(--fs-small); font-weight: var(--fw-label); letter-spacing: 0; line-height: 1.3; }
+.dash-close {
+  flex: none;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: var(--hairline) solid #46463F;
+  border-radius: var(--radius);
+  font-size: var(--fs-ui);
+  font-weight: var(--fw-label);
+  color: var(--text-light);
+  transition: border-color var(--dur) var(--ease);
+}
+.dash-close:hover { border-color: var(--text-light); }
+.dash-close:focus-visible { outline: 2px solid var(--text-light); outline-offset: 2px; }
+.dash-dialog-body { min-height: 0; overflow: auto; border-radius: var(--radius-lg); }
+/* the whole dashboard fits on screen: its width follows the height left over */
+.dash-dialog-body .dash { width: min(100%, (94vh - 8.5rem) * 1.6); margin-inline: auto; }
+.dash-dialog-cap { font-size: var(--fs-ui); color: #C9C7C1; }
+.dash-pan { display: none; }
+
+/* phones: full screen, the dashboard at a readable size, panned sideways */
+@media (max-width: 767px) {
+  .dash-dialog { width: 100vw; height: 100dvh; max-height: none; margin: 0; padding: 0.75rem 1rem 1rem; border: 0; border-radius: 0; }
+  .dash-dialog-body { flex: 1; }
+  .dash-dialog-body .dash { width: 900px; max-width: none; }
+  .dash-pan { display: inline; }
 }
 
 /* ---- Basira AI: three steps, the real limits and a real screenshot ---- */
