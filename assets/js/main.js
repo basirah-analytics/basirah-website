@@ -552,37 +552,6 @@
     io.observe(card);
   }
 
-  /* -------------------- hero rotator: pause and play -------------------- */
-  /* WCAG 2.2.2: the rotating questions change on their own for about 33s, so
-     they need a way to pause. The button only appears while they can actually
-     move: not with reduced motion (the rotator is static then), and it is
-     removed once the single cycle has ended and nothing moves any more. */
-  function setupRotatorPause() {
-    var btn = document.getElementById('hero-pause');
-    var rotator = document.querySelector('.hero-rotator');
-    if (!btn || !rotator || reduced.matches) return;
-    var verb = btn.querySelector('.hero-pause-verb');
-    var first = rotator.querySelector('.hero-q');
-
-    btn.hidden = false;
-    btn.addEventListener('click', function () {
-      var paused = !rotator.classList.contains('is-paused');
-      rotator.classList.toggle('is-paused', paused);
-      btn.classList.toggle('is-paused', paused);
-      verb.textContent = paused ? 'Play' : 'Pause';
-    });
-
-    // The first question's animation is the longest and ends last. Don't pull
-    // the button out from under keyboard focus; wait for focus to leave.
-    first.addEventListener('animationend', function () {
-      if (document.activeElement === btn) {
-        btn.addEventListener('blur', function () { btn.hidden = true; }, { once: true });
-      } else {
-        btn.hidden = true;
-      }
-    });
-  }
-
   /* --------------------- collapse long lists on phones --------------------- */
   var mobile = window.matchMedia('(max-width: 767px)');
   var collapsibles = [];
@@ -657,7 +626,6 @@
   }
 
   setupFindings();
-  setupRotatorPause();
   applyCollapse(mobile.matches);
   mobile.addEventListener('change', function (e) { applyCollapse(e.matches); });
 })();

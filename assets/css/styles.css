@@ -430,7 +430,7 @@ html {
 
 .hero .eyebrow { color: var(--muted); margin-bottom: var(--space-5); }
 
-/* Eyebrow row, with the rotator's pause control at its far end. */
+/* Eyebrow row above the question. */
 .hero-top {
   display: flex;
   flex-wrap: wrap;
@@ -441,115 +441,29 @@ html {
 }
 .hero-top .eyebrow { margin-bottom: 0; }
 
-/* Pause / play for the rotating questions (WCAG 2.2.2). Ink and Paper only,
-   no Signal Red, including its focus ring: this is a utility control, not a
-   focal point. The glyph is drawn in CSS: two bars to pause, a triangle to
-   play. */
-.hero-pause {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55em;
-  min-height: 36px;
-  padding: 0.4rem 0.8rem;
-  border: var(--hairline) solid #46463F;   /* the outline-button border on Ink */
-  border-radius: var(--radius);
-  font-size: var(--fs-ui);
-  font-weight: var(--fw-label);
-  color: var(--text-light);
-  transition: border-color var(--dur) var(--ease);
-}
-.hero-pause[hidden] { display: none; }
-@media (max-width: 767px) { .hero-pause { min-height: 44px; } }
-.hero-pause:hover { border-color: var(--text-light); }
-.hero-pause:focus-visible { outline-color: var(--text-light); }
-.hero-pause::before {
-  content: "";
-  flex: none;
-  width: 8px;
-  height: 10px;
-  border-left: 3px solid currentColor;
-  border-right: 3px solid currentColor;
-}
-.hero-pause.is-paused::before {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 5px 0 5px 8px;
-  border-color: transparent transparent transparent currentColor;
-}
-.hero-rotator.is-paused .hero-q { animation-play-state: paused; }
-
-/* ---- rotating questions ---- */
-/* Every question sits in the same grid cell, so the container is always as
-   tall as the tallest one and nothing below it can move when they swap.
-   That is why there is no hardcoded min-height: a fixed number would be
-   right at one width and wrong at the next, since the questions wrap
-   differently as the viewport changes. */
-.hero-rotator {
-  display: grid;
-  /* The box stays as tall as the tallest question, but each one is pinned to
-     the bottom of it, so the last line of every question sits the same short
-     distance above the subline. Any slack a shorter question leaves opens
-     above it, under the eyebrow, where it reads as breathing room rather
-     than as the question being stranded from the line it belongs with. */
-  align-items: end;
-  margin-bottom: var(--space-3);
-}
+/* ---- the hero question ---- */
+/* Six questions sit in the markup; one shows per page load. The first is the
+   default, and html[data-hero-q] (set by hero-question.js before first paint)
+   swaps in another, so the question never changes once it is on screen. */
+.hero-question { margin-bottom: var(--space-3); }
+.hero-q + .hero-q { display: none; }
+html[data-hero-q] .hero-q { display: none; }
+html[data-hero-q="0"] .hero-q:nth-child(1),
+html[data-hero-q="1"] .hero-q:nth-child(2),
+html[data-hero-q="2"] .hero-q:nth-child(3),
+html[data-hero-q="3"] .hero-q:nth-child(4),
+html[data-hero-q="4"] .hero-q:nth-child(5),
+html[data-hero-q="5"] .hero-q:nth-child(6) { display: block; }
 
 .hero-q {
-  grid-area: 1 / 1;
   font-size: var(--fs-hero);
   font-weight: var(--fw-head);
   line-height: .98;
   letter-spacing: -.035em;
-  /* wider than the old headline's 16ch on purpose: the container reserves
-     the tallest question's height at all times, so every line the longest
-     one wraps to is dead space under the shortest one. 22ch is what brings
-     the longest down to two lines on a desktop. */
-  max-width: 22ch;
+  max-width: 16ch;
   text-wrap: balance;
-
   color: var(--text-light);
-
-  opacity: 0;
-  animation: heroQ 5.1s var(--ease) both;
 }
-
-/* Strictly one at a time, and once. Every question shares this one cell, so
-   any moment where two are above zero opacity paints them on top of each other
-   and the text is unreadable. An earlier version crossfaded them on purpose
-   and did exactly that.
-
-   One question occupies a 5.4s slot: 0.8s in, 3.5s held still, 0.8s out,
-   then 0.3s of nothing, which guarantees the next question's fade starts
-   after this one has reached zero. The rotator plays one full cycle and then
-   stops on the first question, so it is not a looping distraction: the first
-   question is visible from the first paint (nothing waits on motion), and
-   after the sixth it fades back in at 32.4s and holds. Fades use the shared
-   ease-out curve. */
-@keyframes heroQ {
-  0%        { opacity: 0; }
-  15.6863%  { opacity: 1; }   /* 0.8s, faded in */
-  84.3137%  { opacity: 1; }   /* 4.3s, held for 3.5s */
-  100%      { opacity: 0; }   /* 5.1s, faded out */
-}
-
-/* The first question: on at rest, out at 4.3s to 5.1s, back at 32.4s to
-   33.2s, and it stays. */
-@keyframes heroQFirst {
-  0%        { opacity: 1; }
-  12.9518%  { opacity: 1; }   /* 4.3s */
-  15.3614%  { opacity: 0; }   /* 5.1s */
-  97.5904%  { opacity: 0; }   /* 32.4s, the sixth question has gone */
-  100%      { opacity: 1; }   /* 33.2s, and it holds */
-}
-
-.hero-q:nth-child(1) { opacity: 1; animation: heroQFirst 33.2s var(--ease) forwards; }
-.hero-q:nth-child(2) { animation-delay: 5.4s; }
-.hero-q:nth-child(3) { animation-delay: 10.8s; }
-.hero-q:nth-child(4) { animation-delay: 16.2s; }
-.hero-q:nth-child(5) { animation-delay: 21.6s; }
-.hero-q:nth-child(6) { animation-delay: 27s; }
 
 /* Forced break for the two questions short enough to sit on one line, so
    every question reads as two. Named after .br-lg, which does the same job
@@ -560,15 +474,6 @@ html {
    halves lives after the br in the markup. */
 @media (max-width: 600px) {
   .br-md { display: none; }
-}
-
-/* The global reduced-motion rule collapses every animation to 0.01ms and one
-   iteration, which would leave all six sitting at their end state of opacity
-   0 and the hero empty. So this has to override it and pin the first
-   question on, hence the !important. */
-@media (prefers-reduced-motion: reduce) {
-  .hero-q { animation: none !important; opacity: 0; }
-  .hero-q:first-child { opacity: 1; }
 }
 
 /* Now an h1 rather than a paragraph, so the heading weight and tracking the
@@ -1825,24 +1730,105 @@ h2.block-title { line-height: 1.2; }
 .panel > .svc:last-child { padding-bottom: 0; }
 .home-group.panel { padding-top: clamp(1rem, 2.5vw, 1.75rem); }
 
-/* ---- Home hero: copy left, one real dashboard right ---- */
+/* ---- Home hero: copy left, the case-study graphic right ---- */
 .hero-inner.hero-split { display: grid; gap: clamp(2rem, 4vw, 4rem); align-items: center; }
 .hero-copy { min-width: 0; display: flex; flex-direction: column; }
-.hero .hero-q { max-width: 16ch; }
-.hero-media { margin: 0; }
-.hero-media img { width: 100%; height: auto; border-radius: var(--radius-lg); border: var(--hairline) solid var(--border-dark); }
-.hero-media figcaption {
-  margin-top: var(--space-3);
+@media (min-width: 1000px) { .hero-inner.hero-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); } }
+
+/* ---- Home hero graphic: real figures from the Rose City demonstration
+   project, drawn in HTML so it stays sharp and readable at any width. No
+   Signal Red: the question mark is the hero's one red point. Amber marks the
+   one bar the note is about. ---- */
+.hero-graphic { margin: 0; }
+.hg-card {
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  background: #1B1B18;   /* Raised Ink */
+  border: var(--hairline) solid var(--border-dark);
+  border-radius: var(--radius-lg);
+}
+.hg-kicker {
+  margin-bottom: var(--space-4);
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
   letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
   color: var(--muted);
 }
-/* Hidden below 1000px: at phone width the dashboard's figures are too small
-   to read and would push the hero past one screen. */
-@media (max-width: 999px) { .hero-media { display: none; } }
-@media (min-width: 1000px) { .hero-inner.hero-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); } }
+.hg-figures {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  padding-bottom: var(--space-5);
+  border-bottom: var(--hairline) solid var(--border-dark);
+}
+.hg-figures div { display: flex; flex-direction: column-reverse; gap: var(--space-1); }
+.hg-figures dd {
+  margin: 0;
+  font-size: clamp(1.375rem, 1rem + 1.2vw, 2rem);
+  font-weight: var(--fw-head);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text-light);
+  font-variant-numeric: tabular-nums;
+}
+.hg-figures dt { font-size: var(--fs-ui); line-height: 1.35; color: #C9C7C1; }
+.hg-chart { padding-top: var(--space-5); }
+.hg-chart-title { margin-bottom: var(--space-4); font-size: var(--fs-small); font-weight: var(--fw-label); color: var(--text-light); }
+.hg-bars,
+.hg-cats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+.hg-bars { align-items: end; height: 190px; }
+.hg-col { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+.hg-val {
+  margin-bottom: var(--space-2);
+  font-size: var(--fs-ui);
+  font-weight: var(--fw-label);
+  text-align: center;
+  color: var(--text-light);
+  font-variant-numeric: tabular-nums;
+}
+/* One scale for every bar: 43% is 150px tall. */
+.hg-fill { display: block; border-radius: 3px 3px 0 0; background: var(--muted-dark); transform-origin: bottom; }
+.hg-f43 { height: 150px; }
+.hg-f27 { height: 94px; }
+.hg-f19 { height: 66px; }
+.hg-f13 { height: 45px; background: var(--signal-amber); }
+.hg-cats { padding-top: var(--space-2); border-top: var(--hairline) solid var(--border-dark); }
+.hg-cats > span { font-size: var(--fs-ui); text-align: center; color: #C9C7C1; }
+.hg-short { display: none; }
+.hg-note { display: flex; align-items: center; gap: 0.6em; margin-top: var(--space-4); font-size: var(--fs-ui); color: var(--text-light); }
+.hg-note::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 1px; background: var(--signal-amber); }
+.hero-graphic figcaption { margin-top: var(--space-3); font-size: var(--fs-ui); color: #C9C7C1; }
+
+/* The bars grow once, about 800ms in all, staggered. Only the bars move: the
+   question, the subline and the buttons are on screen from the first paint.
+   With reduced motion the bars are simply there. */
+@media (prefers-reduced-motion: no-preference) {
+  .hg-fill { animation: hgGrow 500ms var(--ease) backwards; }
+  .hg-col:nth-child(2) .hg-fill { animation-delay: 100ms; }
+  .hg-col:nth-child(3) .hg-fill { animation-delay: 200ms; }
+  .hg-col:nth-child(4) .hg-fill { animation-delay: 300ms; }
+}
+@keyframes hgGrow { from { transform: scaleY(0); } }
+
+/* Below 1000px the graphic follows the buttons, with a shorter chart. */
+@media (max-width: 999px) {
+  .hero-graphic { margin-top: var(--space-6); }
+  .hg-bars { height: 150px; }
+  .hg-f43 { height: 110px; }
+  .hg-f27 { height: 69px; }
+  .hg-f19 { height: 49px; }
+  .hg-f13 { height: 33px; }
+}
+@media (max-width: 560px) {
+  .hg-figures { grid-template-columns: 1fr 1fr; }
+  .hg-figures div:last-child { grid-column: 1 / -1; }
+  .hg-long { display: none; }
+  .hg-short { display: inline; }
+}
 
 /* ---- Home final section: the free tool as one line under the button ---- */
 .cta-alt { margin-top: calc(var(--space-2) * -1); font-size: var(--fs-small); color: #C9C7C1; }

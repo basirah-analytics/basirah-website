@@ -44,7 +44,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/styles.css?v=71">
+<link rel="stylesheet" href="/assets/css/styles.css?v=72">
+<!-- Picks the hero question before first paint, so it never swaps.
+     Synchronous on purpose, and tiny. Without it the first question shows. -->
+<script src="/assets/js/hero-question.js?v=1"></script>
 <!-- Structured data. Every node describes something this page actually
      shows. The Organization, Person and WebSite @ids are shared across the
      whole site so all pages describe one entity rather than competing copies.
@@ -279,18 +282,11 @@
 
       <div class="hero-top">
         <p class="eyebrow">data + business analysis</p>
-        <!-- Pause control for the rotating questions (WCAG 2.2.2). main.js
-             reveals it only when the rotator is actually moving: never with
-             reduced motion, and it goes away once the single cycle ends. -->
-        <button class="hero-pause" id="hero-pause" type="button" hidden>
-          <span class="hero-pause-verb">Pause</span><span class="sr-only"> the rotating questions</span>
-        </button>
       </div>
 
-      <!-- Decorative for assistive tech. A node whose text swaps every few
-           seconds is hostile to a screen reader, and the list below carries
-           the same six questions as stable text. -->
-      <div class="hero-rotator" aria-hidden="true">
+      <!-- Decorative for assistive tech: which question shows is random,
+           and the list below carries all six as stable text. -->
+      <div class="hero-question" aria-hidden="true">
         <p class="hero-q">Why are<br class="br-md"> sales falling<span class="accent-dot">?</span></p>
         <p class="hero-q">Where is our money actually going<span class="accent-dot">?</span></p>
         <p class="hero-q">Which products are actually making money<span class="accent-dot">?</span></p>
@@ -310,8 +306,8 @@
       </ul>
 
       <!-- The page's only h1, and deliberately the stable line rather than the
-           rotating one: a heading that rewrites itself is worth nothing to a
-           crawler. -->
+           random question: a heading that changes per visit is worth nothing
+           to a crawler. -->
       <h1 class="hero-sub">
         Basirah turns these questions into clear answers: a full analysis, a live dashboard,
         and an ongoing analytics partner as you grow.
@@ -331,9 +327,38 @@
       </p>
 
       </div>
-      <figure class="hero-media">
-        <img src="/assets/img/work/rosecity-2.png" width="1400" height="810" loading="lazy" decoding="async" alt="Profit Leak Deep Dive dashboard: loss-making revenue, loss amount and margin by discount level">
-        <figcaption>Demonstration project &middot; simulated data</figcaption>
+      <figure class="hero-graphic">
+        <div class="hg-card">
+          <p class="hg-kicker">Profit leak deep dive</p>
+          <dl class="hg-figures">
+            <div><dt>Loss-making revenue</dt><dd>$1.38M</dd></div>
+            <div><dt>Loss-making loss amount</dt><dd>&minus;$228.15K</dd></div>
+            <div><dt>Loss-making % of revenue</dt><dd>4.39%</dd></div>
+          </dl>
+          <div class="hg-chart">
+            <p class="hg-chart-title">Margin by discount level</p>
+            <!-- The bars are drawn for sight only; the table below carries the same values. -->
+            <div class="hg-bars" aria-hidden="true">
+              <div class="hg-col"><span class="hg-val">43%</span><span class="hg-fill hg-f43"></span></div>
+              <div class="hg-col"><span class="hg-val">27%</span><span class="hg-fill hg-f27"></span></div>
+              <div class="hg-col"><span class="hg-val">19%</span><span class="hg-fill hg-f19"></span></div>
+              <div class="hg-col"><span class="hg-val">13%</span><span class="hg-fill hg-f13"></span></div>
+            </div>
+            <div class="hg-cats" aria-hidden="true"><span><span class="hg-long">No discount</span><span class="hg-short">None</span></span><span>1-10%</span><span>11-20%</span><span>21-30%</span></div>
+            <table class="sr-only">
+              <caption>Margin by discount level</caption>
+              <thead><tr><th scope="col">Discount level</th><th scope="col">Margin</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">No discount</th><td>43%</td></tr>
+                <tr><th scope="row">1 to 10%</th><td>27%</td></tr>
+                <tr><th scope="row">11 to 20%</th><td>19%</td></tr>
+                <tr><th scope="row">21 to 30%</th><td>13%</td></tr>
+              </tbody>
+            </table>
+            <p class="hg-note">Deep discounts cut margin to 13%</p>
+          </div>
+        </div>
+        <figcaption>From our demonstration project &middot; simulated data</figcaption>
       </figure>
 
     </div>
@@ -518,6 +543,6 @@
   </div>
 </footer>
 
-<script src="/assets/js/main.js?v=67" defer></script>
+<script src="/assets/js/main.js?v=68" defer></script>
 </body>
 </html>
