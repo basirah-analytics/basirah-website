@@ -44,7 +44,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/styles.css?v=70">
+<link rel="stylesheet" href="/assets/css/styles.css?v=71">
 <!-- Structured data. Every node describes something this page actually
      shows. The Organization, Person and WebSite @ids are shared across the
      whole site so all pages describe one entity rather than competing copies.
@@ -274,7 +274,8 @@
 
 <main id="main">
   <section class="hero section-dark" id="home">
-    <div class="wrap hero-inner">
+    <div class="wrap hero-inner hero-split">
+      <div class="hero-copy">
 
       <div class="hero-top">
         <p class="eyebrow">data + business analysis</p>
@@ -329,51 +330,20 @@
         <span class="dot" aria-hidden="true"></span> available for projects
       </p>
 
-      <div class="hero-rail">
-        <p class="rail-label">toolkit</p>
-        <ul class="rail-list">
-          <li>Power BI</li><li>Tableau</li><li>Looker</li>
-          <li>Excel / Sheets</li><li>SQL</li><li>Python</li>
-        </ul>
       </div>
+      <figure class="hero-media">
+        <img src="/assets/img/work/rosecity-2.png" width="1400" height="810" loading="lazy" decoding="async" alt="Profit Leak Deep Dive dashboard: loss-making revenue, loss amount and margin by discount level">
+        <figcaption>Demonstration project &middot; simulated data</figcaption>
+      </figure>
 
     </div>
   </section>
 
-  <section class="section section-light how-strip" aria-labelledby="how-title">
-    <div class="wrap">
-      <header class="section-head">
-        <h2 id="how-title">What happens after you book a call.</h2>
-      </header>
-      <ol class="how-steps">
-        <li class="how-step">
-          <p class="how-num">01</p>
-          <h3 class="how-name">Book a free video call</h3>
-          <p class="how-text">Tell us what you are trying to figure out. No charge, no obligation.</p>
-        </li>
-        <li class="how-step">
-          <p class="how-num">02</p>
-          <h3 class="how-name">We study your data together</h3>
-          <p class="how-text">We look at what you have, and tell you honestly what it can and cannot answer.</p>
-        </li>
-        <li class="how-step">
-          <p class="how-num">03</p>
-          <h3 class="how-name">You get clear answers and a plan</h3>
-          <p class="how-text">Clear findings and the actions to take, not a report that gets filed.</p>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- Four sections, four shapes: a services index, the work with its link
-       in the header row, the team itself, and a one-line strip for the free
-       tool. The service names and one-liners are copied word for word from
-       services.html and link to their anchors there. -->
   <section class="section section-light home-services" aria-labelledby="prev-services">
     <div class="wrap">
       <h2 id="prev-services">Understand your business, then keep it running.</h2>
       <div class="home-groups">
-        <div class="home-group">
+        <div class="home-group panel">
           <h3 class="home-group-title"><span class="svc-group-num">01</span> Understand your business</h3>
           <ul class="home-svc-list">
             <li>
@@ -396,7 +366,7 @@
             </li>
           </ul>
         </div>
-        <div class="home-group">
+        <div class="home-group panel">
           <h3 class="home-group-title"><span class="svc-group-num">02</span> Deliver it and keep it running</h3>
           <ul class="home-svc-list">
             <li>
@@ -441,7 +411,7 @@
             <span class="tile-body">
               <span class="tile-meta"><span class="tile-cat">Analysis</span><span class="tile-demo">Demonstration project</span></span>
               <span class="tile-title">Restaurant sales and operations analysis</span>
-              <span class="tile-insight">About 2.4 crore was lost to cancelled orders, nearly all of it on the delivery apps.</span>
+              <span class="tile-insight">About ₹2.4 crore was lost to cancelled orders, nearly all of it on the delivery apps.</span>
             </span>
           </a>
         </li>
@@ -449,40 +419,28 @@
     </div>
   </section>
 
-  <section class="section section-dark home-team" aria-labelledby="prev-team">
+  <section class="section section-light how-strip" aria-labelledby="how-title">
     <div class="wrap">
-      <h2 id="prev-team">Small on purpose.</h2>
-      <div class="home-team-row">
-        <ul class="home-team-list">
-        <li class="home-team-person">
-          <span class="home-team-name">Haseeb Ur Rahman</span>
-          <span class="home-team-role">Founder &amp; Data Analyst</span>
+      <header class="section-head">
+        <h2 id="how-title">What happens after you book a call.</h2>
+      </header>
+      <ol class="how-steps">
+        <li class="how-step">
+          <p class="how-num">01</p>
+          <h3 class="how-name">Book a free video call</h3>
+          <p class="how-text">Tell us what you are trying to figure out. No charge, no obligation.</p>
         </li>
-        <li class="home-team-person">
-          <span class="home-team-name">Mohd Sohail</span>
-          <span class="home-team-role">Associate Founder, Client Partnerships</span>
+        <li class="how-step">
+          <p class="how-num">02</p>
+          <h3 class="how-name">We study your data together</h3>
+          <p class="how-text">We look at what you have, and tell you honestly what it can and cannot answer.</p>
         </li>
-        <li class="home-team-person">
-          <span class="home-team-name">Md Fasiuddin</span>
-          <span class="home-team-role">Associate Founder, Business Development</span>
+        <li class="how-step">
+          <p class="how-num">03</p>
+          <h3 class="how-name">You get clear answers and a plan</h3>
+          <p class="how-text">Clear findings and the actions to take, not a report that gets filed.</p>
         </li>
-        <li class="home-team-person">
-          <span class="home-team-name">Mohammed Ibrahim</span>
-          <span class="home-team-role">Associate Founder, Growth and Content</span>
-        </li>
-        </ul>
-        <a class="link-arrow" href="/about">Meet the team <span aria-hidden="true">&rarr;</span></a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-light home-ai" aria-labelledby="prev-ai">
-    <div class="wrap">
-      <div class="home-ai-strip">
-        <h2 class="home-ai-title" id="prev-ai">Try it before you talk to us.</h2>
-        <p class="home-ai-line">Upload a spreadsheet and get an instant analysis, free. Your file is processed in memory and never stored.</p>
-        <a class="link-arrow" href="/basira-ai">About Basira AI <span aria-hidden="true">&rarr;</span></a>
-      </div>
+      </ol>
     </div>
   </section>
 
@@ -490,6 +448,7 @@
     <div class="wrap">
       <h2>Book a free video call. We&rsquo;ll look at your data together.</h2>
       <a class="btn btn-paper btn-book" href="/contact">Book a free call</a>
+      <p class="cta-alt">Not ready to talk? <a href="/basira-ai">Try Basira AI free <span aria-hidden="true">&rarr;</span></a></p>
     </div>
   </section>
 
@@ -556,10 +515,9 @@
   <div class="wrap footer-base">
     <p class="footer-copy">&copy; 2026 Basirah Analytics</p>
     <p class="footer-place">Hyderabad, India</p>
-    <p class="footer-built">Founder led, team run.</p>
   </div>
 </footer>
 
-<script src="/assets/js/main.js?v=66" defer></script>
+<script src="/assets/js/main.js?v=67" defer></script>
 </body>
 </html>

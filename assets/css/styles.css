@@ -33,9 +33,11 @@
   --fs-display: clamp(2.75rem, 1.35rem + 6.2vw, 6rem);
   --fs-h2:      clamp(2rem, 1.35rem + 2.8vw, 3.25rem);
   --fs-h3:      clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);
-  --fs-lead:    clamp(1.0625rem, 0.98rem + 0.5vw, 1.3125rem);
-  --fs-body:    1rem;
-  --fs-small:   0.875rem;
+  --fs-hero:    clamp(2.4rem, 1.1rem + 4.4vw, 4.6rem);   /* every dark hero h1: Home, Basira AI, Contact */
+  --fs-lead:    1.125rem;     /* lead reading text, 18px */
+  --fs-body:    1.0625rem;    /* reading text, 17px */
+  --fs-small:   1rem;         /* supporting text, 16px */
+  --fs-ui:      0.875rem;     /* buttons, nav and link labels, 14px; no sentence text below this */
   --fs-mono:    0.75rem;
 
   --tracking-tight: -0.03em;
@@ -144,7 +146,6 @@ p { text-wrap: pretty; }
 
 /* mono eyebrow / label */
 .eyebrow,
-.rail-label,
 .badge-available {
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
@@ -155,8 +156,7 @@ p { text-wrap: pretty; }
 
 /* the "//" is decoration, drawn in CSS so screen readers don't announce it */
 .eyebrow { color: var(--muted); }
-.eyebrow::before,
-.rail-label::before { content: "// "; }
+.eyebrow::before { content: "// "; }
 
 /* ---------------------------- SCROLLBAR ---------------------------- */
 /* Slimmed and tinted to match the palette rather than removed. On a page this
@@ -253,7 +253,7 @@ html {
   padding: 0.7rem 1.15rem;
   border: var(--hairline) solid transparent;
   border-radius: var(--radius);
-  font-size: var(--fs-small);
+  font-size: var(--fs-ui);
   font-weight: var(--fw-label);
   letter-spacing: -0.01em;
   white-space: nowrap;
@@ -356,7 +356,7 @@ html {
   position: relative;
   display: inline-block;
   padding-block: 0.35rem;
-  font-size: var(--fs-small);
+  font-size: var(--fs-ui);
   font-weight: var(--fw-label);
   letter-spacing: -0.01em;
   color: var(--muted);
@@ -453,7 +453,7 @@ html {
   padding: 0.4rem 0.8rem;
   border: var(--hairline) solid #46463F;   /* the outline-button border on Ink */
   border-radius: var(--radius);
-  font-size: var(--fs-small);
+  font-size: var(--fs-ui);
   font-weight: var(--fw-label);
   color: var(--text-light);
   transition: border-color var(--dur) var(--ease);
@@ -498,7 +498,7 @@ html {
 
 .hero-q {
   grid-area: 1 / 1;
-  font-size: clamp(2.4rem, 1.1rem + 4.4vw, 4.6rem);
+  font-size: var(--fs-hero);
   font-weight: var(--fw-head);
   line-height: .98;
   letter-spacing: -.035em;
@@ -599,12 +599,13 @@ html {
   color: var(--muted);
 }
 /* the spec names .badge .d; this site's markup is .badge-available .dot */
+/* Text Light, not Signal Red: the hero's one red point is the question mark. */
 .badge-available .dot {
   position: relative;
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--text-light);
 }
 /* The pulse is a ring on a pseudo-element, scaled and faded (transform and
    opacity only, never box-shadow, which repaints every frame). Three pulses
@@ -615,7 +616,7 @@ html {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--text-light);
   opacity: 0;
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -625,29 +626,6 @@ html {
   0%   { opacity: 0.5; transform: scale(1); }
   70%  { opacity: 0;   transform: scale(3); }
   100% { opacity: 0;   transform: scale(3); }
-}
-
-/* toolkit rail: hairline strip at the foot of the hero */
-/* a deliberate gap under the copy, not whatever space happens to be left */
-.hero-rail {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-4) var(--space-6);
-  margin-top: clamp(2.5rem, 6vh, 4.5rem);
-  padding: clamp(1rem, 2.2vw, 1.4rem) 0;
-  border-top: 1px solid var(--border-dark);
-}
-
-.rail-label { color: var(--muted); flex: none; }
-
-.rail-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3) var(--space-5);
-  font-size: var(--fs-small);
-  font-weight: var(--fw-label);
-  color: #C9C7C1;
 }
 
 /* ------------------------------ 8. SERVICES ------------------------------ */
@@ -773,7 +751,8 @@ html {
 
 /* ---------------------------- 10. PORTFOLIO ---------------------------- */
 /* The intro ran the full 1440px container, about 166 characters a line. */
-#work-head .section-lead { max-width: 58ch; }
+/* The one exception to the 68-character cap: two lines on desktop. */
+#work-head .section-lead { max-width: 112ch; }
 
 .work-toolbar {
   display: flex;
@@ -792,7 +771,7 @@ html {
   padding: 0.45rem 0.9rem;
   border: var(--hairline) solid var(--border);
   border-radius: 100px;
-  font-size: var(--fs-small);
+  font-size: var(--fs-ui);
   font-weight: var(--fw-label);
   color: var(--muted);
   transition: color var(--dur) var(--ease),
@@ -928,7 +907,7 @@ html {
   padding: 0.45rem 0.9rem 0.45rem 0.7rem;
   border: var(--hairline) solid var(--border);
   border-radius: 100px;
-  font-size: var(--fs-small);
+  font-size: var(--fs-ui);
   font-weight: var(--fw-label);
   color: var(--text-dark);
   transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
@@ -1090,7 +1069,7 @@ h2.block-title { line-height: 1.2; }
    Modelled on .snapshot a: the global `a { text-decoration: none }` would
    otherwise leave it looking like plain text. */
 .link-arrow {
-  font-size: var(--fs-small);
+  font-size: var(--fs-ui);
   font-weight: var(--fw-label);
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -1225,12 +1204,10 @@ h2.block-title { line-height: 1.2; }
 }
 
 /* ----------------------------- 12. BASIRA AI ----------------------------- */
-/* The one section CLAUDE.md marks accent-forward. Red now appears twice and
-   only where it carries meaning: the word "free" and the CTA. The outlier
-   signal moved to --signal-amber, because red is what this site uses for
-   things you can act on, and a data anomaly is not one of them. Each use is
-   sized and placed to hold WCAG AA against #141412, see the notes on
-   .btn-accent and .accent-word. */
+/* Red appears once on this page, on the one thing to act on: the "Try it
+   free" button. The outlier signal uses --signal-amber, because red is what
+   this site uses for things you can act on, and a data anomaly is not one of
+   them. See .btn-accent for how the button holds WCAG AA against #141412. */
 .ai-grid {
   display: grid;
   gap: clamp(2.5rem, 6vw, 4.5rem);
@@ -1240,13 +1217,15 @@ h2.block-title { line-height: 1.2; }
 
 .ai .eyebrow { display: block; margin-bottom: var(--space-5); }
 
-/* 32 to 52px display text is "large text" at AA, so accent on ink (4.43:1) clears
-   the 3:1 bar it has to meet. Do not reuse .accent-word at body size. */
+/* A dark hero heading, the same size as Home's and Contact's. */
 .ai-title {
+  font-size: var(--fs-hero);
+  font-weight: var(--fw-head);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
   max-width: 18ch;
   margin-bottom: var(--space-5);
 }
-.accent-word { color: var(--accent); }
 .nowrap { white-space: nowrap; }
 
 .ai-text {
@@ -1461,8 +1440,10 @@ h2.block-title { line-height: 1.2; }
 /* The section heading became this page's h1 in the split, which pulled in
    --fs-display (up to 96px) and wrapped it onto five lines. Section headings
    read at h2 size regardless of their tag. */
-.contact-head h1,
 .section-head h1 { font-size: var(--fs-h2); font-weight: var(--fw-head); }
+/* Contact opens on a dark hero, so its h1 is a hero heading like Home's and
+   Basira AI's. */
+.contact-head h1 { font-size: var(--fs-hero); font-weight: var(--fw-head); line-height: 0.98; letter-spacing: -0.035em; }
 .contact-simple { max-width: 52rem; }
 .contact-head .section-lead { margin-top: var(--space-4); color: #C9C7C1; }
 
@@ -1553,7 +1534,7 @@ h2.block-title { line-height: 1.2; }
 }
 .team-link {
   margin-top: var(--space-2);
-  font-size: var(--fs-small);
+  font-size: var(--fs-ui);
   font-weight: var(--fw-label);
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -1564,11 +1545,10 @@ h2.block-title { line-height: 1.2; }
   .team-link:hover span { transform: translateX(3px); }
 }
 
-@media (min-width: 640px) {
+/* Two per row at most: the About column is 46rem, so four cards squeezed
+   the names onto two lines. */
+@media (min-width: 560px) {
   .team-list { grid-template-columns: repeat(2, 1fr); }
-}
-@media (min-width: 1024px) {
-  .team-list { grid-template-columns: repeat(4, 1fr); }
 }
 
 /* ---- legal documents ---- */
@@ -1665,44 +1645,8 @@ h2.block-title { line-height: 1.2; }
 .home-work-head h2 { max-width: 22ch; }
 .preview-work .work-grid { margin-top: clamp(2rem, 4vw, 3rem); }
 
-/* The team itself: four names and roles, with the link closing the row. */
-.home-team h2 { margin-bottom: clamp(1.5rem, 3vw, 2.25rem); }
-.home-team-row { display: grid; gap: var(--space-6); align-items: end; }
-.home-team-list { display: grid; gap: var(--space-5) var(--space-6); grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.home-team-person {
-  display: grid;
-  gap: var(--space-1);
-  padding-top: var(--space-4);
-  border-top: var(--hairline) solid var(--border);
-}
-.home-team-name { font-weight: var(--fw-head); letter-spacing: -0.01em; }
-.home-team-role {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono);
-  letter-spacing: var(--tracking-mono);
-  text-transform: uppercase;
-  line-height: 1.5;
-  color: var(--muted);
-}
-
-/* The free tool: one bordered line, not a full section. */
-.home-ai { padding-block: clamp(2rem, 4vw, 3rem); }
-.home-ai-strip {
-  display: grid;
-  gap: var(--space-3);
-  align-items: center;
-  padding: clamp(1.25rem, 3vw, 1.75rem);
-  border: var(--hairline) solid var(--border-2);
-  border-radius: var(--radius-lg);
-}
-.home-ai-title { font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.02em; }
-.home-ai-line { font-size: var(--fs-small); line-height: 1.5; color: var(--muted); max-width: 60ch; }
-
 @media (min-width: 900px) {
   .home-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-8); }
-  .home-team-row { grid-template-columns: minmax(0, 1fr) auto; }
-  .home-team-list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .home-ai-strip { grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--space-6); }
 }
 
 /* ---- shared closing CTA ---- */
@@ -1721,6 +1665,7 @@ h2.block-title { line-height: 1.2; }
   padding-top: var(--space-5);
   border-top: var(--hairline) solid var(--border-dark);
   max-width: var(--measure);
+  margin-inline: auto;   /* centred with the rest of the page; it sat 104px left */
 }
 .hours-label {
   font-family: var(--font-mono);
@@ -1738,7 +1683,7 @@ h2.block-title { line-height: 1.2; }
   gap: var(--space-3) var(--space-6);
 }
 .contact-social a {
-  font-size: var(--fs-small);
+  font-size: var(--fs-ui);
   font-weight: var(--fw-label);
   color: var(--text-light);
   border-bottom: var(--hairline) solid rgba(245, 244, 241, 0.28);
@@ -1814,7 +1759,7 @@ h2.block-title { line-height: 1.2; }
 
 .footer-nav a,
 .footer-contact a {
-  font-size: var(--fs-small);
+  font-size: var(--fs-ui);
   font-weight: var(--fw-label);
   color: #C9C7C1;
   transition: color var(--dur) var(--ease);
@@ -1829,7 +1774,7 @@ h2.block-title { line-height: 1.2; }
   flex-wrap: wrap;
   gap: var(--space-3) var(--space-6);
   padding-bottom: var(--space-5);
-  font-size: var(--fs-small);
+  font-size: var(--fs-ui);
   color: #C9C7C1;
 }
 .pay-label {
@@ -1858,14 +1803,98 @@ h2.block-title { line-height: 1.2; }
   letter-spacing: 0.06em;
   color: var(--muted);
 }
-/* A sentence, so body type: mono is for labels only. */
-.footer-built { font-size: var(--fs-small); color: var(--muted); }
+
 
 /* ---- 404 ---- */
 /* One screen, one message, the one action and a way home. */
 .notfound { min-height: calc(100svh - var(--header-h) - 12rem); display: flex; align-items: center; }
 .notfound .section-lead { max-width: 52ch; margin-top: var(--space-5); }
 .notfound-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4) var(--space-6); margin-top: var(--space-6); }
+
+/* ==================== REDESIGN ROUND 2 ==================== */
+
+/* ---- panels: a light surface with a hairline, used for the service groups
+   on Home and Services and for "Every project includes" ---- */
+.panel {
+  background: #FFFFFF;
+  border: var(--hairline) solid var(--border-2);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+}
+.panel > .svc:first-child { border-top: 0; padding-top: 0; }
+.panel > .svc:last-child { padding-bottom: 0; }
+.home-group.panel { padding-top: clamp(1rem, 2.5vw, 1.75rem); }
+
+/* ---- Home hero: copy left, one real dashboard right ---- */
+.hero-inner.hero-split { display: grid; gap: clamp(2rem, 4vw, 4rem); align-items: center; }
+.hero-copy { min-width: 0; display: flex; flex-direction: column; }
+.hero .hero-q { max-width: 16ch; }
+.hero-media { margin: 0; }
+.hero-media img { width: 100%; height: auto; border-radius: var(--radius-lg); border: var(--hairline) solid var(--border-dark); }
+.hero-media figcaption {
+  margin-top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+/* Hidden below 1000px: at phone width the dashboard's figures are too small
+   to read and would push the hero past one screen. */
+@media (max-width: 999px) { .hero-media { display: none; } }
+@media (min-width: 1000px) { .hero-inner.hero-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); } }
+
+/* ---- Home final section: the free tool as one line under the button ---- */
+.cta-alt { margin-top: calc(var(--space-2) * -1); font-size: var(--fs-small); color: #C9C7C1; }
+.cta-alt a { color: var(--text-light); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+
+/* ---- Services opening with "Every project includes" ---- */
+.svc-open-grid { display: grid; gap: var(--space-7); align-items: start; }
+.includes-title { font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.02em; margin-bottom: var(--space-4); }
+.includes-list { display: grid; gap: var(--space-3); }
+.includes-list li { position: relative; padding-left: 1.4rem; }
+.includes-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+  background: var(--text-dark);
+}
+@media (min-width: 900px) {
+  .svc-open-grid { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+  .includes-panel { margin-top: 2.75rem; }
+}
+
+/* ---- Services: case-study thumbnails beside two services ---- */
+.svc-thumb { display: block; margin-top: var(--space-5); max-width: 340px; }
+.svc-thumb img { width: 100%; height: auto; border-radius: var(--radius); border: var(--hairline) solid var(--border-2); }
+.svc-thumb span {
+  display: block;
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---- Basira AI: three steps, the real limits and a real screenshot ---- */
+.ai-how .how-steps { margin-top: clamp(1.5rem, 3vw, 2.5rem); }
+.ai-limits { margin-top: var(--space-6); font-size: var(--fs-small); color: var(--muted); }
+.ai-shot { margin: clamp(2rem, 4vw, 3rem) 0 0; }
+.ai-shot img { width: 100%; height: auto; border-radius: var(--radius-lg); border: var(--hairline) solid var(--border-2); }
+.ai-shot figcaption { margin-top: var(--space-3); font-size: var(--fs-small); color: var(--muted); }
+
+/* ---- 19. reading measure: about 68 characters for running text ---- */
+.case-study .detail-summary,
+.case-study .origin p,
+.case-study .insight-list,
+.case-study .case-steps,
+.faq-list dd,
+.about-body p { max-width: 68ch; }
 
 /* ---- tap areas ----
    Arrow links, breadcrumb links and the footer logo render at 20 to 38px
@@ -1981,7 +2010,6 @@ h2.block-title { line-height: 1.2; }
      any content; the long lists collapse behind a toggle instead. */
   .section { padding-block: clamp(2.5rem, 8vw, 3.25rem); }
   .hero { padding-top: clamp(2.5rem, 9vw, 4rem); }
-  .hero-rail { margin-top: var(--space-6); padding-block: var(--space-4) var(--space-5); }
   .section-head { margin-bottom: var(--space-6); }
   .card { padding: var(--space-5); }
   .cards, .work-grid { gap: var(--space-3); }

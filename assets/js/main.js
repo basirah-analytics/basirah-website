@@ -177,7 +177,7 @@
       title: 'Restaurant sales and operations analysis',
       slug: 'restaurant-sales-analysis',
       category: 'analysis',
-      headline: 'About 2.4 crore was lost to cancelled orders, nearly all of it on the delivery apps.',
+      headline: 'About ₹2.4 crore was lost to cancelled orders, nearly all of it on the delivery apps.',
       summary: 'Five outlets across Hyderabad selling dine in alongside Swiggy and Zomato, with two years of orders and no clear read on them. Built on a realistic simulated dataset, so the patterns are believable and the numbers are not a real client’s.',
       context: 'Demonstration dataset, five outlet restaurant',
       tools: 'SQL Server · Power BI · Python',
@@ -192,7 +192,7 @@
         '/assets/img/work/restaurant-3.png'
       ],
       insights: [
-        'About 2.4 crore of revenue was lost to cancelled orders, and almost all of it sat on the delivery apps.',
+        'About ₹2.4 crore of revenue was lost to cancelled orders, and almost all of it sat on the delivery apps.',
         'Swiggy and Zomato cancelled roughly 9 to 10 percent of orders against about 3 percent for dine in, so the leak was a channel problem rather than a branch or timing one.',
         'Earned revenue reached about 32.7 crore across the two years, with 2025 running well ahead of 2024.',
         'Main Course and Starters earned the most with biryani close behind, while cheap breakfast and beverage items sold in volume but earned very little.',
